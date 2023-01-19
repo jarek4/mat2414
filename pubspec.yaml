@@ -10,12 +10,32 @@ environment:
   sdk: '>=2.18.6 <3.3.10'
 
 dependencies:
+  dynamic_color: ^1.5.4
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^3.0.1
+  intl: ^0.17.0
+  material_color_utilities: 0.1.5
+  provider: ^6.0.5
+
+flutter_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "assets/images/preacher_t_lc.png"
+  image_path_ios: "assets/images/preacher_t_lc.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  adaptive_icon_background: "assets/images/white_icon_background.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/images/preacher_t_lc.png" # only available for Android 8.0 devices and above
+  # min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+
+#  flutter pub get
+#  flutter pub run flutter_launcher_icons
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.11.0
   flutter_test:
     sdk: flutter
 
@@ -28,5 +48,64 @@ flutter:
   generate: true
 
   assets:
+    # google_fonts license files
+    #- fonts/montserrat/OFL.txt
     # Add assets from the images directory to the application.
-    - assets/images/
+    - assets/images/preacher_transp.png
+    - assets/images/schedule_transp.png
+    - assets/images/hourglass_t_ic512.png
+    - assets/images/cloudlet_t_ic512.png
+    - assets/images/envelope_t_ic512.png
+    - assets/images/magazine_t_ic512.png
+    - assets/images/notes_t_ic512.png
+    - assets/images/video_camera_t_ic512.png
+    - assets/images/two_person_t_ic512.png
+    - assets/images/two_person_table_t_ic512.png
+
+    # To add custom fonts to your application, add a fonts section here,
+    # in this "flutter" section. Each entry in this list should have a
+    # "family" key with the font family name, and a "fonts" key with a
+    # list giving the asset and other descriptors for the font.
+#  fonts:
+#    - family: Montserrat
+#      fonts:
+#        - asset: fonts/montserrat/Montserrat-Regular.ttf
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/montserrat/Montserrat-ExtraLight.ttf
+          style: normal
+          weight: 200
+        - asset: fonts/montserrat/Montserrat-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: fonts/montserrat/Montserrat-Light.ttf
+          style: normal
+          weight: 300
+        - asset: fonts/montserrat/Montserrat-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/montserrat/Montserrat-Regular.ttf
+          style: normal
+          weight: 400
+        - asset: fonts/montserrat/Montserrat-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: fonts/montserrat/Montserrat-Medium.ttf
+          style: normal
+          weight: 500
+        - asset: fonts/montserrat/Montserrat-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/montserrat/Montserrat-SemiBold.ttf
+          style: normal
+          weight: 600
+        - asset: fonts/montserrat/Montserrat-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: fonts/montserrat/Montserrat-Bold.ttf
+          style: normal
+          weight: 700
+        - asset: fonts/montserrat/Montserrat-ExtraBold.ttf
+          weight: 800
+          style: normal

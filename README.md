@@ -20,11 +20,10 @@ include with your application.
 The `assets/images` directory contains [resolution-aware
 images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
 
-## Localization
+## Free images:
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+Image by jcomp on Freepik
+<a href="https://www.freepik.com/free-psd/3d-illustration-cartoon-character-businessman-wearing-glasses-walking-he-holding-leather-bag-hand-rendering_20721143.htm#page=3&query=conversation&position=24&from_view=search&track=sph">Image by jcomp</a> on Freepik
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+Image by xvector on Freepik
+<a href="https://www.freepik.com/free-psd/office-paperwork-approval-icon-isolated-3d-render-illustration_32554801.htm#query=report&position=47&from_view=search&track=sph">Image by xvector</a> on Freepik
