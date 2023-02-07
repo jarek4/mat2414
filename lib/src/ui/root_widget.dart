@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/ui/navigation/navigation.dart';
-import 'package:mat2414/src/ui/screens/home/home_screen.dart';
-import 'package:mat2414/src/ui/screens/month/month_screen.dart';
-import 'package:mat2414/src/ui/screens/more/more_screen.dart';
+import 'package:mat2414/src/ui/screens/screens.dart';
 import 'package:provider/provider.dart';
+
+
 
 class RootWidget extends StatelessWidget {
   const RootWidget({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class RootWidget extends StatelessWidget {
         resizeToAvoidBottomInset: false,
       body: [
         const HomeScreen(),
-        const MonthScreen(),
+        const ReportScreen(),
         const MoreScreen(),
         //const CustomDatePicker(),
         // build3screen(context),

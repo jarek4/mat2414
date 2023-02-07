@@ -17,10 +17,10 @@ class CustomCalendarView extends StatelessWidget {
         // height: MediaQuery.of(context).size.height * 0.38,
         // height: MediaQuery.of(context).size.height * 0.40,
         // width: isWide ? w * 0.65 : w * 0.85,
-        decoration: BoxDecoration(
-          // color: context.colors.secondaryContainer,
+        /*decoration: BoxDecoration(
+          // color: Colors.pink,
           borderRadius: BorderRadius.circular(20),
-        ),
+        ),*/
         child: Selector<CalendarStateProvider, CalendarState>(
             selector: (_, calendar) => calendar.state,
             shouldRebuild: (CalendarState pre, CalendarState next) {
@@ -65,7 +65,8 @@ class CustomCalendarView extends StatelessWidget {
                   final int index = cp.state.currentDate.month - 1;
                   final String month = cp.monthNames[index];
                   final int year = cp.state.currentDate.year;
-                  return Text('$month $year', textAlign: TextAlign.center, style: context.titleLarge);
+                  return Text('$month $year',
+                      textAlign: TextAlign.center, style: context.titleLarge);
                 }),
               ),
             ),
@@ -156,20 +157,16 @@ class CustomCalendarView extends StatelessWidget {
       // height: 33,
       decoration: BoxDecoration(
           color: context.theme.highlightColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: context.theme.focusColor, width: 4),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: context.theme.focusColor, width: 4.3),
           gradient: LinearGradient(
               colors: [context.theme.focusColor, context.theme.highlightColor],
               stops: const [0.1, 1],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight)),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.9), borderRadius: BorderRadius.circular(50)),
-        child: Center(
-          child: Text('${calendarDate.date.day}',
-              style: context.bodySmall?.copyWith(color: context.colors.primary, fontSize: 15)),
-        ),
+      child: Center(
+        child: Text('${calendarDate.date.day}',
+            style: context.bodySmall?.copyWith(color: context.colors.primary, fontSize: 15)),
       ),
     );
   }

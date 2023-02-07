@@ -8,7 +8,23 @@ import 'more_screen_state_provider.dart';
 class MoreScreen extends StatelessWidget {
   const MoreScreen({Key? key}) : super(key: key);
 
-  static final List<Widget> w = [const Text('HISTORY'), const Text('SETTINGS')];
+ /* static final List<Widget> w = [
+    _historyWidget(),
+    const Text('SETTINGS'),];*/
+
+  Column _historyWidget(BuildContext context) {
+    return Column(
+    children: [
+      const Text('HISTORY'),
+      TextButton(
+        onPressed: () => context.read<MoreScreenStateProvider>().testIsar2(),
+        child: const Text('Start object box Admin'),),
+      TextButton(
+          onPressed: () => context.read<MoreScreenStateProvider>().testIsarDb(),
+          child: const Text('close object box Admin'),),
+    ],
+  );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +94,10 @@ class MoreScreen extends StatelessWidget {
                             return pre != next;
                           },
                           builder: (BuildContext context, index, __) {
-                            return w[index];
+                            return [
+                              _historyWidget(context),
+                              const Text('SETTINGS'),
+                            ][index];
                           }),
                     ],
                   ),

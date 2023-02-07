@@ -15,10 +15,18 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  google_fonts: ^3.0.1
+  #google_fonts: ^3.0.1
+  freezed_annotation: ^2.2.0
+  get_it: ^7.2.0
   intl: ^0.17.0
   material_color_utilities: 0.1.5
+  path_provider: ^2.0.0
+  path: ^1.8.2
   provider: ^6.0.5
+  json_annotation: ^4.8.0
+  equatable: ^2.0.5
+  isar: ^3.0.5
+  isar_flutter_libs: ^3.0.5
 
 flutter_icons:
   #  image_path: "assets/images/icon-128x128.png"
@@ -33,13 +41,17 @@ flutter_icons:
 
 #  flutter pub get
 #  flutter pub run flutter_launcher_icons
+# flutter pub run build_runner build --delete-conflicting-outputs
 
 dev_dependencies:
+  build_runner: ^2.3.3
   flutter_launcher_icons: ^0.11.0
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
+  freezed: ^2.3.2
+  json_serializable: ^6.6.0
+  isar_generator: ^3.0.5
 
 flutter:
   uses-material-design: true

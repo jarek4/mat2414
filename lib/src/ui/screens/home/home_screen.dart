@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mat2414/src/data/models/report_model.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
+
+import '../../../data/database/month_report_local_db_helper.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -80,7 +83,9 @@ class HomeScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             IconButton(
-                                onPressed: () => print('ADD btn'),
+                                onPressed: () {
+                                 // MonthReportLocalDbHelper().create(MonthReport(createdAt: DateTime.now(), lastModified: DateTime.now(), month: 11, serviceYear: '2022/2028', year: 2222));
+                                },
                                 icon: const Icon(
                                   Icons.add_circle,
                                   size: 38,

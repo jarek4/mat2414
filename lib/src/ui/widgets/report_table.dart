@@ -44,7 +44,7 @@ class ReportTable extends StatelessWidget {
         'icon': Image.asset('assets/images/two_person_t_ic512.png', height: 12)
       },
     ];
-    final TextStyle style = context.bodySmall?.copyWith(fontWeight: FontWeight.bold) ?? const TextStyle();
+    final TextStyle style = context.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 9) ?? const TextStyle();
     final TextStyle monthlyStyle = context.labelSmall?.copyWith(fontSize: 8) ?? const TextStyle();
 
     List<Widget> rows = [];
@@ -55,8 +55,11 @@ class ReportTable extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(m['title'],
-                  textAlign: TextAlign.center, style: isMonthly ? monthlyStyle : style),
+              Padding(
+                padding: const EdgeInsets.only(top: 0.5, bottom: 3),
+                child: Text(m['title'],
+                    textAlign: TextAlign.center, style: isMonthly ? monthlyStyle : style),
+              ),
               isMonthly ? FittedBox(child: m['icon']) : const SizedBox.shrink(),
             ],
           ),
@@ -86,7 +89,7 @@ class ReportTable extends StatelessWidget {
     final TextStyle monthlyStyle =
         context.bodySmall?.copyWith(fontWeight: FontWeight.w500) ?? const TextStyle();
     final TextStyle style =
-        context.bodySmall?.copyWith(fontWeight: FontWeight.w500) ?? const TextStyle();
+        context.bodySmall?.copyWith(fontWeight: FontWeight.w500, fontSize: 10) ?? const TextStyle();
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Center(
