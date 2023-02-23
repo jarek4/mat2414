@@ -1,13 +1,14 @@
 abstract class ILocalDbHelper<T> {
-  Future<int> create(T item);
 
-  Future<List<T>> getByIds(List<String> ids);
+  Future<int> add(T item);
 
-  Future<List<T>> readAll([String? ownerId]);
+  // Future<List<T>> get(List<String> ids);
 
-  Future<T?> readSingle(String id);
+  Future<List<T>> getAll();
+
+  Future<T?> getSingle(int id);
 
   Future<int> update(T item);
 
-  Future<int> delete(String id);
+  Future<int> delete(int id);
 }

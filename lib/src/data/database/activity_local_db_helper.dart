@@ -1,66 +1,39 @@
-/*
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
+import 'package:isar/isar.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/activity/activity.dart';
-import 'package:mat2414/src/domain/i_local_db_helper.dart';
+import 'package:mat2414/src/domain/local_database/i_activity_db_helper.dart';
 
-import 'db_constants.dart';
-import 'local_db.dart';
-
-class ActivityLocalDbHelper implements ILocalDbHelper<Activity> {
-  // final LocalDb _db = locator<LocalDb>();
-
+class ActivityLocalDbHelper implements IActivityDbHelper {
+  static final Isar _db = locator<Isar>();
 
   @override
-  Future<int> create(Activity item) async {
-    // LazyBox<Activity> box = await _getBox();
-    // try {
-    //   if (box.containsKey(item.id)) return 0;
-    //   await box.put(item.id, item);
-    //   if (kDebugMode) print('ActivityLocalDbHelper create ${item.id}');
-    //   return 1;
-    // } catch (e) {
-    //   if (kDebugMode) print('ActivityLocalDbHelper create item id: ${item.id}. E: $e');
-    //   return -1;
-    // }
-    return -1;
+
+  /// Returns the id.
+  Future<int> add(Activity item) async {
+    if (kDebugMode) print('ActivityLocalDbHelper add');
+    try {
+      return await _db
+          .writeTxn<int>(() async => await _db.activitys.put(item)); // insert & update);
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper add(Activity $item)\n $e');
+    }
   }
 
   @override
-  Future<int> delete(String id) async {
-    // LazyBox<Activity> box = await _getBox();
-    // try {
-    //   await box.delete(id);
-    //   if (kDebugMode) print('ActivityLocalDbHelper deleted $id');
-    //   return 1;
-    // } catch (e) {
-    //   if (kDebugMode) print('ActivityLocalDbHelper delete id: $id. E: $e');
-    //   return -1;
-    // }
-    return -1;
+  Future<int> delete(int id) async {
+    try {
+      final bool isDeleted = await _db.writeTxn<bool>(() async => await _db.activitys.delete(id));
+      if (kDebugMode) print('ActivityLocalDbHelper delete $id, isDeleted:$isDeleted');
+      return isDeleted ? 1 : 0;
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper delete $id\n $e');
+    }
   }
 
   @override
-  Future<List<Activity>> getByIds(List<String> ids) async {
-    // LazyBox<Activity> box = await _getBox();
-    // List<Activity> items = [];
-    // try {
-    //   for (int i = 0; i < ids.length; i++) {
-    //     final Activity? item = await box.get(ids[i]);
-    //     if (item != null) items.add(item);
-    //   }
-    //
-    //   if (kDebugMode) print('ActivityLocalDbHelper getByIds: $ids');
-    // } catch (e) {
-    //   if (kDebugMode) print('ActivityLocalDbHelper getByIds: $ids. E: $e');
-    // }
-    // return items;
-    return [];
-  }
-
-  @override
-  Future<List<Activity>> readAll([String? ownerId]) async {
+  Future<List<Activity>> getAll() async {
+    //_db.activitys.where().limit(limit).findAll();
     // LazyBox<Activity> box = await _getBox();
     // List<Activity> items = [];
     // try {
@@ -79,30 +52,75 @@ class ActivityLocalDbHelper implements ILocalDbHelper<Activity> {
   }
 
   @override
-  Future<Activity?> readSingle(String id) async {
-    // LazyBox<Activity> box = await _getBox();
-    // try {
-    //   if (kDebugMode) print('ActivityLocalDbHelper readSingle $id');
-    //   return await box.get(id);
-    // } catch (e) {
-    //   if (kDebugMode) print('ActivityLocalDbHelper readSingle id: $id. E: $e');
-    //   return null;
-    // }
-    return null;
+  Future<List<Activity>> getForADay(int year, int month, int day) async {
+    try {
+      if (kDebugMode) print('ActivityLocalDbHelper getForDay($year, $month, $day)');
+      return await _db.activitys.where().yearMonthDayEqualTo(year, month, day).findAll();
+      // return await _db.activitys.filter()
+      //     .yearEqualTo(year)
+      //     .and().monthEqualTo(month)
+      //     .and().dayEqualTo(day).findAll();
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper getForDay($year, $month, $day).\n $e');
+    }
   }
 
   @override
-  Future<int> update(Activity item) async {
-    // LazyBox<Activity> box = await _getBox();
-    // try {
-    //   await box.put(item.id, item);
-    //   if (kDebugMode) print('ActivityLocalDbHelper update ${item.id}');
-    //   return 1;
-    // } catch (e) {
-    //   if (kDebugMode) print('ActivityLocalDbHelper update item id: ${item.id}. E: $e');
-    //   return -1;
-    // }
-    return -1;
+  Future<List<Activity>> getForAMonth(int year, int month) async {
+    try {
+      if (kDebugMode) print('ActivityLocalDbHelper getForMonth($year, $month)');
+      return await _db.activitys.where().yearMonthEqualToAnyDay(year, month).findAll();
+      // return await _db.activitys.filter()
+      //     .yearEqualTo(year)
+      //     .and().monthEqualTo(month).findAll();
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper getForMonth($year, $month).\n $e');
+    }
   }
+
+  @override
+  Future<List<Activity>> getForAServiceYear(String serviceYear) async {
+    try {
+      if (kDebugMode) print('ActivityLocalDbHelper getForServiceYear($serviceYear)');
+      return await _db.activitys.filter().serviceYearEqualTo(serviceYear).findAll();
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper getForServiceYear($serviceYear).\n $e');
+    }
+  }
+
+  @override
+  Future<List<Activity>> getLast(int limit) async {
+    try {
+      if (kDebugMode) print('ActivityLocalDbHelper getLast($limit)');
+      return await _db.activitys.where().sortByCreatedAtDesc().limit(limit).findAll();
+      // return await _db.activitys.where()
+      //     .sortByYear().thenByMonth().thenByDay().limit(limit).findAll();
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper getLast($limit).\n $e');
+    }
+  }
+
+  @override
+  Future<Activity?> getSingle(int id) async {
+    try {
+      if (kDebugMode) print('ActivityLocalDbHelper getSingle $id');
+      return await _db.activitys.where().idEqualTo(id).findFirst();
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper getSingle id: $id\n $e');
+    }
+  }
+
+  @override
+
+  /// Returns the id.
+  Future<int> update(Activity item) async {
+    try {
+      return await add(item);
+    } catch (e) {
+      throw Exception('ActivityLocalDbHelper update(Activity $item)\n $e');
+    }
+  }
+
+  @override
+  Stream<void> onCollectionChangedNotification = _db.activitys.watchLazy(fireImmediately: true);
 }
-*/

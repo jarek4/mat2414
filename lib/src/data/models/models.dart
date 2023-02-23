@@ -1,3 +1,3 @@
-export 'activity.dart';
-export 'report.dart';
-export 'user.dart';
+export 'activity/activity.dart';
+export 'report/report.dart';
+export 'user/user.dart';

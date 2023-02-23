@@ -17,11 +17,11 @@ class MoreScreen extends StatelessWidget {
     children: [
       const Text('HISTORY'),
       TextButton(
-        onPressed: () => context.read<MoreScreenStateProvider>().testIsar2(),
-        child: const Text('Start object box Admin'),),
+        onPressed: () => context.read<MoreScreenStateProvider>().testIsarAdd(),
+        child: const Text('testIsarAdd activity'),),
       TextButton(
-          onPressed: () => context.read<MoreScreenStateProvider>().testIsarDb(),
-          child: const Text('close object box Admin'),),
+          onPressed: () => context.read<MoreScreenStateProvider>().testIsarDbManual(),
+          child: const Text('testIsarDbManual'),),
     ],
   );
   }

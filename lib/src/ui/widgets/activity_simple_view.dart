@@ -11,6 +11,7 @@ class ActivitySimpleView extends StatelessWidget {
   }) : super(key: key);
 
   final Duration duration;
+  /// data = List<int>[placements, videoShowings, returnVisits]
   final List<int> data;
 
   @override
