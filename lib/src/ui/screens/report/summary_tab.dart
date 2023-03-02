@@ -99,8 +99,7 @@ class SummaryTab extends StatelessWidget {
       child: SizedBox(
         height: 40,
         child: FittedBox(
-          child: TextButton.icon(
-              onPressed: () {}, icon: const Icon(Icons.edit), label: const Text('Remarks')),
+          child: RemarksBtn(() {print('buildRemarksBtn - RemarksBtn pressed');}),
         ),
       ),
     );

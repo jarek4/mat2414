@@ -57,78 +57,73 @@ const ActivitySchema = CollectionSchema(
       name: r'isInformalWitnessing',
       type: IsarType.bool,
     ),
-    r'isPublicWitnessing': PropertySchema(
+    r'isLCDHours': PropertySchema(
       id: 8,
+      name: r'isLCDHours',
+      type: IsarType.bool,
+    ),
+    r'isPublicWitnessing': PropertySchema(
+      id: 9,
       name: r'isPublicWitnessing',
       type: IsarType.bool,
     ),
     r'isSundayWitnessing': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'isSundayWitnessing',
       type: IsarType.bool,
     ),
     r'isWithFieldServiceGroupWitnessing': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'isWithFieldServiceGroupWitnessing',
       type: IsarType.bool,
     ),
     r'lastModified': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'lastModified',
       type: IsarType.dateTime,
     ),
     r'minutes': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'minutes',
       type: IsarType.byte,
     ),
     r'month': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'month',
       type: IsarType.byte,
     ),
     r'placements': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'placements',
       type: IsarType.byte,
     ),
     r'remarks': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'remarks',
       type: IsarType.string,
     ),
     r'returnVisits': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'returnVisits',
       type: IsarType.byte,
     ),
     r'serviceYear': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'serviceYear',
       type: IsarType.string,
     ),
-    r'specialHours': PropertySchema(
-      id: 18,
-      name: r'specialHours',
-      type: IsarType.byte,
-    ),
-    r'specialHoursDescription': PropertySchema(
-      id: 19,
-      name: r'specialHoursDescription',
-      type: IsarType.string,
-    ),
     r'uid': PropertySchema(
-      id: 20,
+      id: 19,
       name: r'uid',
       type: IsarType.string,
     ),
     r'videos': PropertySchema(
-      id: 21,
+      id: 20,
       name: r'videos',
       type: IsarType.byte,
     ),
     r'year': PropertySchema(
-      id: 22,
+      id: 21,
       name: r'year',
       type: IsarType.int,
     )
@@ -179,7 +174,6 @@ int _activityEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.remarks.length * 3;
   bytesCount += 3 + object.serviceYear.length * 3;
-  bytesCount += 3 + object.specialHoursDescription.length * 3;
   {
     final value = object.uid;
     if (value != null) {
@@ -203,21 +197,20 @@ void _activitySerialize(
   writer.writeBool(offsets[5], object.isBusinessTerritoryWitnessing);
   writer.writeBool(offsets[6], object.isEveningWitnessing);
   writer.writeBool(offsets[7], object.isInformalWitnessing);
-  writer.writeBool(offsets[8], object.isPublicWitnessing);
-  writer.writeBool(offsets[9], object.isSundayWitnessing);
-  writer.writeBool(offsets[10], object.isWithFieldServiceGroupWitnessing);
-  writer.writeDateTime(offsets[11], object.lastModified);
-  writer.writeByte(offsets[12], object.minutes);
-  writer.writeByte(offsets[13], object.month);
-  writer.writeByte(offsets[14], object.placements);
-  writer.writeString(offsets[15], object.remarks);
-  writer.writeByte(offsets[16], object.returnVisits);
-  writer.writeString(offsets[17], object.serviceYear);
-  writer.writeByte(offsets[18], object.specialHours);
-  writer.writeString(offsets[19], object.specialHoursDescription);
-  writer.writeString(offsets[20], object.uid);
-  writer.writeByte(offsets[21], object.videos);
-  writer.writeInt(offsets[22], object.year);
+  writer.writeBool(offsets[8], object.isLCDHours);
+  writer.writeBool(offsets[9], object.isPublicWitnessing);
+  writer.writeBool(offsets[10], object.isSundayWitnessing);
+  writer.writeBool(offsets[11], object.isWithFieldServiceGroupWitnessing);
+  writer.writeDateTime(offsets[12], object.lastModified);
+  writer.writeByte(offsets[13], object.minutes);
+  writer.writeByte(offsets[14], object.month);
+  writer.writeByte(offsets[15], object.placements);
+  writer.writeString(offsets[16], object.remarks);
+  writer.writeByte(offsets[17], object.returnVisits);
+  writer.writeString(offsets[18], object.serviceYear);
+  writer.writeString(offsets[19], object.uid);
+  writer.writeByte(offsets[20], object.videos);
+  writer.writeInt(offsets[21], object.year);
 }
 
 Activity _activityDeserialize(
@@ -235,22 +228,21 @@ Activity _activityDeserialize(
     isBusinessTerritoryWitnessing: reader.readBoolOrNull(offsets[5]) ?? false,
     isEveningWitnessing: reader.readBoolOrNull(offsets[6]) ?? false,
     isInformalWitnessing: reader.readBoolOrNull(offsets[7]) ?? false,
-    isPublicWitnessing: reader.readBoolOrNull(offsets[8]) ?? false,
-    isSundayWitnessing: reader.readBoolOrNull(offsets[9]) ?? false,
+    isLCDHours: reader.readBoolOrNull(offsets[8]) ?? false,
+    isPublicWitnessing: reader.readBoolOrNull(offsets[9]) ?? false,
+    isSundayWitnessing: reader.readBoolOrNull(offsets[10]) ?? false,
     isWithFieldServiceGroupWitnessing:
-        reader.readBoolOrNull(offsets[10]) ?? false,
-    lastModified: reader.readDateTime(offsets[11]),
-    minutes: reader.readByteOrNull(offsets[12]) ?? 0,
-    month: reader.readByte(offsets[13]),
-    placements: reader.readByteOrNull(offsets[14]) ?? 0,
-    remarks: reader.readStringOrNull(offsets[15]) ?? '',
-    returnVisits: reader.readByteOrNull(offsets[16]) ?? 0,
-    serviceYear: reader.readString(offsets[17]),
-    specialHours: reader.readByteOrNull(offsets[18]) ?? 0,
-    specialHoursDescription: reader.readStringOrNull(offsets[19]) ?? '',
-    uid: reader.readStringOrNull(offsets[20]),
-    videos: reader.readByteOrNull(offsets[21]) ?? 0,
-    year: reader.readInt(offsets[22]),
+        reader.readBoolOrNull(offsets[11]) ?? false,
+    lastModified: reader.readDateTime(offsets[12]),
+    minutes: reader.readByteOrNull(offsets[13]) ?? 0,
+    month: reader.readByte(offsets[14]),
+    placements: reader.readByteOrNull(offsets[15]) ?? 0,
+    remarks: reader.readStringOrNull(offsets[16]) ?? '',
+    returnVisits: reader.readByteOrNull(offsets[17]) ?? 0,
+    serviceYear: reader.readString(offsets[18]),
+    uid: reader.readStringOrNull(offsets[19]),
+    videos: reader.readByteOrNull(offsets[20]) ?? 0,
+    year: reader.readInt(offsets[21]),
   );
   return object;
 }
@@ -285,28 +277,26 @@ P _activityDeserializeProp<P>(
     case 10:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 11:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 12:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
+      return (reader.readDateTime(offset)) as P;
     case 13:
-      return (reader.readByte(offset)) as P;
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 14:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
+      return (reader.readByte(offset)) as P;
     case 15:
-      return (reader.readStringOrNull(offset) ?? '') as P;
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 16:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 17:
-      return (reader.readString(offset)) as P;
-    case 18:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 19:
       return (reader.readStringOrNull(offset) ?? '') as P;
-    case 20:
-      return (reader.readStringOrNull(offset)) as P;
-    case 21:
+    case 17:
       return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 22:
+    case 18:
+      return (reader.readString(offset)) as P;
+    case 19:
+      return (reader.readStringOrNull(offset)) as P;
+    case 20:
+      return (reader.readByteOrNull(offset) ?? 0) as P;
+    case 21:
       return (reader.readInt(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1042,6 +1032,16 @@ extension ActivityQueryFilter
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterFilterCondition> isLCDHoursEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isLCDHours',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterFilterCondition>
       isPublicWitnessingEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
@@ -1601,198 +1601,6 @@ extension ActivityQueryFilter
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> specialHoursEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'specialHours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'specialHours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> specialHoursLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'specialHours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> specialHoursBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'specialHours',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'specialHoursDescription',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionContains(String value,
-          {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionMatches(String pattern,
-          {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'specialHoursDescription',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'specialHoursDescription',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      specialHoursDescriptionIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'specialHoursDescription',
-        value: '',
-      ));
-    });
-  }
-
   QueryBuilder<Activity, Activity, QAfterFilterCondition> uidIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2153,6 +1961,18 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLCDHours() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isLCDHours', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLCDHoursDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isLCDHours', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsPublicWitnessing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPublicWitnessing', Sort.asc);
@@ -2274,32 +2094,6 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByServiceYearDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'serviceYear', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortBySpecialHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortBySpecialHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHours', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      sortBySpecialHoursDescription() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      sortBySpecialHoursDescriptionDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.desc);
     });
   }
 
@@ -2454,6 +2248,18 @@ extension ActivityQuerySortThenBy
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLCDHours() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isLCDHours', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLCDHoursDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isLCDHours', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsPublicWitnessing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPublicWitnessing', Sort.asc);
@@ -2578,32 +2384,6 @@ extension ActivityQuerySortThenBy
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenBySpecialHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenBySpecialHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHours', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      thenBySpecialHoursDescription() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      thenBySpecialHoursDescriptionDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.desc);
-    });
-  }
-
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -2692,6 +2472,12 @@ extension ActivityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Activity, Activity, QDistinct> distinctByIsLCDHours() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isLCDHours');
+    });
+  }
+
   QueryBuilder<Activity, Activity, QDistinct> distinctByIsPublicWitnessing() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isPublicWitnessing');
@@ -2752,20 +2538,6 @@ extension ActivityQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'serviceYear', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QDistinct> distinctBySpecialHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'specialHours');
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QDistinct> distinctBySpecialHoursDescription(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'specialHoursDescription',
-          caseSensitive: caseSensitive);
     });
   }
 
@@ -2847,6 +2619,12 @@ extension ActivityQueryProperty
     });
   }
 
+  QueryBuilder<Activity, bool, QQueryOperations> isLCDHoursProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isLCDHours');
+    });
+  }
+
   QueryBuilder<Activity, bool, QQueryOperations> isPublicWitnessingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isPublicWitnessing');
@@ -2908,19 +2686,6 @@ extension ActivityQueryProperty
     });
   }
 
-  QueryBuilder<Activity, int, QQueryOperations> specialHoursProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'specialHours');
-    });
-  }
-
-  QueryBuilder<Activity, String, QQueryOperations>
-      specialHoursDescriptionProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'specialHoursDescription');
-    });
-  }
-
   QueryBuilder<Activity, String?, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
@@ -2966,8 +2731,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       placements: json['placements'] as int? ?? 0,
       remarks: json['remarks'] as String? ?? '',
       returnVisits: json['returnVisits'] as int? ?? 0,
-      specialHours: json['specialHours'] as int? ?? 0,
-      specialHoursDescription: json['specialHoursDescription'] as String? ?? '',
+      isLCDHours: json['isLCDHours'] as bool? ?? false,
       uid: json['uid'] as String?,
       videos: json['videos'] as int? ?? 0,
     );
@@ -2992,8 +2756,7 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'remarks': instance.remarks,
       'returnVisits': instance.returnVisits,
       'serviceYear': instance.serviceYear,
-      'specialHours': instance.specialHours,
-      'specialHoursDescription': instance.specialHoursDescription,
+      'isLCDHours': instance.isLCDHours,
       'uid': instance.uid,
       'videos': instance.videos,
       'year': instance.year,

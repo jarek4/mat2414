@@ -91,28 +91,47 @@ class ThemeProvider extends InheritedWidget {
     );
   }
 
-  TextButtonThemeData textButtonThemeData() {
+  BottomSheetThemeData bottomSheetThemeData(ColorScheme colors) {
+    return BottomSheetThemeData(
+      backgroundColor: colors.tertiaryContainer.withOpacity(0.94),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16.0))),
+    );
+  }
+  OutlinedButtonThemeData outlinedButtonThemeData(ColorScheme colors) {
     final ButtonStyle style = const ButtonStyle().copyWith(textStyle: MaterialStateProperty.all(
-        const TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat')),);
+        TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat', color: colors.primary)),);
+    return OutlinedButtonThemeData(style: style);
+  }
+
+  TextButtonThemeData textButtonThemeData(ColorScheme colors) {
+    final ButtonStyle style = const ButtonStyle().copyWith(textStyle: MaterialStateProperty.all(
+        TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat', color: colors.primary)),);
     return TextButtonThemeData(style: style);
   }
   // TextTheme textTheme(Color color) {
   //   return const TextTheme().apply(fontFamily: 'Montserrat', bodyColor: color);
   // }
+  TimePickerThemeData timePickerThemeData (ColorScheme colors) {
+    return TimePickerThemeData(
+      backgroundColor: colors.secondaryContainer,
+    );
+  }
 
   NavigationBarThemeData navigationBarTheme(ColorScheme colors) {
     return NavigationBarThemeData(
       // height: 60.0,
       // indicatorColor: colors.onSurface,
       labelTextStyle: MaterialStateProperty.all(
-          const TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat')),
+          const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Montserrat')),
     );
   }
 
   ThemeData light([Color? targetColor]) {
     final colorScheme = colors(Brightness.light, targetColor);
     return ThemeData.light().copyWith(
-    textButtonTheme: textButtonThemeData(),
+      bottomSheetTheme: bottomSheetThemeData(colorScheme),
+    textButtonTheme: textButtonThemeData(colorScheme),
       // textTheme: textTheme(colorScheme.tertiary),
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: colorScheme,
@@ -120,7 +139,9 @@ class ThemeProvider extends InheritedWidget {
       cardTheme: cardTheme(),
       listTileTheme: listTileTheme(colorScheme),
       navigationBarTheme: navigationBarTheme(colorScheme),
+      outlinedButtonTheme: outlinedButtonThemeData(colorScheme),
       scaffoldBackgroundColor: colorScheme.background,
+      timePickerTheme: timePickerThemeData(colorScheme),
       extensions: <ThemeExtension<dynamic>>[
         CustomScreenTabStyle(
           backgroundColor: colorScheme.tertiaryContainer,
@@ -136,14 +157,18 @@ class ThemeProvider extends InheritedWidget {
   ThemeData dark([Color? targetColor]) {
     final colorScheme = colors(Brightness.dark, targetColor);
     return ThemeData.dark().copyWith(
-      textButtonTheme: textButtonThemeData(),
+      bottomSheetTheme: bottomSheetThemeData(colorScheme),
+      textButtonTheme: textButtonThemeData(colorScheme),
       // textTheme: textTheme(colorScheme.onSurface),
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: colorScheme,
       appBarTheme: appBarTheme(colorScheme),
       cardTheme: cardTheme(),
       listTileTheme: listTileTheme(colorScheme),
+      navigationBarTheme: navigationBarTheme(colorScheme),
+      outlinedButtonTheme: outlinedButtonThemeData(colorScheme),
       scaffoldBackgroundColor: colorScheme.background,
+      timePickerTheme: timePickerThemeData(colorScheme),
       extensions: <ThemeExtension<dynamic>>[
         CustomScreenTabStyle(
           backgroundColor: colorScheme.tertiaryContainer,

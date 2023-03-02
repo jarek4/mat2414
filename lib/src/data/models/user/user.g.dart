@@ -37,8 +37,14 @@ const UserSchema = CollectionSchema(
       name: r'name',
       type: IsarType.string,
     ),
-    r'uid': PropertySchema(
+    r'preferences': PropertySchema(
       id: 4,
+      name: r'preferences',
+      type: IsarType.object,
+      target: r'Preferences',
+    ),
+    r'uid': PropertySchema(
+      id: 5,
       name: r'uid',
       type: IsarType.string,
     )
@@ -64,7 +70,7 @@ const UserSchema = CollectionSchema(
     )
   },
   links: {},
-  embeddedSchemas: {},
+  embeddedSchemas: {r'Preferences': PreferencesSchema},
   getId: _userGetId,
   getLinks: _userGetLinks,
   attach: _userAttach,
@@ -78,6 +84,9 @@ int _userEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 +
+      PreferencesSchema.estimateSize(
+          object.preferences, allOffsets[Preferences]!, allOffsets);
   bytesCount += 3 + object.uid.length * 3;
   return bytesCount;
 }
@@ -92,7 +101,13 @@ void _userSerialize(
   writer.writeLong(offsets[1], object.hashCode);
   writer.writeDateTime(offsets[2], object.lastModified);
   writer.writeString(offsets[3], object.name);
-  writer.writeString(offsets[4], object.uid);
+  writer.writeObject<Preferences>(
+    offsets[4],
+    allOffsets,
+    PreferencesSchema.serialize,
+    object.preferences,
+  );
+  writer.writeString(offsets[5], object.uid);
 }
 
 User _userDeserialize(
@@ -105,8 +120,14 @@ User _userDeserialize(
     createdAt: reader.readDateTime(offsets[0]),
     id: id,
     lastModified: reader.readDateTime(offsets[2]),
-    name: reader.readStringOrNull(offsets[3]) ?? 'default User',
-    uid: reader.readStringOrNull(offsets[4]) ?? '',
+    name: reader.readStringOrNull(offsets[3]) ?? 'default user',
+    preferences: reader.readObjectOrNull<Preferences>(
+          offsets[4],
+          PreferencesSchema.deserialize,
+          allOffsets,
+        ) ??
+        const Preferences(),
+    uid: reader.readStringOrNull(offsets[5]) ?? '',
   );
   return object;
 }
@@ -125,8 +146,15 @@ P _userDeserializeProp<P>(
     case 2:
       return (reader.readDateTime(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset) ?? 'default User') as P;
+      return (reader.readStringOrNull(offset) ?? 'default user') as P;
     case 4:
+      return (reader.readObjectOrNull<Preferences>(
+            offset,
+            PreferencesSchema.deserialize,
+            allOffsets,
+          ) ??
+          const Preferences()) as P;
+    case 5:
       return (reader.readStringOrNull(offset) ?? '') as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -783,7 +811,14 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
   }
 }
 
-extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {}
+extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {
+  QueryBuilder<User, User, QAfterFilterCondition> preferences(
+      FilterQuery<Preferences> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'preferences');
+    });
+  }
+}
 
 extension UserQueryLinks on QueryBuilder<User, User, QFilterCondition> {}
 
@@ -988,6 +1023,12 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
     });
   }
 
+  QueryBuilder<User, Preferences, QQueryOperations> preferencesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'preferences');
+    });
+  }
+
   QueryBuilder<User, String, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
@@ -996,21 +1037,504 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
 }
 
 // **************************************************************************
+// IsarEmbeddedGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
+const PreferencesSchema = Schema(
+  name: r'Preferences',
+  id: 4252616732994050084,
+  properties: {
+    r'bibleStudies': PropertySchema(
+      id: 0,
+      name: r'bibleStudies',
+      type: IsarType.byte,
+    ),
+    r'hashCode': PropertySchema(
+      id: 1,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'minutesPrecision': PropertySchema(
+      id: 2,
+      name: r'minutesPrecision',
+      type: IsarType.byte,
+      enumMap: _PreferencesminutesPrecisionEnumValueMap,
+    ),
+    r'selectedStatistics': PropertySchema(
+      id: 3,
+      name: r'selectedStatistics',
+      type: IsarType.byteList,
+    ),
+    r'showButtonLCDHours': PropertySchema(
+      id: 4,
+      name: r'showButtonLCDHours',
+      type: IsarType.bool,
+    )
+  },
+  estimateSize: _preferencesEstimateSize,
+  serialize: _preferencesSerialize,
+  deserialize: _preferencesDeserialize,
+  deserializeProp: _preferencesDeserializeProp,
+);
+
+int _preferencesEstimateSize(
+  Preferences object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.selectedStatistics.length;
+  return bytesCount;
+}
+
+void _preferencesSerialize(
+  Preferences object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeByte(offsets[0], object.bibleStudies);
+  writer.writeLong(offsets[1], object.hashCode);
+  writer.writeByte(offsets[2], object.minutesPrecision.index);
+  writer.writeByteList(offsets[3], object.selectedStatistics);
+  writer.writeBool(offsets[4], object.showButtonLCDHours);
+}
+
+Preferences _preferencesDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = Preferences(
+    bibleStudies: reader.readByteOrNull(offsets[0]) ?? 0,
+    minutesPrecision: _PreferencesminutesPrecisionValueEnumMap[
+            reader.readByteOrNull(offsets[2])] ??
+        MinutesPrecision.five,
+    selectedStatistics: reader.readByteList(offsets[3]) ?? const <byte>[],
+    showButtonLCDHours: reader.readBoolOrNull(offsets[4]) ?? false,
+  );
+  return object;
+}
+
+P _preferencesDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readByteOrNull(offset) ?? 0) as P;
+    case 1:
+      return (reader.readLong(offset)) as P;
+    case 2:
+      return (_PreferencesminutesPrecisionValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          MinutesPrecision.five) as P;
+    case 3:
+      return (reader.readByteList(offset) ?? const <byte>[]) as P;
+    case 4:
+      return (reader.readBoolOrNull(offset) ?? false) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+const _PreferencesminutesPrecisionEnumValueMap = {
+  'one': 0,
+  'five': 1,
+  'ten': 2,
+  'fifteen': 3,
+  'thirty': 4,
+};
+const _PreferencesminutesPrecisionValueEnumMap = {
+  0: MinutesPrecision.one,
+  1: MinutesPrecision.five,
+  2: MinutesPrecision.ten,
+  3: MinutesPrecision.fifteen,
+  4: MinutesPrecision.thirty,
+};
+
+extension PreferencesQueryFilter
+    on QueryBuilder<Preferences, Preferences, QFilterCondition> {
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      bibleStudiesEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'bibleStudies',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      bibleStudiesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'bibleStudies',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      bibleStudiesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'bibleStudies',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      bibleStudiesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'bibleStudies',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition> hashCodeEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      minutesPrecisionEqualTo(MinutesPrecision value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'minutesPrecision',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      minutesPrecisionGreaterThan(
+    MinutesPrecision value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'minutesPrecision',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      minutesPrecisionLessThan(
+    MinutesPrecision value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'minutesPrecision',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      minutesPrecisionBetween(
+    MinutesPrecision lower,
+    MinutesPrecision upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'minutesPrecision',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsElementEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'selectedStatistics',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'selectedStatistics',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'selectedStatistics',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'selectedStatistics',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'selectedStatistics',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'selectedStatistics',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'selectedStatistics',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'selectedStatistics',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'selectedStatistics',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      selectedStatisticsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'selectedStatistics',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      showButtonLCDHoursEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'showButtonLCDHours',
+        value: value,
+      ));
+    });
+  }
+}
+
+extension PreferencesQueryObject
+    on QueryBuilder<Preferences, Preferences, QFilterCondition> {}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: User._fromJson(json['createdAt'] as int),
       id: json['id'] as int? ?? Isar.autoIncrement,
-      lastModified: DateTime.parse(json['lastModified'] as String),
-      name: json['name'] as String? ?? 'default User',
+      lastModified: User._fromJson(json['lastModified'] as int),
+      name: json['name'] as String? ?? 'default user',
+      preferences: json['preferences'] == null
+          ? const Preferences()
+          : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
       uid: json['uid'] as String? ?? '',
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'lastModified': instance.lastModified.toIso8601String(),
+      'createdAt': User._toJson(instance.createdAt),
+      'lastModified': User._toJson(instance.lastModified),
       'name': instance.name,
+      'preferences': instance.preferences,
       'uid': instance.uid,
     };
+
+Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
+      bibleStudies: json['bibleStudies'] as int? ?? 0,
+      minutesPrecision: $enumDecodeNullable(
+              _$MinutesPrecisionEnumMap, json['minutesPrecision']) ??
+          MinutesPrecision.five,
+      selectedStatistics: (json['selectedStatistics'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          const <byte>[],
+      showButtonLCDHours: json['showButtonLCDHours'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
+    <String, dynamic>{
+      'bibleStudies': instance.bibleStudies,
+      'minutesPrecision': _$MinutesPrecisionEnumMap[instance.minutesPrecision]!,
+      'selectedStatistics': instance.selectedStatistics,
+      'showButtonLCDHours': instance.showButtonLCDHours,
+    };
+
+const _$MinutesPrecisionEnumMap = {
+  MinutesPrecision.one: 0,
+  MinutesPrecision.five: 1,
+  MinutesPrecision.ten: 2,
+  MinutesPrecision.fifteen: 3,
+  MinutesPrecision.thirty: 4,
+};

@@ -11,7 +11,6 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
 
   /// Returns the id.
   Future<int> add(Activity item) async {
-    if (kDebugMode) print('ActivityLocalDbHelper add');
     try {
       return await _db
           .writeTxn<int>(() async => await _db.activitys.put(item)); // insert & update);
@@ -56,10 +55,6 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
     try {
       if (kDebugMode) print('ActivityLocalDbHelper getForDay($year, $month, $day)');
       return await _db.activitys.where().yearMonthDayEqualTo(year, month, day).findAll();
-      // return await _db.activitys.filter()
-      //     .yearEqualTo(year)
-      //     .and().monthEqualTo(month)
-      //     .and().dayEqualTo(day).findAll();
     } catch (e) {
       throw Exception('ActivityLocalDbHelper getForDay($year, $month, $day).\n $e');
     }
@@ -70,9 +65,6 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
     try {
       if (kDebugMode) print('ActivityLocalDbHelper getForMonth($year, $month)');
       return await _db.activitys.where().yearMonthEqualToAnyDay(year, month).findAll();
-      // return await _db.activitys.filter()
-      //     .yearEqualTo(year)
-      //     .and().monthEqualTo(month).findAll();
     } catch (e) {
       throw Exception('ActivityLocalDbHelper getForMonth($year, $month).\n $e');
     }
@@ -91,10 +83,14 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
   @override
   Future<List<Activity>> getLast(int limit) async {
     try {
-      if (kDebugMode) print('ActivityLocalDbHelper getLast($limit)');
-      return await _db.activitys.where().sortByCreatedAtDesc().limit(limit).findAll();
-      // return await _db.activitys.where()
-      //     .sortByYear().thenByMonth().thenByDay().limit(limit).findAll();
+      return await _db.activitys
+          .where()
+          .sortByYearDesc()
+          .thenByMonthDesc()
+          .thenByDayDesc()
+          .thenByCreatedAtDesc()
+          .limit(limit)
+          .findAll();
     } catch (e) {
       throw Exception('ActivityLocalDbHelper getLast($limit).\n $e');
     }

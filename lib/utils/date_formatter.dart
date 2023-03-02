@@ -62,8 +62,8 @@ String getTimeString(int minutesValue) {
 
 /// duration=Duration(hours: 2, minutes: 05), output: 02:05
 String formatHoursAndMinutesDuration(Duration duration) {
-  String hours = duration.inHours.toString().padLeft(2, '0');
-  String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+  final String hours = duration.inHours.toString().padLeft(2, '0');
+  final String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
   // String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
   return '$hours:$minutes';
 }

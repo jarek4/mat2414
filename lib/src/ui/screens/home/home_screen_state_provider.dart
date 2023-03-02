@@ -25,9 +25,20 @@ class HomeScreenStateProvider with ChangeNotifier {
 
   final _controller = StreamController<UnmodifiableListView<Activity>>.broadcast();
 
+  // prevents: PlatformDispatcher ERROR: A AddUpdateState was used after being disposed error!
+  bool _isMounted = true;
+
+  @override
+  void notifyListeners() {
+    if (_isMounted) {
+      super.notifyListeners();
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
+    _isMounted = false;
     _lastAddedSubscription.cancel();
     _controller.close();
   }

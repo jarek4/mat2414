@@ -122,43 +122,38 @@ const ReportSchema = CollectionSchema(
       name: r'specialHours',
       type: IsarType.int,
     ),
-    r'specialHoursDescription': PropertySchema(
-      id: 21,
-      name: r'specialHoursDescription',
-      type: IsarType.string,
-    ),
     r'sundayWitnessingHours': PropertySchema(
-      id: 22,
+      id: 21,
       name: r'sundayWitnessingHours',
       type: IsarType.int,
     ),
     r'sundayWitnessingQuantity': PropertySchema(
-      id: 23,
+      id: 22,
       name: r'sundayWitnessingQuantity',
       type: IsarType.int,
     ),
     r'uid': PropertySchema(
-      id: 24,
+      id: 23,
       name: r'uid',
       type: IsarType.string,
     ),
     r'videos': PropertySchema(
-      id: 25,
+      id: 24,
       name: r'videos',
       type: IsarType.int,
     ),
     r'withFieldServiceGroupWitnessingHours': PropertySchema(
-      id: 26,
+      id: 25,
       name: r'withFieldServiceGroupWitnessingHours',
       type: IsarType.int,
     ),
     r'withFieldServiceGroupWitnessingQuantity': PropertySchema(
-      id: 27,
+      id: 26,
       name: r'withFieldServiceGroupWitnessingQuantity',
       type: IsarType.int,
     ),
     r'year': PropertySchema(
-      id: 28,
+      id: 27,
       name: r'year',
       type: IsarType.int,
     )
@@ -209,7 +204,6 @@ int _reportEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.remarks.length * 3;
   bytesCount += 3 + object.serviceYear.length * 3;
-  bytesCount += 3 + object.specialHoursDescription.length * 3;
   {
     final value = object.uid;
     if (value != null) {
@@ -246,14 +240,13 @@ void _reportSerialize(
   writer.writeInt(offsets[18], object.returnVisits);
   writer.writeString(offsets[19], object.serviceYear);
   writer.writeInt(offsets[20], object.specialHours);
-  writer.writeString(offsets[21], object.specialHoursDescription);
-  writer.writeInt(offsets[22], object.sundayWitnessingHours);
-  writer.writeInt(offsets[23], object.sundayWitnessingQuantity);
-  writer.writeString(offsets[24], object.uid);
-  writer.writeInt(offsets[25], object.videos);
-  writer.writeInt(offsets[26], object.withFieldServiceGroupWitnessingHours);
-  writer.writeInt(offsets[27], object.withFieldServiceGroupWitnessingQuantity);
-  writer.writeInt(offsets[28], object.year);
+  writer.writeInt(offsets[21], object.sundayWitnessingHours);
+  writer.writeInt(offsets[22], object.sundayWitnessingQuantity);
+  writer.writeString(offsets[23], object.uid);
+  writer.writeInt(offsets[24], object.videos);
+  writer.writeInt(offsets[25], object.withFieldServiceGroupWitnessingHours);
+  writer.writeInt(offsets[26], object.withFieldServiceGroupWitnessingQuantity);
+  writer.writeInt(offsets[27], object.year);
 }
 
 Report _reportDeserialize(
@@ -284,16 +277,15 @@ Report _reportDeserialize(
     returnVisits: reader.readIntOrNull(offsets[18]) ?? 0,
     serviceYear: reader.readString(offsets[19]),
     specialHours: reader.readIntOrNull(offsets[20]) ?? 0,
-    specialHoursDescription: reader.readStringOrNull(offsets[21]) ?? '',
-    sundayWitnessingHours: reader.readIntOrNull(offsets[22]) ?? 0,
-    sundayWitnessingQuantity: reader.readIntOrNull(offsets[23]) ?? 0,
-    uid: reader.readStringOrNull(offsets[24]),
-    videos: reader.readIntOrNull(offsets[25]) ?? 0,
+    sundayWitnessingHours: reader.readIntOrNull(offsets[21]) ?? 0,
+    sundayWitnessingQuantity: reader.readIntOrNull(offsets[22]) ?? 0,
+    uid: reader.readStringOrNull(offsets[23]),
+    videos: reader.readIntOrNull(offsets[24]) ?? 0,
     withFieldServiceGroupWitnessingHours:
-        reader.readIntOrNull(offsets[26]) ?? 0,
+        reader.readIntOrNull(offsets[25]) ?? 0,
     withFieldServiceGroupWitnessingQuantity:
-        reader.readIntOrNull(offsets[27]) ?? 0,
-    year: reader.readInt(offsets[28]),
+        reader.readIntOrNull(offsets[26]) ?? 0,
+    year: reader.readInt(offsets[27]),
   );
   return object;
 }
@@ -348,20 +340,18 @@ P _reportDeserializeProp<P>(
     case 20:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 21:
-      return (reader.readStringOrNull(offset) ?? '') as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 22:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 23:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 24:
       return (reader.readStringOrNull(offset)) as P;
+    case 24:
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 25:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 26:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 27:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 28:
       return (reader.readInt(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1993,144 +1983,6 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
   }
 
   QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'specialHoursDescription',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionContains(String value,
-          {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'specialHoursDescription',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionMatches(String pattern,
-          {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'specialHoursDescription',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'specialHoursDescription',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
-      specialHoursDescriptionIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'specialHoursDescription',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition>
       sundayWitnessingHoursEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2870,19 +2722,6 @@ extension ReportQuerySortBy on QueryBuilder<Report, Report, QSortBy> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterSortBy> sortBySpecialHoursDescription() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy>
-      sortBySpecialHoursDescriptionDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.desc);
-    });
-  }
-
   QueryBuilder<Report, Report, QAfterSortBy> sortBySundayWitnessingHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sundayWitnessingHours', Sort.asc);
@@ -3251,19 +3090,6 @@ extension ReportQuerySortThenBy on QueryBuilder<Report, Report, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterSortBy> thenBySpecialHoursDescription() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy>
-      thenBySpecialHoursDescriptionDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'specialHoursDescription', Sort.desc);
-    });
-  }
-
   QueryBuilder<Report, Report, QAfterSortBy> thenBySundayWitnessingHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sundayWitnessingHours', Sort.asc);
@@ -3490,14 +3316,6 @@ extension ReportQueryWhereDistinct on QueryBuilder<Report, Report, QDistinct> {
     });
   }
 
-  QueryBuilder<Report, Report, QDistinct> distinctBySpecialHoursDescription(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'specialHoursDescription',
-          caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<Report, Report, QDistinct> distinctBySundayWitnessingHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sundayWitnessingHours');
@@ -3683,13 +3501,6 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Report, String, QQueryOperations>
-      specialHoursDescriptionProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'specialHoursDescription');
-    });
-  }
-
   QueryBuilder<Report, int, QQueryOperations> sundayWitnessingHoursProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sundayWitnessingHours');
@@ -3766,7 +3577,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       remarks: json['remarks'] as String? ?? '',
       returnVisits: json['returnVisits'] as int? ?? 0,
       specialHours: json['specialHours'] as int? ?? 0,
-      specialHoursDescription: json['specialHoursDescription'] as String? ?? '',
       sundayWitnessingHours: json['sundayWitnessingHours'] as int? ?? 0,
       sundayWitnessingQuantity: json['sundayWitnessingQuantity'] as int? ?? 0,
       uid: json['uid'] as String?,
@@ -3801,7 +3611,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'returnVisits': instance.returnVisits,
       'serviceYear': instance.serviceYear,
       'specialHours': instance.specialHours,
-      'specialHoursDescription': instance.specialHoursDescription,
       'sundayWitnessingHours': instance.sundayWitnessingHours,
       'sundayWitnessingQuantity': instance.sundayWitnessingQuantity,
       'uid': instance.uid,

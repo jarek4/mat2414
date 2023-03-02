@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/ui/navigation/navigation.dart';
 import 'package:mat2414/src/ui/root_widget.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
@@ -33,10 +34,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<SettingsController>.value(value: widget.settingsController),
         ChangeNotifierProvider<BottomNavigationController>(
             create: (_) => BottomNavigationController()),
-        ChangeNotifierProvider<CalendarStateProvider>(
-            create: (_) => CalendarStateProvider()),
+        ChangeNotifierProvider<CalendarStateProvider>(create: (_) => CalendarStateProvider()),
       ],
       child: DynamicColorBuilder(
         builder: (lightDynamic, darkDynamic) => ThemeProvider(

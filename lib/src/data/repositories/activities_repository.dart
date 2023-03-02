@@ -8,16 +8,13 @@ import 'package:mat2414/src/domain/repositories/i_activity_repository.dart';
 class ActivitiesRepository implements IActivitiesRepository {
   ActivitiesRepository() : super() {
     _dbSubscription = _db.onCollectionChangedNotification.listen((event) async {
-      print('ActivitiesRepository Stream listen');
-      _onChange();
+      await _onChange();
     });
   }
 
   final IActivityDbHelper _db = locator<IActivityDbHelper>();
   late StreamSubscription<void> _dbSubscription;
   final _lastAddedController = StreamController<List<Activity>>.broadcast();
-
-  // List<Activity> _newestActivities = [];
 
   @override
   Future<int> create(Activity item) async {
@@ -61,7 +58,7 @@ class ActivitiesRepository implements IActivitiesRepository {
         .timeout(const Duration(seconds: 3), onTimeout: () => <Activity>[]);
   }
 
- //  @override
+  //  @override
   Future<List<Activity>> _lastAdded({int limit = 3}) async {
     return await _db
         .getLast(limit)
@@ -93,21 +90,18 @@ class ActivitiesRepository implements IActivitiesRepository {
         .timeout(const Duration(seconds: 3), onTimeout: () => -1);
   }
 
-
-
   @override
   Stream<List<Activity>> last3Added({int limit = 3}) async* {
-    print('ActivitiesRepository Stream last3Added');
+    // print('ActivitiesRepository Stream last3Added');
     // yield _newestActivities;
+    // List<Activity> a = await _lastAdded();
+    // a.sort((a, b) => b.placements.compareTo(a.placements));
     yield await _lastAdded();
     yield* _lastAddedController.stream;
   }
 
-
-  void _onChange() async {
-    // _newestActivities = await _lastAdded();
-    print('ActivitiesRepository_onChange');
-       _lastAddedController.add(await _lastAdded());
+  Future<void> _onChange() async {
+    _lastAddedController.add(await _lastAdded());
     // _controller.sink.add(_newestActivities);
   }
 

@@ -2,15 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DismissibleWidget<T> extends StatelessWidget {
-  const DismissibleWidget(
-      {Key? key,
-      required this.item,
-      required this.child,
-      required this.onDelete,
-      required this.onUpdate,
-        this.isDismissible = true,
-      })
-      : super(key: key);
+  const DismissibleWidget({
+    Key? key,
+    required this.item,
+    required this.child,
+    required this.onDelete,
+    required this.onUpdate,
+    this.isDismissible = true,
+  }) : super(key: key);
 
   final bool isDismissible;
   final T item;
@@ -22,7 +21,7 @@ class DismissibleWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
         key: ObjectKey(item),
-        direction: isDismissible? DismissDirection.horizontal : DismissDirection.none,
+        direction: isDismissible ? DismissDirection.horizontal : DismissDirection.none,
         background: _swipeActionLeft(),
         secondaryBackground: _swipeActionRight(),
         onDismissed: (DismissDirection direction) => _onDismiss(direction),
@@ -34,15 +33,22 @@ class DismissibleWidget<T> extends StatelessWidget {
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         color: Colors.blue,
-        child: const Icon(Icons.edit),
+        child: _buildSwipeHint(Icons.edit, 'Edit'),
       );
 
   Widget _swipeActionRight() => Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         color: Colors.red,
-        child: const Icon(Icons.delete),
+        child: _buildSwipeHint(Icons.delete, 'Delete'),
       );
+
+  Widget _buildSwipeHint(IconData iconData, String text) {
+    return Wrap(
+        direction: Axis.vertical,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [Icon(iconData), Text(text)]);
+  }
 
   _onDismiss(DismissDirection direction) {
     switch (direction) {

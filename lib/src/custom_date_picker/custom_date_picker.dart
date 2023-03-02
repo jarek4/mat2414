@@ -4,40 +4,45 @@ import 'package:mat2414/src/ui/theme/theme.dart';
 import '../../utils/date_formatter.dart';
 
 class CustomDatePicker extends StatefulWidget {
-  const CustomDatePicker({Key? key}) : super(key: key);
+  const CustomDatePicker({required this.onDatePicked, this.date, Key? key}) : super(key: key);
+
+  final DateTime? date;
+  final ValueChanged<DateTime?> onDatePicked;
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
-  String _setDate = '';
-  DateTime _selectedDate = DateTime.now();
+  String _setDate = 'today';
+  DateTime _selectedDate = _now;
+
+  static DateTime _now = DateTime.now();
 
   @override
   void initState() {
-    _setDate = dateFormatter(DateTime.now());
+    _setDate = dateFormatter(_now);
+    if (widget.date != null) {
+      _now = widget.date ?? _now;
+    }
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Choose Date',
-              style: context.textTheme.titleLarge),
-            InkWell(
-              onTap: () {
-                _selectDate(context);
-              },
-              child: FittedBox(child: Text(_setDate, style: context.textTheme.titleLarge)),
-            ),
-          ]),
+    final TextStyle textStyle = context.bodyMedium ?? const TextStyle();
+    return GestureDetector(
+      onTap: () => _selectDate(context),
+      child: Chip(
+        avatar: const Icon(Icons.calendar_month_outlined),
+        label: Text(
+          _setDate,
+          style: textStyle,
+          overflow: TextOverflow.fade,
+          maxLines: 1,
+          softWrap: false,
+        ),
+      ),
     );
   }
 
@@ -46,16 +51,17 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         context: context,
         initialDate: _selectedDate,
         initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2050),
-        errorFormatText: 'Enter a Valid Date',
-        errorInvalidText: 'Date Out of Range');
+        firstDate: DateTime(_now.year - 3),
+        lastDate: DateTime(_now.year + 10),
+        errorFormatText: 'Enter a valid date',
+        errorInvalidText: 'Date out of range');
     if (picked != null) {
       setState(() {
         _selectedDate = picked;
         _setDate = dateFormatter(_selectedDate);
       });
     }
+    widget.onDatePicked(picked);
     return picked;
   }
 }

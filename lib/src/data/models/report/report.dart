@@ -29,7 +29,6 @@ class Report {
     this.remarks = '',
     this.returnVisits = 0,
     this.specialHours = 0,
-    this.specialHoursDescription = '',
     this.sundayWitnessingHours = 0,
     this.sundayWitnessingQuantity = 0,
     this.uid,
@@ -76,7 +75,6 @@ class Report {
   final String serviceYear;
 
   final short specialHours;
-  final String specialHoursDescription;
 
   final short sundayWitnessingHours;
 
@@ -117,7 +115,6 @@ class Report {
     int? returnVisits,
     String? serviceYear,
     int? specialHours,
-    String? specialHoursDescription,
     int? sundayWitnessingHours,
     int? sundayWitnessingQuantity,
     String? uid,
@@ -150,7 +147,6 @@ class Report {
       returnVisits: returnVisits ?? this.returnVisits,
       serviceYear: serviceYear ?? this.serviceYear,
       specialHours: specialHours ?? this.specialHours,
-      specialHoursDescription: specialHoursDescription ?? this.specialHoursDescription,
       sundayWitnessingHours: sundayWitnessingHours ?? this.sundayWitnessingHours,
       sundayWitnessingQuantity: sundayWitnessingQuantity ?? this.sundayWitnessingQuantity,
       uid: uid ?? this.uid,
@@ -213,8 +209,6 @@ class Report {
             (identical(other.remarks, remarks) || other.remarks == remarks) &&
             (identical(other.returnVisits, returnVisits) || other.returnVisits == returnVisits) &&
             (identical(other.specialHours, specialHours) || other.specialHours == specialHours) &&
-            (identical(other.specialHoursDescription, specialHoursDescription) ||
-                other.specialHoursDescription == specialHoursDescription) &&
             (identical(other.sundayWitnessingHours, sundayWitnessingHours) ||
                 other.sundayWitnessingHours == sundayWitnessingHours) &&
             (identical(other.sundayWitnessingQuantity, sundayWitnessingQuantity) ||
@@ -250,7 +244,6 @@ class Report {
         remarks,
         returnVisits,
         specialHours,
-        specialHoursDescription,
         sundayWitnessingHours,
         sundayWitnessingQuantity,
         videos,
@@ -259,6 +252,6 @@ class Report {
 
   @override
   String toString() {
-    return 'Report(createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, id: $id, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, minutes: $minutes, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, specialHours: $specialHours, specialHoursDescription: $specialHoursDescription, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, uid: $uid)';
+    return 'Report(createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, id: $id, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, minutes: $minutes, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, specialHours: $specialHours, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, uid: $uid)';
   }
 }

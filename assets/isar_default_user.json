@@ -1,0 +1,15 @@
+{
+  "createdAt": 1677772111063496,
+  "hashCode": 348831336,
+  "id": 1,
+  "lastModified": 1677772111063507,
+  "name": "default user",
+  "preferences": {
+    "bibleStudies": 0,
+    "hashCode": 288953517,
+    "minutesPrecision": 1,
+    "selectedStatistics":[],
+    "showButtonLCDHours": false
+  },
+  "uid": ""
+}

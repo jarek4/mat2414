@@ -26,8 +26,7 @@ class Activity {
     this.placements = 0,
     this.remarks = '',
     this.returnVisits = 0,
-    this.specialHours = 0,
-    this.specialHoursDescription = '',
+    this.isLCDHours = false,
     this.uid,
     this.videos = 0,
   });
@@ -43,21 +42,14 @@ class Activity {
   final bool isPublicWitnessing;
   final bool isSundayWitnessing;
   final bool isWithFieldServiceGroupWitnessing;
-
   final DateTime lastModified;
-
   final byte minutes;
-
   final byte month;
-
   final byte placements;
-  final String remarks;
-
+  final String remarks; // max. 150 characters!
   final byte returnVisits;
   final String serviceYear;
-
-  final byte specialHours;
-  final String specialHoursDescription;
+  final bool isLCDHours;
   final String? uid;
 
   final byte videos;
@@ -87,8 +79,7 @@ class Activity {
     String? remarks,
     int? returnVisits,
     String? serviceYear,
-    int? specialHours,
-    String? specialHoursDescription,
+    bool? isLCDHours,
     String? uid,
     int? videos,
     int? year,
@@ -114,8 +105,7 @@ class Activity {
       remarks: remarks ?? this.remarks,
       returnVisits: returnVisits ?? this.returnVisits,
       serviceYear: serviceYear ?? this.serviceYear,
-      specialHours: specialHours ?? this.specialHours,
-      specialHoursDescription: specialHoursDescription ?? this.specialHoursDescription,
+      isLCDHours: isLCDHours ?? this.isLCDHours,
       uid: uid ?? this.uid,
       videos: videos ?? this.videos,
       year: year ?? this.year,
@@ -151,8 +141,7 @@ class Activity {
             other.remarks == remarks &&
             other.returnVisits == returnVisits &&
             other.serviceYear == serviceYear &&
-            other.specialHours == specialHours &&
-            other.specialHoursDescription == specialHoursDescription &&
+            other.isLCDHours == isLCDHours &&
             other.uid == uid &&
             other.videos == videos &&
             other.year == year);
@@ -181,13 +170,12 @@ class Activity {
         remarks,
         returnVisits,
         serviceYear,
-        specialHours,
-        specialHoursDescription,
+        isLCDHours,
         videos
       ]);
 
   @override
   String toString() {
-    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, specialHours: $specialHours, specialHoursDescription: $specialHoursDescription, videos: $videos)';
+    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, specialHours: $isLCDHours, videos: $videos)';
   }
 }

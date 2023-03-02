@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:mat2414/src/activity_add_update/activity_add_update_view.dart';
 import 'package:mat2414/src/data/models/activity/activity.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
@@ -36,8 +37,7 @@ class HomeScreen extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       child: Container(
                         constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
-                        child: Image.asset(
-                          'assets/images/preacher_transp.png',
+                        child: Image.asset(AssetPath.imgPreacher,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -76,9 +76,11 @@ class HomeScreen extends StatelessWidget {
                                   //   Provider.of<HomeScreenStateProvider>(context, listen: false)
                                   //       .add();
                                   // },
-                                onPressed: () => _add(
-                                    context: context,
-                                    handle: () =>Provider.of<HomeScreenStateProvider>(context, listen: false).add()),
+                                  onPressed: () => _add(
+                                      context: context,
+                                      handle: () => Provider.of<HomeScreenStateProvider>(context,
+                                              listen: false)
+                                          .add()),
                                   icon: const Icon(
                                     Icons.add_circle,
                                     size: 38,
@@ -109,56 +111,48 @@ class HomeScreen extends StatelessWidget {
             print('FutureBuilder: ${snapshot.data?.length}');
             ConnectionState connection = snapshot.connectionState;
             if (snapshot.hasError) return const Center(child: CircularProgressIndicator.adaptive());
-              UnmodifiableListView<Activity>? a = snapshot.data;
-              return Shimmer(
-                // isLoading: true,
-                child: ListView.builder(
-                  itemBuilder: (context, i) {
-                    return ShimmerLoading(
-                      isLoading: connection == ConnectionState.waiting,
-                      child: ActivitySimpleView(
-                        data: [
-                          a == null || a.isEmpty ? 0 : a[i].placements,
-                          a == null || a.isEmpty ? 0 : a[i].videos,
-                          a == null || a.isEmpty ? 0 : a[i].returnVisits],
-                        duration:
-                        Duration(
-                            hours: a == null || a.isEmpty ? 0 : a[i].hours,
-                            minutes: a == null || a.isEmpty ? 0 : a[i].minutes),
-                      ),
-                    );
-                  },
-                  itemCount: a  == null ? 1 : a.length,
-                  // itemCount: 1,
-                ),
-              );
-
+            UnmodifiableListView<Activity>? a = snapshot.data;
+            return Shimmer(
+              // isLoading: true,
+              child: ListView.builder(
+                itemBuilder: (context, i) {
+                  return ShimmerLoading(
+                    isLoading: connection == ConnectionState.waiting,
+                    child: ActivitySimpleView(
+                      data: [
+                        a == null || a.isEmpty ? 0 : a[i].placements,
+                        a == null || a.isEmpty ? 0 : a[i].videos,
+                        a == null || a.isEmpty ? 0 : a[i].returnVisits
+                      ],
+                      duration: Duration(
+                          hours: a == null || a.isEmpty ? 0 : a[i].hours,
+                          minutes: a == null || a.isEmpty ? 0 : a[i].minutes),
+                    ),
+                  );
+                },
+                itemCount: a == null ? 1 : a.length,
+                // itemCount: 1,
+              ),
+            );
           });
     });
   }
 
-  void _add(
-      {required BuildContext context,
-        required VoidCallback handle}) {
+  void _add({required BuildContext context, required VoidCallback handle}) {
     showModalBottomSheet<void>(
         context: context,
         isScrollControlled: true,
+        // if DraggableScrollableSheet expand: false:
+        // backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           // AnimatedPadding, padding MediaQuery.of(context).viewInsets.bottom and
           // isScrollControlled: true - are important to lift up when keyboard is shown!
           return AnimatedPadding(
-              duration: const Duration(milliseconds: 50),
-              curve: Curves.bounceIn,
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Text('add activity'),
-                IconButton(
-                    onPressed: handle,
-                    icon: const Icon(
-                      Icons.add_circle,
-                      size: 38,
-                    )),
-              ],));
+            duration: const Duration(milliseconds: 50),
+            curve: Curves.bounceIn,
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: const ActivityAddUpdateView(),
+          );
         });
   }
 }

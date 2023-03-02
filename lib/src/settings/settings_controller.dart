@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mat2414/locator.dart';
+import 'package:mat2414/src/data/models/user/user.dart';
 
 import 'settings_service.dart';
 
@@ -11,7 +13,7 @@ class SettingsController with ChangeNotifier {
   SettingsController(this._settingsService);
 
   // Make SettingsService a private variable so it is not used directly.
-  final SettingsService _settingsService;
+  final SettingsService _settingsService /* = locator<SettingsService>()*/;
 
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
@@ -20,13 +22,17 @@ class SettingsController with ChangeNotifier {
   // Allow Widgets to read the user's preferred ThemeMode.
   ThemeMode get themeMode => _themeMode;
 
+  // User _user = User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 4, preferences: Preferences(minutesPrecision: MinutesPrecision.thirty, showButtonLCDHours: false));
+  late User _user;
+
+  User get user => _user;
+
   /// Load the user's settings from the SettingsService. It may load from a
   /// local database or the internet. The controller only knows it can load the
   /// settings from the service.
   Future<void> loadSettings() async {
+    _user = await _settingsService.getUser();
     _themeMode = await _settingsService.themeMode();
-
-    // Important! Inform listeners a change has occurred.
     notifyListeners();
   }
 
@@ -46,5 +52,11 @@ class SettingsController with ChangeNotifier {
     // Persist the changes to a local database or the internet using the
     // SettingService.
     await _settingsService.updateThemeMode(newThemeMode);
+  }
+
+  Future<void> updateUser(User user) async {
+    await _settingsService.updateUser(user);
+    _user = await _settingsService.getUser();
+    notifyListeners();
   }
 }
