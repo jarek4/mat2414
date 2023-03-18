@@ -53,8 +53,8 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
   @override
   Future<List<Activity>> getForADay(int year, int month, int day) async {
     try {
-      if (kDebugMode) print('ActivityLocalDbHelper getForDay($year, $month, $day)');
-      return await _db.activitys.where().yearMonthDayEqualTo(year, month, day).findAll();
+     // if (kDebugMode) print('ActivityLocalDbHelper getForDay($year, $month, $day)');
+      return await _db.activitys.where().yearMonthDayEqualTo(year, month, day).sortByCreatedAtDesc().findAll();
     } catch (e) {
       throw Exception('ActivityLocalDbHelper getForDay($year, $month, $day).\n $e');
     }
@@ -63,7 +63,7 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
   @override
   Future<List<Activity>> getForAMonth(int year, int month) async {
     try {
-      if (kDebugMode) print('ActivityLocalDbHelper getForMonth($year, $month)');
+      // if (kDebugMode) print('ActivityLocalDbHelper getForMonth($year, $month)');
       return await _db.activitys.where().yearMonthEqualToAnyDay(year, month).findAll();
     } catch (e) {
       throw Exception('ActivityLocalDbHelper getForMonth($year, $month).\n $e');

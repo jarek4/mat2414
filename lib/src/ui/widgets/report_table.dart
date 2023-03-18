@@ -48,7 +48,7 @@ class ReportTable extends StatelessWidget {
     final TextStyle monthlyStyle = context.labelSmall?.copyWith(fontSize: 8) ?? const TextStyle();
 
     List<Widget> rows = [];
-    for (Map m in headers) {
+    for (Map<String, dynamic> m in headers) {
       rows.add(Center(
         child: Padding(
           padding: const EdgeInsets.all(4.0),

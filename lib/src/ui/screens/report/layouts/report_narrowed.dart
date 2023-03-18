@@ -48,17 +48,15 @@ class ReportNarrowed extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.background,
         borderRadius:
-        const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+            const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
       ),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        // mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 12.0),
             Align(
               alignment: Alignment.topCenter,
               child: Selector<ReportStateProvider, int>(
-                  selector: (_, state) => state.narrowedLayoutTabIndex,
+                  selector: (_, state) => state.tabIndex,
                   shouldRebuild: (int pre, int next) {
                     return pre != next;
                   },
@@ -67,55 +65,28 @@ class ReportNarrowed extends StatelessWidget {
                       key: const Key('ReportNarrowed'),
                       activeIndex: index,
                       pageNames: context.read<ReportStateProvider>().tabs,
-                      onTap: context
-                          .read<ReportStateProvider>()
-                          .onNarrowedTabIndexChange,
+                      onTap: context.read<ReportStateProvider>().onTabIndexChange,
                     );
                   }),
             ),
             const SizedBox(height: 8),
             Flexible(
-              child: Consumer<ReportStateProvider>(
-                  builder: (BuildContext context, ReportStateProvider state, _) {
-                    final int index = state.narrowedLayoutTabIndex;
-                    final String sy = state.selectedDate.serviceYear;
-                    switch (index) {
-                      case 0:
-                        return OverviewTab(sy: [sy, 'man', '$sy-2']);
-                      case 1:
-                        return const SummaryTab();
-                      default:
-                        return const Placeholder();
-                    }
-                  }),
-            ),
+                child: Selector<ReportStateProvider, int>(
+                    selector: (_, state) => state.tabIndex,
+                    shouldRebuild: (int pre, int next) {
+                      return pre != next;
+                    },
+                    builder: (BuildContext context, index, __) {
+                      switch (index) {
+                        case 0:
+                          return const OverviewTab();
+                        case 1:
+                          return const SummaryTab();
+                        default:
+                          return const OverviewTab();
+                      }
+                    }))
           ]),
     );
   }
-/*
-  Widget _buildMonthTab(String sy) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20.0),
-          child: Consumer<MonthScreenStateProvider>(
-              builder: (BuildContext context, MonthScreenStateProvider provider, _) {
-                return AddActivityWidget(handle: () => print('add small'));
-              }),
-        ),
-        Expanded(child: OverviewTab(sy: [sy, 'man', '$sy-2'])),
-        *//*Expanded(
-          child: ListView(
-            // shrinkWrap: true,
-            children: [
-              ReportCard(sy: sy),
-              ReportCard(sy: 'man'),
-              ReportCard(sy: '$sy-2'),
-            ],
-          ),
-        ),*//*
-      ]
-    );
-  }*/
 }

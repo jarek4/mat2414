@@ -1,4 +1,4 @@
-import 'dart:collection';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/activity_add_update/activity_add_update_view.dart';
@@ -9,13 +9,31 @@ import 'package:provider/provider.dart';
 
 import 'home_screen_state_provider.dart';
 import 'last_activities.dart';
+import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bottom_sheet;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Timer? timer;
+
+  @override
+  void dispose() {
+    /*   if (timer != null && timer!.isActive) {
+      timer!.cancel();
+    }*/
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    String? tempNotification;
     return ChangeNotifierProvider<HomeScreenStateProvider>(
       create: (_) => HomeScreenStateProvider(),
       child: LayoutBuilder(builder: (context, constraints) {
@@ -30,129 +48,103 @@ class HomeScreen extends StatelessWidget {
           color: context.colors.primaryContainer,
           constraints:
               const BoxConstraints(maxHeight: double.maxFinite, minWidth: double.maxFinite),
-          child: Column(
-            children: [
-              showHeader
-                  ? Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
-                        child: Image.asset(AssetPath.imgPreacher,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-              Expanded(
-                child: Container(
-                  constraints: const BoxConstraints(minWidth: double.maxFinite),
-                  decoration: BoxDecoration(
-                    color: context.colors.background,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-                  ),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      FittedBox(child: Text('Hello!', style: context.headlineSmall)),
-                      FittedBox(
-                          child: Text(
-                              'Today is ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-                              style: context.titleLarge)),
-                      const SizedBox(height: 16.0),
-                      FittedBox(
-                          child: Text('Your last activities:',
-                              style: context.titleMedium, textAlign: TextAlign.start)),
-                      // Expanded(child: _buildLastActivitiesList(isPortrait)),
-                      const Expanded(child: LastActivities()),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            children: [
-                              IconButton(
-                                  // onPressed: () {
-                                  //   Provider.of<HomeScreenStateProvider>(context, listen: false)
-                                  //       .add();
-                                  // },
-                                  onPressed: () => _add(
-                                      context: context,
-                                      handle: () => Provider.of<HomeScreenStateProvider>(context,
-                                              listen: false)
-                                          .add()),
-                                  icon: const Icon(
-                                    Icons.add_circle,
-                                    size: 38,
-                                  )),
-                              Text('Add new activity', style: context.headlineSmall)
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+          child: Column(children: [
+            _buildHeader(showHeader, constraints),
+            Expanded(
+              child: Container(
+                constraints: const BoxConstraints(minWidth: double.maxFinite),
+                decoration: BoxDecoration(
+                  color: context.colors.background,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                 ),
+                child: Column(children: [
+                  FittedBox(child: Text('Hello!', style: context.headlineSmall)),
+                  FittedBox(
+                      child: Text(
+                          'Today is ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                          style: context.titleLarge)),
+                  const SizedBox(height: 16.0),
+                  FittedBox(
+                      child: Text('Your last activities:',
+                          style: context.titleMedium, textAlign: TextAlign.start)),
+                  const Expanded(child: LastActivities()),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                        return Column(children: [
+                          if (tempNotification != null)
+                            AnimatedUserNotification(height: 28, msg: tempNotification ?? ''),
+                          AddActivityWidget(
+                              isSmall: false,
+                              handle: () async {
+                                final Activity? a = await _openAddBottomSheet(context);
+                                if (a == null) {
+                                  if (timer != null && timer!.isActive) timer?.cancel();
+                                  setState(() => tempNotification = 'Not saved.');
+                                  timer = Timer(const Duration(milliseconds: 3000), () {
+                                    if (mounted) setState(() => tempNotification = null);
+                                  });
+                                } else {
+                                  if (timer != null && timer!.isActive) timer?.cancel();
+                                  setState(() => tempNotification = 'Activity was saved.');
+                                  timer = Timer(const Duration(milliseconds: 3000), () {
+                                    if (mounted) setState(() => tempNotification = null);
+                                  });
+                                }
+                              })
+                        ]);
+                      }),
+                    ),
+                  )
+                ]),
               ),
-            ],
-          ),
+            ),
+          ]),
         );
       }),
     );
   }
 
-  Consumer<HomeScreenStateProvider> _buildLastActivitiesList(bool isPortrait) {
-    return Consumer<HomeScreenStateProvider>(
-        builder: (BuildContext context, HomeScreenStateProvider state, _) {
-      return FutureBuilder<UnmodifiableListView<Activity>>(
-          initialData: UnmodifiableListView<Activity>([]),
-          // future: state.getLast3(),
-          builder: (context, snapshot) {
-            print('FutureBuilder: ${snapshot.data?.length}');
-            ConnectionState connection = snapshot.connectionState;
-            if (snapshot.hasError) return const Center(child: CircularProgressIndicator.adaptive());
-            UnmodifiableListView<Activity>? a = snapshot.data;
-            return Shimmer(
-              // isLoading: true,
-              child: ListView.builder(
-                itemBuilder: (context, i) {
-                  return ShimmerLoading(
-                    isLoading: connection == ConnectionState.waiting,
-                    child: ActivitySimpleView(
-                      data: [
-                        a == null || a.isEmpty ? 0 : a[i].placements,
-                        a == null || a.isEmpty ? 0 : a[i].videos,
-                        a == null || a.isEmpty ? 0 : a[i].returnVisits
-                      ],
-                      duration: Duration(
-                          hours: a == null || a.isEmpty ? 0 : a[i].hours,
-                          minutes: a == null || a.isEmpty ? 0 : a[i].minutes),
-                    ),
-                  );
-                },
-                itemCount: a == null ? 1 : a.length,
-                // itemCount: 1,
-              ),
-            );
-          });
-    });
+  SingleChildRenderObjectWidget _buildHeader(bool showHeader, BoxConstraints constraints) {
+    return showHeader
+        ? Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
+              child: Image.asset(AssetPath.imgPreacher, fit: BoxFit.fitHeight),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
-  void _add({required BuildContext context, required VoidCallback handle}) {
-    showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        // if DraggableScrollableSheet expand: false:
-        // backgroundColor: Colors.transparent,
-        builder: (BuildContext context) {
-          // AnimatedPadding, padding MediaQuery.of(context).viewInsets.bottom and
-          // isScrollControlled: true - are important to lift up when keyboard is shown!
-          return AnimatedPadding(
-            duration: const Duration(milliseconds: 50),
-            curve: Curves.bounceIn,
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: const ActivityAddUpdateView(),
-          );
-        });
+  Future<Activity?> _openAddBottomSheet(BuildContext context) async {
+    return await utils_bottom_sheet.showCustomBottomSheet<Activity>(
+        context, const ActivityAddUpdateView());
   }
 }
+
+/* IconButton(
+                            onPressed: () async {
+                              final Activity? a = await _add(context);
+                              if (a == null) {
+                                if (timer != null && timer!.isActive) timer?.cancel();
+                                setState(() => a2 = 'Not saved.');
+                                // print('a2:$a2');
+                                timer = Timer(const Duration(milliseconds: 3000), () {
+                                  if (mounted) setState(() => a2 = null);
+                                });
+                              } else {
+                                if (timer != null && timer!.isActive) timer?.cancel();
+                                setState(() => a2 = 'Activity was saved.');
+                                //print('a2:$a2');
+                                timer = Timer(const Duration(milliseconds: 3000), () {
+                                  if (mounted) setState(() => a2 = null);
+                                });
+                              }
+                            },
+                            icon: const Icon(Icons.add_circle, size: 38),
+                          ),
+                          Text('Add new activity', style: context.headlineSmall)*/

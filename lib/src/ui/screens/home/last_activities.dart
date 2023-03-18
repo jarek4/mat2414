@@ -42,6 +42,7 @@ class _LastActivitiesState extends State<LastActivities> {
 
         return Shimmer(
           child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, i) {
               return ShimmerLoading(
                 isLoading: isWaiting,

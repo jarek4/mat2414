@@ -14,7 +14,7 @@ class ActivitiesRepository implements IActivitiesRepository {
 
   final IActivityDbHelper _db = locator<IActivityDbHelper>();
   late StreamSubscription<void> _dbSubscription;
-  final _lastAddedController = StreamController<List<Activity>>.broadcast();
+  final _lastActivitiesController = StreamController<List<Activity>>.broadcast();
 
   @override
   Future<int> create(Activity item) async {
@@ -34,8 +34,8 @@ class ActivitiesRepository implements IActivitiesRepository {
 
   @override
   Future<List<Activity>> getForADay(int year, int month, int day) async {
-    if (day == 0 && month == 0 && year == 0) return <Activity>[];
-    return await _db
+    if (day == 0 || month == 0 || year == 0) return <Activity>[];
+    return _db
         .getForADay(year, month, day)
         .catchError((e) => <Activity>[])
         .timeout(const Duration(seconds: 3), onTimeout: () => <Activity>[]);
@@ -43,7 +43,7 @@ class ActivitiesRepository implements IActivitiesRepository {
 
   @override
   Future<List<Activity>> getForAMonth(int year, int month) async {
-    if (month == 0 && year == 0) return <Activity>[];
+    if (month == 0 || year == 0) return <Activity>[];
     return await _db
         .getForAMonth(year, month)
         .catchError((e) => <Activity>[])
@@ -54,14 +54,6 @@ class ActivitiesRepository implements IActivitiesRepository {
   Future<List<Activity>> getForAServiceYear(String serviceYear) async {
     return await _db
         .getForAServiceYear(serviceYear)
-        .catchError((e) => <Activity>[])
-        .timeout(const Duration(seconds: 3), onTimeout: () => <Activity>[]);
-  }
-
-  //  @override
-  Future<List<Activity>> _lastAdded({int limit = 3}) async {
-    return await _db
-        .getLast(limit)
         .catchError((e) => <Activity>[])
         .timeout(const Duration(seconds: 3), onTimeout: () => <Activity>[]);
   }
@@ -84,30 +76,38 @@ class ActivitiesRepository implements IActivitiesRepository {
 
   @override
   Future<int> update(Activity item) async {
-    return await _db
+    final int id = await _db
         .update(item)
         .catchError((e) => -1)
         .timeout(const Duration(seconds: 3), onTimeout: () => -1);
+    return id;
   }
 
   @override
-  Stream<List<Activity>> last3Added({int limit = 3}) async* {
+  Stream<List<Activity>> watch3recent() async* {
     // print('ActivitiesRepository Stream last3Added');
     // yield _newestActivities;
     // List<Activity> a = await _lastAdded();
     // a.sort((a, b) => b.placements.compareTo(a.placements));
-    yield await _lastAdded();
-    yield* _lastAddedController.stream;
+    yield await _readRecent();
+    yield* _lastActivitiesController.stream;
   }
 
   Future<void> _onChange() async {
-    _lastAddedController.add(await _lastAdded());
+    _lastActivitiesController.add(await _readRecent());
     // _controller.sink.add(_newestActivities);
+  }
+
+  Future<List<Activity>> _readRecent({int limit = 3}) async {
+    return _db
+        .getLast(limit)
+        .catchError((e) => <Activity>[])
+        .timeout(const Duration(seconds: 3), onTimeout: () => <Activity>[]);
   }
 
   @override
   void dispose() {
     _dbSubscription.cancel();
-    _lastAddedController.close();
+    _lastActivitiesController.close();
   }
 }

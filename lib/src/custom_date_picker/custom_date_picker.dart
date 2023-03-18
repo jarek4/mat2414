@@ -17,14 +17,15 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   String _setDate = 'today';
   DateTime _selectedDate = _now;
 
-  static DateTime _now = DateTime.now();
+  static final DateTime _now = DateTime.now();
 
   @override
   void initState() {
-    _setDate = dateFormatter(_now);
+    //_setDate = dateFormatter(_now);
     if (widget.date != null) {
-      _now = widget.date ?? _now;
+      _selectedDate = widget.date ?? _now;
     }
+    _setDate = dateFormatter(_selectedDate);
     super.initState();
   }
 
@@ -49,6 +50,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   Future<DateTime?> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
+        locale: const Locale('en', 'GB'),
         initialDate: _selectedDate,
         initialDatePickerMode: DatePickerMode.day,
         firstDate: DateTime(_now.year - 3),

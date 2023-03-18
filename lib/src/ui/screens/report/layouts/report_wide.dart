@@ -42,7 +42,7 @@ class ReportWide extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Selector<ReportStateProvider, int>(
-                selector: (_, state) => state.wideLayoutTabIndex,
+                selector: (_, state) => state.tabIndex,
                 shouldRebuild: (int pre, int next) {
                   return pre != next;
                 },
@@ -51,7 +51,7 @@ class ReportWide extends StatelessWidget {
                     key: const Key('ReportWide'),
                     activeIndex: index,
                     pageNames: context.read<ReportStateProvider>().tabs,
-                    onTap: context.read<ReportStateProvider>().onWideTabIndexChange,
+                    onTap: context.read<ReportStateProvider>().onTabIndexChange
                   );
                 }),
           ),
@@ -59,13 +59,11 @@ class ReportWide extends StatelessWidget {
           Expanded(
             child: Consumer<ReportStateProvider>(
                 builder: (BuildContext context, ReportStateProvider provider, _) {
-              final int index = provider.wideLayoutTabIndex;
-              final String sy = provider.selectedDate.serviceYear;
-
+              final int index = provider.tabIndex;
               switch (index) {
                 case 0:
                 // return Expanded(child: _buildMonthTab(sy));
-                  return OverviewTab(sy: [sy, 'man', '$sy-2']);
+                  return OverviewTab(/*sy: ['sy', 'man', '-2']*/);
                 case 1:
                   return const SingleChildScrollView(child: SummaryTab());
                 default:

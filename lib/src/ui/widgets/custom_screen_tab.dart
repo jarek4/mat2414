@@ -9,15 +9,6 @@ class CustomTabBar extends StatelessWidget {
   final int activeIndex;
   final List<String> pageNames;
   final Function onTap;
-/*
-
-  @override
-  State<CustomTabBar> createState() => _CustomTabBarState();
-}
-
-class _CustomTabBarState extends State<CustomTabBar> {
-  int _activeIndex = 0;
-*/
 
   @override
   Widget build(BuildContext context) {

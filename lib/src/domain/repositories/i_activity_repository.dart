@@ -12,7 +12,7 @@ abstract class IActivitiesRepository {
 
   // Future<List<Activity>> lastAdded({int limit = 3});
 
-  Stream<List<Activity>> last3Added({int limit = 3});
+  Stream<List<Activity>> watch3recent();
 
   Future<List<Activity>> readAll();
 

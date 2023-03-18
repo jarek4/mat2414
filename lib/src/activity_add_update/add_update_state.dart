@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:isar/isar.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
@@ -11,12 +12,14 @@ import '../domain/repositories/i_activity_repository.dart';
 enum AddUpdateStateStatus { error, loading, success }
 
 class AddUpdateState with ChangeNotifier {
-  /// placements, return visits, videos max 254!
-  AddUpdateState([this._activity]) {
-    _setup(_activity);
+  /// placements, return visits, videos max value 254!
+  /// if _activity is null looks for selectedDate
+  AddUpdateState({Activity? activity, DateTime? selectedDate}) : _activity = activity, _selectedDate = selectedDate {
+    _setup(_activity, _selectedDate);
   }
 
   final Activity? _activity;
+  final DateTime? _selectedDate;
 
   final IActivitiesRepository _repository = locator<IActivitiesRepository>();
 
@@ -49,7 +52,7 @@ class AddUpdateState with ChangeNotifier {
   int get h => _h;
   DateTime _date = _currentDate;
 
-  DateTime get dat => _date;
+  DateTime get date => _date;
   int _min = 0;
 
   int get min => _min;
@@ -135,55 +138,82 @@ class AddUpdateState with ChangeNotifier {
     print(_remarks);
   }
 
-  /// if new item is added or is updated returns true, else returns false
-  Future<bool> onSaveRequest() async {
+  /// if new item is added or is updated returns the item, else returns null
+  /// when returns null don't close the bottom sheet form.
+  Future<Activity?> onSaveRequest() async {
     final bool isFormEmpty = (_h + _min + _placements + _returns + _video) == 0 && _remarks.isEmpty;
-    // it is not update and no changes in form, all fields are 0 or empty.
+    // No activity item was passed into the form. Not update mode.
+    // The user has not entered data into the form (all fields are 0 or empty).
     if (_activity == null && isFormEmpty) {
-      await _setTemporaryMessage(msg: 'The activity is empty');
-      return false;
+      // Empty activity will not be saved!
+      // Show info to the user inside the form. Don't close the bottom sheet form.
+      await _setTemporaryMessage(msg: 'The activity is empty. It wont be saved!');
+      return null;
     }
+    // The user has entered a data into the form:
     Activity fromForm = _createActivityFromFormInputs();
-    // creating new activity
+    // Creating new activity (no activity item was passed into the form).
     if (_activity == null) {
-      final int id = await _addNew(fromForm);
+      _status = AddUpdateStateStatus.loading;
+      _errorMessage = '';
+      _notify();
+      final int id = await _repository.create(fromForm);
       if (id > 0) {
-        await _setTemporaryMessage(msg: 'Done!');
-        return true;
+        // The new activity was saved into DB. Close the bottom sheet form and return created item.
+        _status = AddUpdateStateStatus.success;
+        _notify();
+        return fromForm.copyWith(id: id);
       } else {
+        // The new activity NOT saved into DB. Don't close the bottom sheet form.
+        // Show info to the user inside the form.
         await _setTemporaryMessage(msg: 'Not created. Ups');
-        return false;
+        return null;
       }
+      // Activity item was passed to the form. Update mode.
     } else {
-      // activity was changed has to be updated
-      if (_activity != fromForm) {
-        final int id = await _update(fromForm);
+      // The user has entered a data into the form:
+      // Activity fromForm has lastModified field equal to DateTime.now(),
+      // so it never is equal to _activity
+      if (_activity != fromForm.copyWith(lastModified: _activity!.lastModified)) {
+        _status = AddUpdateStateStatus.loading;
+        _errorMessage = '';
+        _notify();
+        final int id = await _repository.update(fromForm);
         if (id > 0) {
-          await _setTemporaryMessage(msg: 'Done!');
-          return true;
+          // The updated activity was saved into DB. Close the bottom sheet form and return the item.
+          _status = AddUpdateStateStatus.success;
+          _notify();
+          return fromForm;
         } else {
+          // The updated activity was NOT saved. Don't close the bottom sheet form.
           await _setTemporaryMessage(msg: 'Not updated. Ups');
-          return false;
+          return null;
         }
       }
-      // activity was not changed no update
+      // The passed activity was not changed. There is no need to save into DB.
+      // Don't close the bottom sheet form.
       await _setTemporaryMessage(msg: 'No changes was made.');
-      return false;
+      return null;
     }
   }
 
-  /// sets status.error for 1600 milliseconds - appropriate message is displayed in UI
+  /// sets status.error for 1600 milliseconds - appropriate message is displayed in bottom sheet form
   Future<bool> _setTemporaryMessage({String msg = ''}) async {
     bool wasStatusChanged = false;
     _status = AddUpdateStateStatus.error;
     _errorMessage = msg;
     _notify();
-    wasStatusChanged = await Future<bool>.delayed(const Duration(milliseconds: 1600), () {
-      return _resetErrorState();
+    wasStatusChanged = await Future<bool>.delayed(const Duration(milliseconds: 3600), () {
+      // return _resetErrorState();
+      _status = AddUpdateStateStatus.success;
+      _errorMessage = '';
+      _notify();
+      return true;
     });
     return wasStatusChanged;
   }
 
+/*
   Future<bool> _resetErrorState() async {
     _status = AddUpdateStateStatus.success;
     _errorMessage = '';
@@ -191,15 +221,7 @@ class AddUpdateState with ChangeNotifier {
     return await Future<bool>.delayed(const Duration(milliseconds: 400), () {
       return true;
     });
-  }
-
-  Future<int> _addNew(Activity a) async {
-    return await _repository.create(a);
-  }
-
-  Future<int> _update(Activity a) async {
-    return _repository.update(a);
-  }
+  }*/
 
   Activity _createActivityFromFormInputs() => Activity(
       createdAt: _activity?.createdAt ?? DateTime.now(),
@@ -209,6 +231,7 @@ class AddUpdateState with ChangeNotifier {
       serviceYear: utils.getServiceYear(DateTime(_date.year, _date.month)),
       year: _date.year,
       hours: _h,
+      id: _activity?.id ?? Isar.autoIncrement,
       isLCDHours: _areLCDHours,
       minutes: _min,
       placements: _placements,
@@ -240,8 +263,7 @@ class AddUpdateState with ChangeNotifier {
     return temp;
   }
 
-  void _setup(Activity? activity) {
-    // print(User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 1).toJson());
+  void _setup(Activity? activity, DateTime? selectedDate) {
     _status = AddUpdateStateStatus.loading;
     notifyListeners();
     if (activity != null) {
@@ -254,15 +276,18 @@ class AddUpdateState with ChangeNotifier {
       _returns = activity.returnVisits;
       _video = activity.videos;
     }
+    if(activity == null && selectedDate != null) {
+      _date = selectedDate;
+    }
     _status = AddUpdateStateStatus.success;
     _errorMessage = '';
     _isMounted = true;
-    _userMinutesMultiplayer = _getUserMinutesMultiplayer(_userRepository.user.preferences);
+    _userMinutesMultiplayer = _getUserMinutesMultiplier(_userRepository.user.preferences);
     _userWantsLCDButton = _userRepository.user.preferences.showButtonLCDHours;
     notifyListeners();
   }
 
-  int _getUserMinutesMultiplayer(Preferences p) {
+  int _getUserMinutesMultiplier(Preferences p) {
     switch (p.minutesPrecision) {
       case MinutesPrecision.five:
         return 5;
@@ -270,12 +295,10 @@ class AddUpdateState with ChangeNotifier {
         return 10;
       case MinutesPrecision.fifteen:
         return 15;
-      case MinutesPrecision.one:
-        return 30;
       case MinutesPrecision.thirty:
-        return 1;
+        return 30;
       default:
-        return 5;
+        return 1;
     }
   }
 

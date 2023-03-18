@@ -54,13 +54,18 @@ class CalendarDay {
 
   @override
   String toString() {
-    return 'CalendarDay: service year: $_serviceYear \n date: $_date,\n,thisMonth: $_thisMonth';
+    return 'CalendarDay: service year: $_serviceYear, date: $_date, thisMonth: $_thisMonth';
   }
 
   @override
   bool operator ==(Object other) {
     if (other is CalendarDay) {
-      if (other._date != _date ||
+      if (other._date.year != _date.year ||
+          other._date.month != _date.month ||
+          other._date.day != _date.day ||
+          other._date.hour != _date.hour ||
+          other._date.minute != _date.minute ||
+          other._date.second != _date.second ||
           other._thisMonth != _thisMonth ||
           other._prevMonth != _prevMonth ||
           other._nextMonth != _nextMonth ||

@@ -6,6 +6,7 @@ import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/ui/navigation/navigation.dart';
 import 'package:mat2414/src/ui/root_widget.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
+import 'package:mat2414/utils/scaffold_key.dart' as global_key;
 import 'package:provider/provider.dart';
 
 import 'calendar/calendar_state_provider.dart';
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
                   final theme = ThemeProvider.of(context);
                   return MaterialApp(
                     restorationScopeId: 'app',
+                    scaffoldMessengerKey: global_key.scaffoldKey,
                     localizationsDelegates: const [
                       AppLocalizations.delegate,
                       GlobalMaterialLocalizations.delegate,

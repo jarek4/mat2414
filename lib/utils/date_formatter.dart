@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 /// String pattern = 'yyyy-MM-dd' like 2013-04-20
 String dateFormatter(DateTime date, [String pattern = 'yyyy-MM-dd']) {
   final DateFormat formatter = DateFormat(pattern);
-  print('dateFormatter date: $date');
-  print('dateFormatter formatter.format: ${formatter.format(date)}');
+  // print('dateFormatter date: $date');
+  // print('dateFormatter formatter.format: ${formatter.format(date)}');
   return formatter.format(date);
 }
 

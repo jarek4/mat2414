@@ -18,7 +18,7 @@ class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    CalendarDay selected = Provider.of<CalendarStateProvider>(context).state.selectedDay;
+    CalendarDay selected = Provider.of<CalendarStateProvider>(context, listen: false).state.selectedDay;
     return ChangeNotifierProxyProvider<CalendarStateProvider, ReportStateProvider>(
       create: (_) => ReportStateProvider(selected),
       update: (_, calendar, msp) => msp!..update(calendar.state.selectedDay),

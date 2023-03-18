@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:mat2414/utils/get_service_year.dart';
+import 'package:mat2414/src/calendar/calendar_day.dart';
+import 'package:mat2414/src/calendar/custom_calendar.dart';
 
-import 'calendar.dart';
+import 'calendar_constants.dart';
+import 'calendar_state.dart';
+
+
 
 class CalendarStateProvider with ChangeNotifier {
   CalendarStateProvider() {
@@ -10,14 +14,14 @@ class CalendarStateProvider with ChangeNotifier {
 
   static final DateTime _dateNow = DateTime.now();
 
-  // can not be CalendarDay(date: _dateNow, serviceYear: getServiceYear(_dateNow))!
+  // can not be CalendarDay(date: _dateNow)!
   // because it will not select current day at start:
   // GridView.builder days[index].date: 2023-02-25 00:00:00.000 != selectedDay: 2023-01-15 12:04:07.102
   CalendarState _state = CalendarState(
     currentDate: _dateNow,
     selectedDay: CalendarDay(
       date: DateTime(
-          _dateNow.year, _dateNow.month, _dateNow.day), /*serviceYear: getServiceYear(_dateNow)*/
+          _dateNow.year, _dateNow.month, _dateNow.day)
     ),
   );
 
@@ -29,7 +33,7 @@ class CalendarStateProvider with ChangeNotifier {
 
   set selectedDate(DateTime value) {
     _state = _state.copyWith(
-        selectedDay: CalendarDay(date: value /*, serviceYear: getServiceYear(value)*/));
+        selectedDay: CalendarDay(date: value));
     notifyListeners();
   }
 
@@ -53,9 +57,8 @@ class CalendarStateProvider with ChangeNotifier {
       } else if (calendarDate.prevMonth) {
         getPrevMonth();
       }
-      final String sr = getServiceYear(calendarDate.date);
       _state =
-          _state.copyWith(selectedDay: CalendarDay(date: calendarDate.date /*, serviceYear: sr*/));
+          _state.copyWith(selectedDay: CalendarDay(date: calendarDate.date));
       notifyListeners();
     }
     return calendarDate;
@@ -116,8 +119,7 @@ class CalendarStateProvider with ChangeNotifier {
       _state = _state.copyWith(currentDate: current);
     }
     final DateTime selected = DateTime(current.year, current.month, current.day);
-    final String sr = getServiceYear(selected);
-    _state = _state.copyWith(selectedDay: CalendarDay(date: selected /*, serviceYear: sr*/));
+    _state = _state.copyWith(selectedDay: CalendarDay(date: selected));
     _getCalendar(); // calls notifyListeners()
   }
 
@@ -132,8 +134,7 @@ class CalendarStateProvider with ChangeNotifier {
       _state = _state.copyWith(currentDate: current);
     }
     final DateTime selected = DateTime(current.year, current.month, current.day);
-    final String sr = getServiceYear(selected);
-    _state = _state.copyWith(selectedDay: CalendarDay(date: selected /*, serviceYear: sr*/));
+    _state = _state.copyWith(selectedDay: CalendarDay(date: selected));
     _getCalendar(); // calls notifyListeners()
   }
 
@@ -146,6 +147,7 @@ class CalendarStateProvider with ChangeNotifier {
     final int m = _state.currentDate.month;
     final int y = _state.currentDate.year;
     final List<CalendarDay> monthDays = CustomCalendar().getMonthCalendar(m, y);
+    // final List<CalendarDay> monthDays = _calendar.getMonthCalendar(m, y);
     _state = _state.copyWith(sequentialDates: monthDays, calendarType: type);
     notifyListeners();
   }

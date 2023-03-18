@@ -8,9 +8,12 @@ import 'add_update_state.dart';
 import 'widgets/widgets.dart';
 
 class ActivityAddUpdateView extends StatefulWidget {
-  const ActivityAddUpdateView({Key? key, this.activityToUpdate}) : super(key: key);
+  /// on close returns through Navigator.pop<Activity?>() created or updated Activity item
+  /// or null if has been canceled, error occurs or not created/updated
+  const ActivityAddUpdateView({Key? key, this.activityToUpdate, this.initialDate}) : super(key: key);
 
   final Activity? activityToUpdate;
+  final DateTime? initialDate;
 
   @override
   State<ActivityAddUpdateView> createState() => _ActivityAddUpdateViewState();
@@ -20,9 +23,9 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AddUpdateState>(
-      create: (_) => AddUpdateState(widget.activityToUpdate),
+      create: (_) => AddUpdateState(activity: widget.activityToUpdate, selectedDate: widget.initialDate),
       builder: (BuildContext context, Widget? widget) {
-        final bool prefsShowButtonLCDHours = context.read<AddUpdateState>().userWantLCDButton;
+        final bool userWantLCDButton = context.read<AddUpdateState>().userWantLCDButton;
         return DraggableScrollableSheet(
             expand: false,
             maxChildSize: 0.9,
@@ -41,7 +44,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
                     ]),
                     _buildDivider(),
                     _buildTimeField(),
-                    if (!prefsShowButtonLCDHours) _buildLCDHoursBtn(),
+                    if (!userWantLCDButton) _buildLCDHoursBtn(),
                     _buildDivider(),
                     _buildPlacementsField(),
                     _buildVideoShowingsField(),
@@ -74,7 +77,10 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
   }
 
   FittedBox _buildDataPicker(BuildContext context) {
-    return FittedBox(child: CustomDatePicker(onDatePicked: context.read<AddUpdateState>().setDate));
+    return FittedBox(child: CustomDatePicker(
+        onDatePicked: context.read<AddUpdateState>().setDate,
+      date: context.watch<AddUpdateState>().date,
+    ));
   }
 
   Widget _buildTimeField() {
@@ -168,6 +174,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
         shouldRebuild: (bool pre, bool next) {
           return pre != next;
         },
+        // Align() prevent stretch to max ListView width!
         child: Align(
           alignment: Alignment.topLeft,
           child: SizedBox(
@@ -196,24 +203,27 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
     final ButtonStyle saveBtnStyle = const ButtonStyle().copyWith(
         textStyle: MaterialStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)));
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      // show errors/notifications in this view if it is not disposed!
+      // the shown massage has a duration because AddUpdateStateStatus.error will change
       Flexible(
         child: Selector<AddUpdateState, AddUpdateStateStatus>(
-            selector: (_, state) => state.status,
-            shouldRebuild: (AddUpdateStateStatus pre, AddUpdateStateStatus next) {
-              return pre != next;
-            },
-            child: const SizedBox(),
-            builder: (BuildContext context, status, empty) {
-              final String er = context.read<AddUpdateState>().errorMessage;
-              if (status == AddUpdateStateStatus.error && er.isNotEmpty) {
-                return Align(
-                    alignment: Alignment.centerLeft,
-                    child: AnimatedUserNotification(msg: er, isError: true));
-              }
-              return empty!;
-            }),
+          selector: (_, state) => state.status,
+          shouldRebuild: (AddUpdateStateStatus pre, AddUpdateStateStatus next) {
+            return pre != next;
+          },
+          builder: (BuildContext context, status, empty) {
+            final String er = context.read<AddUpdateState>().errorMessage;
+            if (status == AddUpdateStateStatus.error && er.isNotEmpty) {
+              return Align(
+                  alignment: Alignment.centerLeft,
+                  child: AnimatedUserNotification(msg: er, isError: true));
+            }
+            return empty!;
+          },
+          child: const SizedBox(), // empty
+        ),
       ),
-      TextButton(onPressed: () => _closeBottomSheet(), child: const Text('Cancel')),
+      TextButton(onPressed: () => _closeBottomSheet(null), child: const Text('Cancel')),
       Selector<AddUpdateState, AddUpdateStateStatus>(
           selector: (_, state) => state.status,
           shouldRebuild: (AddUpdateStateStatus pre, AddUpdateStateStatus next) {
@@ -221,22 +231,25 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           },
           child: const Text('Save'),
           builder: (BuildContext context, status, text) {
-            final bool isLoading = status == AddUpdateStateStatus.loading;
-            onPressed() async{
-              final bool isSuccess = await context.read<AddUpdateState>().onSaveRequest();
-              if(isSuccess) _closeBottomSheet();
+            final bool isDisabled =
+                status == AddUpdateStateStatus.loading || status == AddUpdateStateStatus.error;
+            onPressed() async {
+              final Activity? savedActivity = await context.read<AddUpdateState>().onSaveRequest();
+              if (savedActivity != null) _closeBottomSheet(savedActivity);
+              // _closeBottomSheet(savedActivity);
             }
+
             return TextButton(
                 style: saveBtnStyle,
-                onPressed: isLoading ? null : () => onPressed(),
+                onPressed: isDisabled ? null : () => onPressed(),
                 child: text!);
           }),
       const SizedBox(width: 8.0),
     ]);
   }
 
-  void _closeBottomSheet() {
-    if(mounted) Navigator.pop(context);
+  void _closeBottomSheet(Activity? savedActivity) {
+    if (mounted) Navigator.pop<Activity?>(context, savedActivity);
   }
 
   Widget _buildDivider() => const Divider(thickness: 1.4, height: 4.0);

@@ -17,6 +17,7 @@ class CalendarState {
 
   final CalendarDay selectedDay;
 
+  /// days in order of a given month
   final List<CalendarDay> sequentialDates;
 
   final int? midYear;

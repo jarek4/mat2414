@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 
 class AnimatedUserNotification extends StatefulWidget {
-  const AnimatedUserNotification({required this.msg, this.isError = false, Key? key})
+  const AnimatedUserNotification({this.height = 38.0, required this.msg, this.isError = false, Key? key})
       : super(key: key);
 
+  final double height;
   final bool isError;
   final String msg;
 
@@ -24,10 +25,10 @@ class _AnimatedUserNotificationState extends State<AnimatedUserNotification>  {
         ? context.labelMedium!.copyWith(color: Colors.blue)
         : const TextStyle(color: Colors.blue);
     return SizedBox(
-      height: 38,
+      height: widget.height,
       child: TweenAnimationBuilder(
         tween: Tween<double>(begin: 0, end: 1),
-          duration: const Duration(milliseconds: 400),
+          duration: const Duration(milliseconds: 800),
         builder: (BuildContext context, double val, Widget? child) {
           return Opacity(
             opacity: val,

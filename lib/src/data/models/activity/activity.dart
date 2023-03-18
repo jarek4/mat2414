@@ -60,7 +60,7 @@ class Activity {
   ], type: IndexType.value)
   final short year;
 
-  Activity copyWith(
+  Activity copyWith({
     int? bibleStudies,
     DateTime? createdAt,
     int? day,
@@ -83,7 +83,7 @@ class Activity {
     String? uid,
     int? videos,
     int? year,
-  ) {
+  }) {
     return Activity(
       bibleStudies: bibleStudies ?? this.bibleStudies,
       createdAt: createdAt ?? this.createdAt,
