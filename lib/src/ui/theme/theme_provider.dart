@@ -98,21 +98,36 @@ class ThemeProvider extends InheritedWidget {
           borderRadius: BorderRadius.vertical(top: Radius.circular(16.0))),
     );
   }
+
+  DialogTheme dialogTheme(ColorScheme colors) {
+    Color fontColor = colors.onSurface;
+    final TextStyle content =
+        TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat', color: fontColor);
+    final TextStyle title =
+        TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat', color: fontColor);
+    return const DialogTheme().copyWith(contentTextStyle: content, titleTextStyle: title);
+  }
+
   OutlinedButtonThemeData outlinedButtonThemeData(ColorScheme colors) {
-    final ButtonStyle style = const ButtonStyle().copyWith(textStyle: MaterialStateProperty.all(
-        TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat', color: colors.primary)),);
+    final ButtonStyle style = const ButtonStyle().copyWith(
+      textStyle: MaterialStateProperty.all(
+          TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat', color: colors.primary)),
+    );
     return OutlinedButtonThemeData(style: style);
   }
 
   TextButtonThemeData textButtonThemeData(ColorScheme colors) {
-    final ButtonStyle style = const ButtonStyle().copyWith(textStyle: MaterialStateProperty.all(
-        TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat', color: colors.primary)),);
+    final ButtonStyle style = const ButtonStyle().copyWith(
+      textStyle: MaterialStateProperty.all(
+          TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat', color: colors.primary)),
+    );
     return TextButtonThemeData(style: style);
   }
+
   // TextTheme textTheme(Color color) {
   //   return const TextTheme().apply(fontFamily: 'Montserrat', bodyColor: color);
   // }
-  TimePickerThemeData timePickerThemeData (ColorScheme colors) {
+  TimePickerThemeData timePickerThemeData(ColorScheme colors) {
     return TimePickerThemeData(
       backgroundColor: colors.secondaryContainer,
     );
@@ -131,7 +146,8 @@ class ThemeProvider extends InheritedWidget {
     final colorScheme = colors(Brightness.light, targetColor);
     return ThemeData.light().copyWith(
       bottomSheetTheme: bottomSheetThemeData(colorScheme),
-    textButtonTheme: textButtonThemeData(colorScheme),
+      dialogTheme: dialogTheme(colorScheme),
+      textButtonTheme: textButtonThemeData(colorScheme),
       // textTheme: textTheme(colorScheme.tertiary),
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: colorScheme,
@@ -146,7 +162,7 @@ class ThemeProvider extends InheritedWidget {
         CustomScreenTabStyle(
           backgroundColor: colorScheme.tertiaryContainer,
           borderRadius: 18.0,
-          activeTabColor:Colors.white,
+          activeTabColor: Colors.white,
           inactiveTabColor: Colors.grey.withOpacity(0.36),
         ),
       ],
@@ -158,6 +174,7 @@ class ThemeProvider extends InheritedWidget {
     final colorScheme = colors(Brightness.dark, targetColor);
     return ThemeData.dark().copyWith(
       bottomSheetTheme: bottomSheetThemeData(colorScheme),
+      dialogTheme: dialogTheme(colorScheme),
       textButtonTheme: textButtonThemeData(colorScheme),
       // textTheme: textTheme(colorScheme.onSurface),
       pageTransitionsTheme: pageTransitionsTheme,
@@ -173,7 +190,7 @@ class ThemeProvider extends InheritedWidget {
         CustomScreenTabStyle(
           backgroundColor: colorScheme.tertiaryContainer,
           borderRadius: 18.0,
-          activeTabColor:Colors.grey,
+          activeTabColor: Colors.grey,
           inactiveTabColor: Colors.grey.withOpacity(0.36),
         ),
       ],
@@ -187,7 +204,8 @@ class ThemeProvider extends InheritedWidget {
 
   ThemeData theme(BuildContext context, [Color? targetColor]) {
     final brightness = MediaQuery.of(context).platformBrightness;
-    /*return*/ brightness == Brightness.light ? light(targetColor) : dark(targetColor);
+    /*return*/
+    brightness == Brightness.light ? light(targetColor) : dark(targetColor);
     return ThemeData(fontFamily: 'Montserrat', brightness: brightness);
   }
 

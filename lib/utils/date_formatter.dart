@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 /// String pattern = 'yyyy-MM-dd' like 2013-04-20
 String dateFormatter(DateTime date, [String pattern = 'yyyy-MM-dd']) {
   final DateFormat formatter = DateFormat(pattern);
-  // print('dateFormatter date: $date');
-  // print('dateFormatter formatter.format: ${formatter.format(date)}');
   return formatter.format(date);
 }
 
@@ -57,13 +55,4 @@ String getTimeString(int minutesValue) {
   final int hour = minutesValue ~/ 60;
   final int minutes = minutesValue % 60;
   return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
-}
-
-
-/// duration=Duration(hours: 2, minutes: 05), output: 02:05
-String formatHoursAndMinutesDuration(Duration duration) {
-  final String hours = duration.inHours.toString().padLeft(2, '0');
-  final String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-  // String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-  return '$hours:$minutes';
 }

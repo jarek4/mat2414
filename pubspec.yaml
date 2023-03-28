@@ -67,12 +67,14 @@ flutter:
     - assets/images/schedule_transp.png
     - assets/images/hourglass_t_ic512.png
     - assets/images/cloudlet_t_ic512.png
-    - assets/images/envelope_t_ic512.png
+    - assets/images/engineer_t_ic265.png
     - assets/images/magazine_t_ic512.png
     - assets/images/notes_t_ic512.png
+    - assets/images/qm_ic512.png
     - assets/images/video_camera_t_ic512.png
     - assets/images/two_person_t_ic512.png
     - assets/images/two_person_table_t_ic512.png
+    - assets/images/woman_with_bag_tr.png
     - assets/isar_default_user.json
 
     # To add custom fonts to your application, add a fonts section here,

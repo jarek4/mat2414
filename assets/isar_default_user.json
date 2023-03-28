@@ -1,15 +1,23 @@
 {
-  "createdAt": 1677772111063496,
-  "hashCode": 348831336,
+  "avatarIndex": 0,
+  "createdAt": 1679994569152356,
+  "hashCode": 62005513,
   "id": 1,
-  "lastModified": 1677772111063507,
+  "languageCode": "",
+  "lastModified": 1679994569152356,
   "name": "default user",
   "preferences": {
+    "annualHourGoal": 0,
     "bibleStudies": 0,
-    "hashCode": 288953517,
+    "descriptionLDC": "",
+    "hashCode": 26170436,
     "minutesPrecision": 1,
-    "selectedStatistics":[],
-    "showButtonLCDHours": false
+    "monthlyHourGoal": 0,
+    "selectedStatistics": [],
+    "showButtonLDCHours": false,
+    "showTips": true,
+    "themeMode": 0
   },
-  "uid": ""
+  "uid": "defaultUserUid",
+  "token": ""
 }

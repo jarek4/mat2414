@@ -7,9 +7,11 @@ class ConstantValues {
 
   static const String appName = 'mat2414';
 
-  static final User defaultUser =
-      User(createdAt: _date, lastModified: _date, id: -100, uid: 'defaultUser');
+  /// id=-100, uid=''
+  static final User emptyUser =
+      User(createdAt: _date, lastModified: _date, id: -100, uid: '');
 
+  /// id=-100, day=1, month=1, year=1900, remarks=empty activity
   static final Activity emptyActivity = Activity(
     createdAt: _date,
     lastModified: _date,
@@ -21,6 +23,7 @@ class ConstantValues {
     id: -100,
   );
 
+  /// id=-100, month=1, year=1900, remarks=emptyReport
   static final Report emptyReport = Report(
     createdAt: _date,
     lastModified: _date,

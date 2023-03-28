@@ -1,10 +1,10 @@
-import 'dart:async';
+// import 'dart:async';
+//
+// import 'package:flutter/material.dart';
+//
+// import 'animated_user_notification.dart';
 
-import 'package:flutter/material.dart';
-
-import 'animated_user_notification.dart';
-
-class TemporaryUserNotification extends StatefulWidget {
+/*class TemporaryUserNotification extends StatefulWidget {
   const TemporaryUserNotification({required this.text, this.milliSecDuration = 3000, Key? key})
       : super(key: key);
 
@@ -21,7 +21,6 @@ class _TemporaryUserNotificationState extends State<TemporaryUserNotification> {
 
   @override
   void initState() {
-    print('TemporaryUserNotification initState');
     super.initState();
     _text = widget.text;
     _runTimer();
@@ -45,4 +44,4 @@ class _TemporaryUserNotificationState extends State<TemporaryUserNotification> {
   Widget build(BuildContext context) {
     return _text.isNotEmpty ? AnimatedUserNotification(msg: _text) : const SizedBox();
   }
-}
+}*/

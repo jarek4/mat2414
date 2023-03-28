@@ -5,7 +5,9 @@ abstract class IReportsRepository {
   /// Returns created item id. -1 if error,  0 if conflict
   Future<int> create(Report item);
 
-  Future<List<Report>> readAll();
+  Future<Report?> readClosedForAMonth(int year, int month);
+
+  Future<List<Report>> readForAYear(int year);
 
   Future<Report?> readSingle(int id);
 

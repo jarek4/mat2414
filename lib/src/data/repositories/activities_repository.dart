@@ -19,7 +19,7 @@ class ActivitiesRepository implements IActivitiesRepository {
   @override
   Future<int> create(Activity item) async {
     return await _db
-        .add(item)
+        .add(_updateLastModified(item))
         .catchError((e) => -1)
         .timeout(const Duration(seconds: 2), onTimeout: () => -1);
   }
@@ -77,7 +77,7 @@ class ActivitiesRepository implements IActivitiesRepository {
   @override
   Future<int> update(Activity item) async {
     final int id = await _db
-        .update(item)
+        .update(_updateLastModified(item))
         .catchError((e) => -1)
         .timeout(const Duration(seconds: 3), onTimeout: () => -1);
     return id;
@@ -105,6 +105,9 @@ class ActivitiesRepository implements IActivitiesRepository {
         .timeout(const Duration(seconds: 3), onTimeout: () => <Activity>[]);
   }
 
+  Activity _updateLastModified(Activity i) {
+    return i.copyWith(lastModified: DateTime.now());
+  }
   @override
   void dispose() {
     _dbSubscription.cancel();

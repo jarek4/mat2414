@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
+import 'package:mat2414/utils/constant_values.dart';
 import 'package:provider/provider.dart';
 
 import 'home_screen_state_provider.dart';
@@ -44,7 +45,7 @@ class _LastActivitiesState extends State<LastActivities> {
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, i) {
-              return ShimmerLoading(
+              /*return ShimmerLoading(
                 isLoading: isWaiting,
                 child: ActivitySimpleView(
                   data: [
@@ -56,7 +57,13 @@ class _LastActivitiesState extends State<LastActivities> {
                       hours: data.isEmpty ? 0 : data[i].hours,
                       minutes: data.isEmpty ? 0 : data[i].minutes),
                 ),
-              );
+              );*/
+              return ShimmerLoading(
+                  isLoading: isWaiting,
+                  child: ActivitySimpleView(
+                      item: snapshot.data!.isEmpty
+                          ? ConstantValues.emptyActivity
+                          : snapshot.data![i]));
             },
             itemCount: isWaiting ? 1 : data.length,
             // itemCount: 1,

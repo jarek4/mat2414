@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:mat2414/src/ui/theme/theme.dart';
+// import 'package:flutter/material.dart';
+// import 'package:mat2414/src/ui/theme/theme.dart';
 
-class MonthView extends StatelessWidget {
+/*class MonthView extends StatelessWidget {
   const MonthView({Key? key}) : super(key: key);
 
   @override
@@ -27,8 +27,8 @@ class MonthView extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
                   return _buildActivity(context);
-                  /*_buildActivity(context),
-                _buildActivity(context),*/
+                  *//*_buildActivity(context),
+                _buildActivity(context),*//*
                 }),
           ),
         ],
@@ -55,9 +55,9 @@ class MonthView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
               child: Column(
                 children: [
-                  /*Align(
+                  *//*Align(
                       alignment: Alignment.topRight,
-                      child: TextButton(onPressed: (){}, child: Text('Edit'))),*/
+                      child: TextButton(onPressed: (){}, child: Text('Edit'))),*//*
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -110,4 +110,4 @@ class MonthView extends StatelessWidget {
                 ))
             .toList());
   }
-}
+}*/

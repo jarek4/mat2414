@@ -5,11 +5,13 @@ import 'package:mat2414/src/data/database/local_db.dart';
 import 'package:mat2414/src/data/database/report_local_db_helper.dart';
 import 'package:mat2414/src/data/database/user_local_db_helper.dart';
 import 'package:mat2414/src/data/repositories/activities_repository.dart';
+import 'package:mat2414/src/data/repositories/reports_repository.dart';
 import 'package:mat2414/src/data/repositories/user_repository.dart';
 import 'package:mat2414/src/domain/local_database/i_activity_db_helper.dart';
 import 'package:mat2414/src/domain/local_database/i_report_db_helper.dart';
 import 'package:mat2414/src/domain/local_database/i_user_db_helper.dart';
 import 'package:mat2414/src/domain/repositories/i_activity_repository.dart';
+import 'package:mat2414/src/domain/repositories/i_reports_repository.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
 import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/settings/settings_service.dart';
@@ -37,4 +39,6 @@ Future<void> setupLocator() async {
       dependsOn: [Isar, IActivityDbHelper]);
   locator.registerSingletonWithDependencies<IReportDbHelper>(() => ReportLocalDbHelper(),
       dependsOn: [Isar]);
+  locator.registerSingletonWithDependencies<IReportsRepository>(() => ReportsRepository(),
+      dependsOn: [Isar, IReportDbHelper]);
 }

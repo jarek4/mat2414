@@ -112,17 +112,24 @@ extension BreakpointUtils on BoxConstraints {
 //   }
 // }
 
-// extension HumanizedDuration on Duration {
-//   String toHumanizedString() {
-//     final seconds = '${inSeconds % 60}'.padLeft(2, '0');
-//     String minutes = '${inMinutes % 60}';
-//     if (inHours > 0 || inMinutes == 0) {
-//       minutes = minutes.padLeft(2, '0');
-//     }
-//     String value = '$minutes:$seconds';
-//     if (inHours > 0) {
-//       value = '$inHours:$minutes:$seconds';
-//     }
-//     return value;
-//   }
-// }
+/// Duration(hours: 2, minutes: 5), output: 02:05
+extension HumanizedDuration on Duration {
+  String hoursAndMinutesString() {
+    final String hours = inHours.toString().padLeft(2, '0');
+    final String minutes = inMinutes.remainder(60).toString().padLeft(2, '0');
+    // String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$hours:$minutes';
+  }
+ /* String toHumanizedString() {
+    final seconds = '${inSeconds % 60}'.padLeft(2, '0');
+    String minutes = '${inMinutes % 60}';
+    if (inHours > 0 || inMinutes == 0) {
+      minutes = minutes.padLeft(2, '0');
+    }
+    String value = '$minutes:$seconds';
+    if (inHours > 0) {
+      value = '$inHours:$minutes:$seconds';
+    }
+    return value;
+  }*/
+}

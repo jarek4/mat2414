@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:mat2414/src/ui/theme/theme.dart';
 
 Future<bool?> showConfirmationDialog(
   BuildContext context,
-  String title, [
+  String contentText, {
+  Widget? title,
   String confirmText = 'Yes',
   String refuseText = 'No',
-]) {
-  TextStyle titleStyle = context.titleMedium ?? TextStyle(color: context.colors.onSurface, fontSize: 20);
-  TextStyle btnTextStyle = titleStyle.copyWith(fontWeight: FontWeight.w500);
-  return showDialog<bool>(
+}) {
+  return showGeneralDialog<bool>(
+    barrierLabel: 'Do you want to cancel this action?',
+    barrierDismissible: true,
+    context: context,
+    pageBuilder: (ctx, a1, a2) {
+      return Container();
+    },
+    transitionBuilder: (ctx, a1, a2, _) {
+      var curve = Curves.easeInOut.transform(a1.value);
+      return Transform.scale(
+        scale: curve,
+        child: AlertDialog(title: title, content: Text(contentText), actions: [
+          TextButton(onPressed: () => Navigator.pop<bool>(context, false), child: Text(refuseText)),
+          TextButton(onPressed: () => Navigator.pop<bool>(context, true), child: Text(confirmText))
+        ]),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 380),
+  );
+  /*return showDialog<bool>(
     context: context,
     builder: (context) {
       return AlertDialog(
@@ -25,5 +42,5 @@ Future<bool?> showConfirmationDialog(
         )
       ]);
     },
-  );
+  );*/
 }

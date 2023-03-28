@@ -28,7 +28,8 @@ class Report {
     this.publicWitnessingQuantity = 0,
     this.remarks = '',
     this.returnVisits = 0,
-    this.specialHours = 0,
+    this.hoursLDC = 0,
+    this.minutesLDC = 0,
     this.sundayWitnessingHours = 0,
     this.sundayWitnessingQuantity = 0,
     this.uid,
@@ -69,12 +70,15 @@ class Report {
   final short publicWitnessingHours;
 
   final short publicWitnessingQuantity;
+
+  /// max length 650
   final String remarks;
 
   final short returnVisits;
   final String serviceYear;
 
-  final short specialHours;
+  final short hoursLDC;
+  final short minutesLDC;
 
   final short sundayWitnessingHours;
 
@@ -93,7 +97,7 @@ class Report {
   ], type: IndexType.value)
   final short year;
 
-  Report copyWith(
+  Report copyWith({
     int? bibleStudies,
     DateTime? createdAt,
     int? businessTerritoryWitnessingHours,
@@ -114,7 +118,8 @@ class Report {
     String? remarks,
     int? returnVisits,
     String? serviceYear,
-    int? specialHours,
+    int? hoursLDC,
+    int? minutesLDC,
     int? sundayWitnessingHours,
     int? sundayWitnessingQuantity,
     String? uid,
@@ -122,7 +127,7 @@ class Report {
     int? withFieldServiceGroupWitnessingQuantity,
     int? videos,
     int? year,
-  ) {
+  }) {
     return Report(
       bibleStudies: bibleStudies ?? this.bibleStudies,
       createdAt: createdAt ?? this.createdAt,
@@ -146,7 +151,8 @@ class Report {
       remarks: remarks ?? this.remarks,
       returnVisits: returnVisits ?? this.returnVisits,
       serviceYear: serviceYear ?? this.serviceYear,
-      specialHours: specialHours ?? this.specialHours,
+      hoursLDC: hoursLDC ?? this.hoursLDC,
+      minutesLDC: minutesLDC ?? this.minutesLDC,
       sundayWitnessingHours: sundayWitnessingHours ?? this.sundayWitnessingHours,
       sundayWitnessingQuantity: sundayWitnessingQuantity ?? this.sundayWitnessingQuantity,
       uid: uid ?? this.uid,
@@ -208,7 +214,8 @@ class Report {
                 other.publicWitnessingQuantity == publicWitnessingQuantity) &&
             (identical(other.remarks, remarks) || other.remarks == remarks) &&
             (identical(other.returnVisits, returnVisits) || other.returnVisits == returnVisits) &&
-            (identical(other.specialHours, specialHours) || other.specialHours == specialHours) &&
+            (identical(other.hoursLDC, hoursLDC) || other.hoursLDC == hoursLDC) &&
+            (identical(other.minutesLDC, minutesLDC) || other.minutesLDC == minutesLDC) &&
             (identical(other.sundayWitnessingHours, sundayWitnessingHours) ||
                 other.sundayWitnessingHours == sundayWitnessingHours) &&
             (identical(other.sundayWitnessingQuantity, sundayWitnessingQuantity) ||
@@ -243,7 +250,8 @@ class Report {
         publicWitnessingQuantity,
         remarks,
         returnVisits,
-        specialHours,
+        hoursLDC,
+        minutesLDC,
         sundayWitnessingHours,
         sundayWitnessingQuantity,
         videos,
@@ -252,6 +260,6 @@ class Report {
 
   @override
   String toString() {
-    return 'Report(createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, id: $id, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, minutes: $minutes, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, specialHours: $specialHours, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, uid: $uid)';
+    return 'Report(id: $id, createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, minutes: $minutes, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, hoursLDC: $hoursLDC, minutesLDC: $minutesLDC, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, uid: $uid)';
   }
 }

@@ -5,7 +5,7 @@ abstract class IReportDbHelper {
 
   Future<List<Report>> getAll();
 
-  Future<List<Report>> getForMonth(int year, int month);
+  Future<Report?> getClosedForAMonth(int year, int month);
 
   Future<List<Report>> getForServiceYear(String serviceYear);
 

@@ -26,7 +26,7 @@ class Activity {
     this.placements = 0,
     this.remarks = '',
     this.returnVisits = 0,
-    this.isLCDHours = false,
+    this.isLDCHours = false,
     this.uid,
     this.videos = 0,
   });
@@ -49,7 +49,7 @@ class Activity {
   final String remarks; // max. 150 characters!
   final byte returnVisits;
   final String serviceYear;
-  final bool isLCDHours;
+  final bool isLDCHours;
   final String? uid;
 
   final byte videos;
@@ -79,7 +79,7 @@ class Activity {
     String? remarks,
     int? returnVisits,
     String? serviceYear,
-    bool? isLCDHours,
+    bool? isLDCHours,
     String? uid,
     int? videos,
     int? year,
@@ -105,7 +105,7 @@ class Activity {
       remarks: remarks ?? this.remarks,
       returnVisits: returnVisits ?? this.returnVisits,
       serviceYear: serviceYear ?? this.serviceYear,
-      isLCDHours: isLCDHours ?? this.isLCDHours,
+      isLDCHours: isLDCHours ?? this.isLDCHours,
       uid: uid ?? this.uid,
       videos: videos ?? this.videos,
       year: year ?? this.year,
@@ -141,7 +141,7 @@ class Activity {
             other.remarks == remarks &&
             other.returnVisits == returnVisits &&
             other.serviceYear == serviceYear &&
-            other.isLCDHours == isLCDHours &&
+            other.isLDCHours == isLDCHours &&
             other.uid == uid &&
             other.videos == videos &&
             other.year == year);
@@ -170,12 +170,12 @@ class Activity {
         remarks,
         returnVisits,
         serviceYear,
-        isLCDHours,
+        isLDCHours,
         videos
       ]);
 
   @override
   String toString() {
-    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, specialHours: $isLCDHours, videos: $videos)';
+    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, sLDCHours: $isLDCHours, videos: $videos)';
   }
 }

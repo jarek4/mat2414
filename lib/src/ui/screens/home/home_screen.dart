@@ -114,7 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.topCenter,
             child: Container(
               constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
-              child: Image.asset(AssetPath.imgPreacher, fit: BoxFit.fitHeight),
+              // child: Image.asset(AssetPath.imgPreacher, fit: BoxFit.fitHeight),
+              child: Image.asset(AssetPath.imgWomenPreacher, fit: BoxFit.fitHeight),
             ),
           )
         : const SizedBox.shrink();
@@ -125,26 +126,3 @@ class _HomeScreenState extends State<HomeScreen> {
         context, const ActivityAddUpdateView());
   }
 }
-
-/* IconButton(
-                            onPressed: () async {
-                              final Activity? a = await _add(context);
-                              if (a == null) {
-                                if (timer != null && timer!.isActive) timer?.cancel();
-                                setState(() => a2 = 'Not saved.');
-                                // print('a2:$a2');
-                                timer = Timer(const Duration(milliseconds: 3000), () {
-                                  if (mounted) setState(() => a2 = null);
-                                });
-                              } else {
-                                if (timer != null && timer!.isActive) timer?.cancel();
-                                setState(() => a2 = 'Activity was saved.');
-                                //print('a2:$a2');
-                                timer = Timer(const Duration(milliseconds: 3000), () {
-                                  if (mounted) setState(() => a2 = null);
-                                });
-                              }
-                            },
-                            icon: const Icon(Icons.add_circle, size: 38),
-                          ),
-                          Text('Add new activity', style: context.headlineSmall)*/

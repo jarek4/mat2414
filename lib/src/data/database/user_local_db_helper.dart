@@ -18,9 +18,8 @@ class UserLocalDbHelper implements IUserDbHelper {
   @override
   Future<User?> update(User user) async {
     try {
-      await _db.users.put(user);
       return await _db.writeTxn<User?>(() async {
-        final int id = await _db.users.put(user);
+        final int id = await _db.users.put(user.copyWith(lastModified: DateTime.now()));
         return await _db.users.get(id);
       });
     } catch (e) {

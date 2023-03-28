@@ -18,7 +18,7 @@ class RootWidget extends StatelessWidget {
         resizeToAvoidBottomInset: false,
       body: [
         const HomeScreen(),
-        const ReportScreen(),
+        const DetailScreen(),
         const MoreScreen(),
         //const CustomDatePicker(),
         // build3screen(context),
@@ -33,7 +33,7 @@ class RootWidget extends StatelessWidget {
           animationDuration: const Duration(seconds: 1),
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Icons.calendar_month), label: 'Month'),
+            NavigationDestination(icon: Icon(Icons.calendar_month), label: 'Detail'),
             NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More'),
           ],
         ),

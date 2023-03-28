@@ -4,15 +4,15 @@ import 'package:mat2414/src/domain/repositories/i_reports_repository.dart';
 import '../../domain/local_database/i_report_db_helper.dart';
 import '../models/models.dart';
 
-
-
 class ReportsRepository implements IReportsRepository {
   final IReportDbHelper _db = locator<IReportDbHelper>();
 
   @override
-  Future<int> create(Report item) {
-    // TODO: implement create
-    throw UnimplementedError();
+  Future<int> create(Report item) async {
+    return await _db
+        .add(_updateLastModified(item))
+        .catchError((e) => -1)
+        .timeout(const Duration(seconds: 2), onTimeout: () => -1);
   }
 
   @override
@@ -22,7 +22,7 @@ class ReportsRepository implements IReportsRepository {
   }
 
   @override
-  Future<List<Report>> readAll() {
+  Future<List<Report>> readForAYear(int year) {
     // TODO: implement readAll
     throw UnimplementedError();
   }
@@ -34,9 +34,22 @@ class ReportsRepository implements IReportsRepository {
   }
 
   @override
-  Future<int> update(Report item) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<int> update(Report item) async {
+    return await _db
+        .update(_updateLastModified(item))
+        .catchError((e) => -1)
+        .timeout(const Duration(seconds: 2), onTimeout: () => -1);
   }
 
+  @override
+  Future<Report?> readClosedForAMonth(int year, int month) async {
+    if (month == 0 || year == 0) return null;
+    return await _db
+        .getClosedForAMonth(year, month)
+        .catchError((e) => null)
+        .timeout(const Duration(seconds: 3), onTimeout: () => null);
+  }
+  Report _updateLastModified(Report i) {
+    return i.copyWith(lastModified: DateTime.now());
+  }
 }

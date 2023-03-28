@@ -25,24 +25,33 @@ class LocalDb {
       final Isar isar = await Isar.open(_schemas, directory: dir.path, name: DbConst.dbName);
       // prepopulate default user
       if (await isar.collection<User>().count() < 1) await _prepopulateUser(isar);
-      /*if (await isar.collection<User>().count() < 1) {
-        User u = User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 1);
-        Preferences p = Preferences();
+      /* if (await isar.collection<User>().count() < 1) {
+        DateTime dateT = DateTime.now();
+        Preferences p = const Preferences();
+        User u = User(createdAt: dateT, lastModified: dateT, id: 1, preferences: p);
         await isar.writeTxn(() async => await isar.collection<User>().importJson([
           {
-            "createdAt": u.createdAt.microsecondsSinceEpoch,
-            "hashCode": u.hashCode,
+            "avatarIndex": 0,
+            "createdAt": 1679994569152356,
+            "hashCode": 62005513,
             "id": 1,
-            "lastModified": u.lastModified.microsecondsSinceEpoch,
+            "languageCode": "",
+            "lastModified": 1679994569152356,
             "name": "default user",
             "preferences": {
+              "annualHourGoal": 0,
               "bibleStudies": 0,
-              "hashCode": p.hashCode,
+              "descriptionLDC": "",
+              "hashCode": 26170436,
               "minutesPrecision": 1,
+              "monthlyHourGoal": 0,
               "selectedStatistics": [],
-              "showButtonLCDHours": false
+              "showButtonLDCHours": false,
+              "showTips": true,
+              "themeMode": 0
             },
-            "uid": ""
+            "uid": "defaultUserUid",
+            "token": ""
           }
         ]));
       }*/
@@ -77,29 +86,38 @@ class LocalDb {
     } catch (e) {
       if (kDebugMode) print('LocalDb _prepopulateUser 1. $e');
       try {
-        await isar.writeTxn(() async => await isar.collection<User>().importJson([
-              {
-                'createdAt': 1677772111063496,
-                'hashCode': 348831336,
-                'id': 1,
-                'lastModified': 1677772111063507,
-                'name': 'default user',
-                'preferences': {
-                  'bibleStudies': 0,
-                  'hashCode': 288953517,
-                  'minutesPrecision': 1,
-                  'selectedStatistics':[],
-                  'showButtonLCDHours': false
-                },
-                'uid': ''
-              }
-            ]));
+        await isar
+            .writeTxn(() async => await isar.collection<User>().importJson([_defaultUserAsMap]));
       } catch (e) {
         if (kDebugMode) print('LocalDb _prepopulateUser 2. $e');
         throw Exception('No permission to write local storage. Default user not populated. $e');
       }
     }
   }
+
+  static final Map<String, dynamic> _defaultUserAsMap = {
+    'avatarIndex': 0,
+    'createdAt': 1679994569152356,
+    'hashCode': 62005513,
+    'id': 1,
+    'languageCode': '',
+    'lastModified': 1679994569152356,
+    'name': 'default user',
+    'preferences': {
+      'annualHourGoal': 0,
+      'bibleStudies': 0,
+      'descriptionLDC': '',
+      'hashCode': 26170436,
+      'minutesPrecision': 1,
+      'monthlyHourGoal': 0,
+      'selectedStatistics': [],
+      'showButtonLDCHours': false,
+      'showTips': true,
+      'themeMode': 0
+    },
+    'uid': 'defaultUserUid',
+    'token': ''
+  };
 }
 
 // flutter pub run build_runner build --delete-conflicting-outputs

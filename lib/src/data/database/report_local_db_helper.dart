@@ -58,23 +58,17 @@ class ReportLocalDbHelper implements IReportDbHelper {
 
   @override
   Future<int> update(Report item) async {
-    //   LazyBox<MonthReport> box = await _getBox();
-    //   try {
-    //     await box.put(item.id, item);
-    //     if (kDebugMode) print('MonthReportLocalDbHelper update ${item.id}');
-    //     return 1;
-    //   } catch (e) {
-    //     if (kDebugMode) print('MonthReportLocalDbHelper update item id: ${item.id}. E: $e');
-    //     return -1;
-    //   }
-    // }
-    return -1;
+    return await add(item);
   }
 
   @override
-  Future<List<Report>> getForMonth(int year, int month) {
-    // TODO: implement getForMonth
-    throw UnimplementedError();
+  Future<Report?> getClosedForAMonth(int year, int month) async {
+    try {
+      // if (kDebugMode) print('ActivityLocalDbHelper getForMonth($year, $month)');
+      return await _db.reports.where().yearMonthIsClosedEqualTo(year, month, true).findFirst();
+    } catch (e) {
+      throw Exception('ReportLocalDbHelper getClosedForMonth($year, $month).\n $e');
+    }
   }
 
   @override

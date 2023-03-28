@@ -15,7 +15,7 @@ class AddUpdateState with ChangeNotifier {
   /// placements, return visits, videos max value 254!
   /// if _activity is null looks for selectedDate
   AddUpdateState({Activity? activity, DateTime? selectedDate}) : _activity = activity, _selectedDate = selectedDate {
-    _setup(_activity, _selectedDate);
+    _setup(activity, selectedDate);
   }
 
   final Activity? _activity;
@@ -44,9 +44,9 @@ class AddUpdateState with ChangeNotifier {
 
   int get userMinutesMultiplayer => _userMinutesMultiplayer;
 
-  bool _areLCDHours = false;
+  bool _areLDCHours = false;
 
-  bool get areLCDHours => _areLCDHours;
+  bool get areLDCHours => _areLDCHours;
   int _h = 0;
 
   int get h => _h;
@@ -66,10 +66,10 @@ class AddUpdateState with ChangeNotifier {
 
   int get returns => _returns;
 
-  bool _userWantsLCDButton = true;
+  bool _userWantsLDCButton = true;
 
-  bool get userWantLCDButton {
-    return _userWantsLCDButton;
+  bool get userWantLDCButton {
+    return _userWantsLDCButton;
   }
 
   bool _showRemarksInput = false;
@@ -82,8 +82,8 @@ class AddUpdateState with ChangeNotifier {
 
   int get video => _video;
 
-  void onLCDHoursChange() {
-    _areLCDHours = !_areLCDHours;
+  void onLDCHoursChange() {
+    _areLDCHours = !_areLDCHours;
     _notify();
   }
 
@@ -197,7 +197,7 @@ class AddUpdateState with ChangeNotifier {
     }
   }
 
-  /// sets status.error for 1600 milliseconds - appropriate message is displayed in bottom sheet form
+  /// sets status.error for 3600 milliseconds - appropriate message is displayed in bottom sheet form
   Future<bool> _setTemporaryMessage({String msg = ''}) async {
     bool wasStatusChanged = false;
     _status = AddUpdateStateStatus.error;
@@ -213,29 +213,20 @@ class AddUpdateState with ChangeNotifier {
     return wasStatusChanged;
   }
 
-/*
-  Future<bool> _resetErrorState() async {
-    _status = AddUpdateStateStatus.success;
-    _errorMessage = '';
-    _notify();
-    return await Future<bool>.delayed(const Duration(milliseconds: 400), () {
-      return true;
-    });
-  }*/
-
+  // Activities Repository manage lastModified property!
   Activity _createActivityFromFormInputs() => Activity(
       createdAt: _activity?.createdAt ?? DateTime.now(),
       day: _date.day,
-      lastModified: DateTime.now(),
+      lastModified: _currentDate,// lastModified: DateTime.now(),
       month: _date.month,
       serviceYear: utils.getServiceYear(DateTime(_date.year, _date.month)),
       year: _date.year,
       hours: _h,
       id: _activity?.id ?? Isar.autoIncrement,
-      isLCDHours: _areLCDHours,
+      isLDCHours: _areLDCHours,
       minutes: _min,
       placements: _placements,
-      remarks: _areLCDHours ? 'LCD time: $_h:$_min. $_remarks'.trim() : _remarks,
+      remarks: _areLDCHours ? '${_date.day} [LDC: $_h:$_min${_remarks.isEmpty ? '' : '; $_remarks.'}]' : _remarks,
       returnVisits: _returns,
       videos: _video);
 
@@ -267,7 +258,7 @@ class AddUpdateState with ChangeNotifier {
     _status = AddUpdateStateStatus.loading;
     notifyListeners();
     if (activity != null) {
-      _areLCDHours = activity.isLCDHours;
+      _areLDCHours = activity.isLDCHours;
       _date = DateTime(activity.year, activity.month, activity.day);
       _h = activity.hours;
       _min = activity.minutes;
@@ -283,7 +274,7 @@ class AddUpdateState with ChangeNotifier {
     _errorMessage = '';
     _isMounted = true;
     _userMinutesMultiplayer = _getUserMinutesMultiplier(_userRepository.user.preferences);
-    _userWantsLCDButton = _userRepository.user.preferences.showButtonLCDHours;
+    _userWantsLDCButton = _userRepository.user.preferences.showButtonLDCHours;
     notifyListeners();
   }
 

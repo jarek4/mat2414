@@ -23,6 +23,7 @@ class UserRepository implements IUserRepository {
 
   @override
   User get user => _currentUser;
+
 /*  User get user async {
     if (_currentUser != null) return _currentUser!;
     final User? fromDb = await _db
@@ -34,13 +35,17 @@ class UserRepository implements IUserRepository {
   }*/
 
   @override
-  Future<void> init() async{
+  Future<void> init() async {
     final User? fromDb = await _db
         .getCurrentUser()
         .catchError((e) => null)
         .timeout(const Duration(seconds: 3), onTimeout: () => null);
-    if (fromDb != null) _currentUser = fromDb;
-    _currentUser = User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 0);
+    if (fromDb != null) {
+      _currentUser = fromDb;
+    } else {
+      _currentUser = User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 0);
+    }
+
     // print('UserRepository init() _currentUser: $_currentUser');
   }
 }

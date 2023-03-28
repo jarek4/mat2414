@@ -25,7 +25,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
     return ChangeNotifierProvider<AddUpdateState>(
       create: (_) => AddUpdateState(activity: widget.activityToUpdate, selectedDate: widget.initialDate),
       builder: (BuildContext context, Widget? widget) {
-        final bool userWantLCDButton = context.read<AddUpdateState>().userWantLCDButton;
+        final bool userWantLDCButton = context.read<AddUpdateState>().userWantLDCButton;
         return DraggableScrollableSheet(
             expand: false,
             maxChildSize: 0.9,
@@ -44,7 +44,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
                     ]),
                     _buildDivider(),
                     _buildTimeField(),
-                    if (!userWantLCDButton) _buildLCDHoursBtn(),
+                    if (!userWantLDCButton) _buildLDCHoursBtn(),
                     _buildDivider(),
                     _buildPlacementsField(),
                     _buildVideoShowingsField(),
@@ -87,7 +87,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
     return const Align(alignment: Alignment.center, child: ActivityTimeInput());
   }
 
-  Widget _buildLCDHoursBtn() {
+  Widget _buildLDCHoursBtn() {
     return SizedBox(
       height: 32,
       child: Align(
@@ -95,14 +95,14 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
         child: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Selector<AddUpdateState, bool>(
-              selector: (_, state) => state.areLCDHours,
+              selector: (_, state) => state.areLDCHours,
               shouldRebuild: (bool pre, bool next) {
                 return pre != next;
               },
-              builder: (BuildContext context, areLCDHours, __) {
-                return LCDHoursOption(
-                  isSelected: areLCDHours,
-                  handle: () => context.read<AddUpdateState>().onLCDHoursChange(),
+              builder: (BuildContext context, areLDCHours, __) {
+                return LDCHoursOption(
+                  isSelected: areLDCHours,
+                  handle: () => context.read<AddUpdateState>().onLDCHoursChange(),
                 );
               }),
         ),
@@ -190,6 +190,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
             return TextFormField(
                 decoration: const InputDecoration(labelText: 'Remarks', hintText: '...'),
                 keyboardType: TextInputType.multiline,
+                minLines: 1,
                 maxLines: 3,
                 autofocus: true,
                 maxLength: 150,

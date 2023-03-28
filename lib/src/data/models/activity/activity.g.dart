@@ -57,9 +57,9 @@ const ActivitySchema = CollectionSchema(
       name: r'isInformalWitnessing',
       type: IsarType.bool,
     ),
-    r'isLCDHours': PropertySchema(
+    r'isLDCHours': PropertySchema(
       id: 8,
-      name: r'isLCDHours',
+      name: r'isLDCHours',
       type: IsarType.bool,
     ),
     r'isPublicWitnessing': PropertySchema(
@@ -197,7 +197,7 @@ void _activitySerialize(
   writer.writeBool(offsets[5], object.isBusinessTerritoryWitnessing);
   writer.writeBool(offsets[6], object.isEveningWitnessing);
   writer.writeBool(offsets[7], object.isInformalWitnessing);
-  writer.writeBool(offsets[8], object.isLCDHours);
+  writer.writeBool(offsets[8], object.isLDCHours);
   writer.writeBool(offsets[9], object.isPublicWitnessing);
   writer.writeBool(offsets[10], object.isSundayWitnessing);
   writer.writeBool(offsets[11], object.isWithFieldServiceGroupWitnessing);
@@ -228,7 +228,7 @@ Activity _activityDeserialize(
     isBusinessTerritoryWitnessing: reader.readBoolOrNull(offsets[5]) ?? false,
     isEveningWitnessing: reader.readBoolOrNull(offsets[6]) ?? false,
     isInformalWitnessing: reader.readBoolOrNull(offsets[7]) ?? false,
-    isLCDHours: reader.readBoolOrNull(offsets[8]) ?? false,
+    isLDCHours: reader.readBoolOrNull(offsets[8]) ?? false,
     isPublicWitnessing: reader.readBoolOrNull(offsets[9]) ?? false,
     isSundayWitnessing: reader.readBoolOrNull(offsets[10]) ?? false,
     isWithFieldServiceGroupWitnessing:
@@ -1032,11 +1032,11 @@ extension ActivityQueryFilter
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> isLCDHoursEqualTo(
+  QueryBuilder<Activity, Activity, QAfterFilterCondition> isLDCHoursEqualTo(
       bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isLCDHours',
+        property: r'isLDCHours',
         value: value,
       ));
     });
@@ -1961,15 +1961,15 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLCDHours() {
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLDCHours() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLCDHours', Sort.asc);
+      return query.addSortBy(r'isLDCHours', Sort.asc);
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLCDHoursDesc() {
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLDCHoursDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLCDHours', Sort.desc);
+      return query.addSortBy(r'isLDCHours', Sort.desc);
     });
   }
 
@@ -2248,15 +2248,15 @@ extension ActivityQuerySortThenBy
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLCDHours() {
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLDCHours() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLCDHours', Sort.asc);
+      return query.addSortBy(r'isLDCHours', Sort.asc);
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLCDHoursDesc() {
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLDCHoursDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLCDHours', Sort.desc);
+      return query.addSortBy(r'isLDCHours', Sort.desc);
     });
   }
 
@@ -2472,9 +2472,9 @@ extension ActivityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Activity, Activity, QDistinct> distinctByIsLCDHours() {
+  QueryBuilder<Activity, Activity, QDistinct> distinctByIsLDCHours() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isLCDHours');
+      return query.addDistinctBy(r'isLDCHours');
     });
   }
 
@@ -2619,9 +2619,9 @@ extension ActivityQueryProperty
     });
   }
 
-  QueryBuilder<Activity, bool, QQueryOperations> isLCDHoursProperty() {
+  QueryBuilder<Activity, bool, QQueryOperations> isLDCHoursProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isLCDHours');
+      return query.addPropertyName(r'isLDCHours');
     });
   }
 
@@ -2731,7 +2731,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       placements: json['placements'] as int? ?? 0,
       remarks: json['remarks'] as String? ?? '',
       returnVisits: json['returnVisits'] as int? ?? 0,
-      isLCDHours: json['isLCDHours'] as bool? ?? false,
+      isLDCHours: json['isLDCHours'] as bool? ?? false,
       uid: json['uid'] as String?,
       videos: json['videos'] as int? ?? 0,
     );
@@ -2756,7 +2756,7 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'remarks': instance.remarks,
       'returnVisits': instance.returnVisits,
       'serviceYear': instance.serviceYear,
-      'isLCDHours': instance.isLCDHours,
+      'isLDCHours': instance.isLDCHours,
       'uid': instance.uid,
       'videos': instance.videos,
       'year': instance.year,

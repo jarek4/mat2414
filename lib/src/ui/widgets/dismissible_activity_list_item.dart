@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:mat2414/src/activity_add_update/activity_add_update.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/ui/widgets/activity_card.dart';
 import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_alert;
-// import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bottom_sheet;
 
 class DismissibleActivityListItem extends StatefulWidget {
   const DismissibleActivityListItem({
@@ -34,14 +31,16 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
 
   @override
   Widget build(BuildContext context) {
+    // print('DismissibleActivityListItem id: ${widget.item.id}');
     return Dismissible(
-      key: ObjectKey(widget.item),
+      // key: ObjectKey(widget.item),
+      key:  widget.key ?? ObjectKey(widget.item),
       direction: DismissDirection.horizontal,
       background: _swipeActionLeft(),
       secondaryBackground: _swipeActionRight(),
       onDismissed: (DismissDirection direction) => _onDismiss(context, direction),
       confirmDismiss: (DismissDirection direction) => _confirmDismiss(context, direction),
-      child: ActivityCard(activity: _activity),
+      child: ActivityCard(key: Key('${_activity.createdAt}_${_activity.hashCode}'), activity: Future<Activity>.value(_activity)),
     );
   }
 
@@ -133,9 +132,4 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
   Future<bool?> _showConfirmationAlert(BuildContext context, String text) {
     return utils_alert.showConfirmationDialog(context, text);
   }
-
-/*  Future<Activity?> _openEditModalBottomSheet(BuildContext context) {
-    return utils_bottom_sheet.showCustomBottomSheet<Activity>(
-        context, ActivityAddUpdateView(activityToUpdate: _activity));
-  }*/
 }
