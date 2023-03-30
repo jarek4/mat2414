@@ -13,7 +13,8 @@ class ReportLocalDbHelper implements IReportDbHelper {
   Future<int> add(Report item) async {
     if (kDebugMode) print('ReportLocalDbHelper add');
     try {
-      return await _db.writeTxn<int>(() async => await _db.reports.put(item)); // insert & update);
+      return await _db.writeTxn<int>(
+          () async => await _db.reports.put(_updateLastModified(item))); // insert & update);
     } catch (e) {
       if (kDebugMode) print('ReportLocalDbHelper add item id: ${item.id}. E: $e');
       return -1;
@@ -75,5 +76,9 @@ class ReportLocalDbHelper implements IReportDbHelper {
   Future<List<Report>> getForServiceYear(String serviceYear) {
     // TODO: implement getForServiceYear
     throw UnimplementedError();
+  }
+
+  Report _updateLastModified(Report i) {
+    return i.copyWith(lastModified: DateTime.now());
   }
 }

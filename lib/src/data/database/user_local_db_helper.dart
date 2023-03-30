@@ -3,6 +3,7 @@ import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/user/user.dart';
 import 'package:mat2414/src/domain/local_database/i_user_db_helper.dart';
 
+
 class UserLocalDbHelper implements IUserDbHelper {
   static final Isar _db = locator<Isar>();
 

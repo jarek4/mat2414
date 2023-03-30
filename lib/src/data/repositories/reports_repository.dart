@@ -1,6 +1,5 @@
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/domain/repositories/i_reports_repository.dart';
-
 import '../../domain/local_database/i_report_db_helper.dart';
 import '../models/models.dart';
 
@@ -10,7 +9,7 @@ class ReportsRepository implements IReportsRepository {
   @override
   Future<int> create(Report item) async {
     return await _db
-        .add(_updateLastModified(item))
+        .add(item)
         .catchError((e) => -1)
         .timeout(const Duration(seconds: 2), onTimeout: () => -1);
   }
@@ -36,7 +35,7 @@ class ReportsRepository implements IReportsRepository {
   @override
   Future<int> update(Report item) async {
     return await _db
-        .update(_updateLastModified(item))
+        .update(item)
         .catchError((e) => -1)
         .timeout(const Duration(seconds: 2), onTimeout: () => -1);
   }
@@ -44,12 +43,9 @@ class ReportsRepository implements IReportsRepository {
   @override
   Future<Report?> readClosedForAMonth(int year, int month) async {
     if (month == 0 || year == 0) return null;
-    return await _db
+    return _db
         .getClosedForAMonth(year, month)
         .catchError((e) => null)
         .timeout(const Duration(seconds: 3), onTimeout: () => null);
-  }
-  Report _updateLastModified(Report i) {
-    return i.copyWith(lastModified: DateTime.now());
   }
 }

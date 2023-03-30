@@ -129,13 +129,12 @@ class AddUpdateState with ChangeNotifier {
   }
 
   void remarksOnChange(String value) {
-    final String trimmed = value.trim();
-    if (trimmed.isEmpty) {
+    final String trimmedValue = value.trim();
+    if (trimmedValue.isEmpty) {
       _remarks = '';
     } else {
-      _remarks = trimmed;
+      _remarks = trimmedValue;
     }
-    print(_remarks);
   }
 
   /// if new item is added or is updated returns the item, else returns null

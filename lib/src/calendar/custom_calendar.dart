@@ -77,12 +77,10 @@ class CustomCalendar {
 
       for (int i = totalDays; i > leftDays; i--) {
         final DateTime day = DateTime(otherYear, otherMonth, i);
-        final String serviceYear = getServiceYear(day);
         calendar.insert(
           0,
           CalendarDay(
             date: day,
-            // serviceYear: serviceYear,
             prevMonth: true,
           ),
         );

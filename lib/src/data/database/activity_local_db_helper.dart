@@ -13,7 +13,7 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
   Future<int> add(Activity item) async {
     try {
       return await _db
-          .writeTxn<int>(() async => await _db.activitys.put(item)); // insert & update);
+          .writeTxn<int>(() async => await _db.activitys.put(_updateLastModified(item))); // insert & update);
     } catch (e) {
       throw Exception('ActivityLocalDbHelper add(Activity $item)\n $e');
     }
@@ -115,6 +115,10 @@ class ActivityLocalDbHelper implements IActivityDbHelper {
     } catch (e) {
       throw Exception('ActivityLocalDbHelper update(Activity $item)\n $e');
     }
+  }
+
+  Activity _updateLastModified(Activity i) {
+    return i.copyWith(lastModified: DateTime.now());
   }
 
   @override

@@ -52,6 +52,7 @@ dev_dependencies:
   freezed: ^2.3.2
   json_serializable: ^6.6.0
   isar_generator: ^3.0.5
+  mockito: ^5.4.0
 
 flutter:
   uses-material-design: true

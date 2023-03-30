@@ -120,4 +120,18 @@ class LocalDb {
   };
 }
 
+class LocalDbClassForTesting {
+  Future<Isar> callStaticMethodGetIsarDb() {
+    return LocalDb.getIsarDb();
+  }
+/*  Future<Isar> callStaticMethodGetIsarDb({@visibleForTesting dynamic localDbClassForTesting}) {
+  if (localDbClassForTesting != null && localDbClassForTesting is LocalDb) {
+    localDbClassForTesting
+    return localDbClassForTesting.getIsarDb();
+  } else {
+    return LocalDb.getIsarDb();
+  }
+}*/
+}
+
 // flutter pub run build_runner build --delete-conflicting-outputs

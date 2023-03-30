@@ -176,6 +176,6 @@ class Activity {
 
   @override
   String toString() {
-    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, sLDCHours: $isLDCHours, videos: $videos)';
+    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, isLDCHours: $isLDCHours, videos: $videos)';
   }
 }

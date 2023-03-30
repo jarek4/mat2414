@@ -6,7 +6,7 @@ import 'package:mat2414/src/data/database/local_db.dart';
 // locator.registerSingletonAsync<Isar>
 // call getIt.allReady() in setUpAll async body
 void main() {
-  /*group('LocalDb', () {
+  group('LocalDb', () {
     group('getIsarDb static method should', () {
       setUp(() async {
         await Isar.initializeIsarCore(download: true);
@@ -29,5 +29,5 @@ void main() {
       // });
       // test('return type Future<Isar>', () { });
     });
-  });*/
+  });
 }

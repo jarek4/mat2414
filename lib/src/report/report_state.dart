@@ -200,6 +200,7 @@ class ReportState with ChangeNotifier {
     return _activitiesRepository.getForAMonth(_selectedDate.year, _selectedDate.month);
   }
 
+  // TODO: Report State refresh
   void refresh() {
     print('ReportState refresh()');
   }

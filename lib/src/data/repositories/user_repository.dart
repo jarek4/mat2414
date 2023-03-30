@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/user/user.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
@@ -12,12 +14,15 @@ class UserRepository implements IUserRepository {
 
   late User _currentUser;
 
+  static final User _empty = User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 0);
+
   @override
   Future<void> update(User user) async {
     User? updated = await _db
         .update(user)
-        .catchError((e) => null)
-        .timeout(const Duration(seconds: 3), onTimeout: () => null);
+        .catchError((e) => _currentUser)
+    // onTimeout: () => null not works in mockito tests!
+        .timeout(const Duration(seconds: 3), onTimeout: () => _currentUser);
     if (updated != null) _currentUser = updated;
   }
 
@@ -38,14 +43,11 @@ class UserRepository implements IUserRepository {
   Future<void> init() async {
     final User? fromDb = await _db
         .getCurrentUser()
-        .catchError((e) => null)
-        .timeout(const Duration(seconds: 3), onTimeout: () => null);
-    if (fromDb != null) {
-      _currentUser = fromDb;
-    } else {
-      _currentUser = User(createdAt: DateTime.now(), lastModified: DateTime.now(), id: 0);
-    }
-
-    // print('UserRepository init() _currentUser: $_currentUser');
+        .catchError((e) => _empty)
+        // onTimeout: () => null not works in mockito tests!
+        .timeout(const Duration(seconds: 3), onTimeout: () => _empty);
+    _currentUser = fromDb ?? _empty;
   }
+// print('UserRepository init() _currentUser: $_currentUser');
+// FutureOr<User?> _onTimeout() => null;
 }
