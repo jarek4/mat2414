@@ -212,7 +212,7 @@ class AddUpdateState with ChangeNotifier {
     return wasStatusChanged;
   }
 
-  // Activities Repository manage lastModified property!
+  // DB manage lastModified property!
   Activity _createActivityFromFormInputs() => Activity(
       createdAt: _activity?.createdAt ?? DateTime.now(),
       day: _date.day,

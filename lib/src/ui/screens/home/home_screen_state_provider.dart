@@ -42,10 +42,11 @@ class HomeScreenStateProvider with ChangeNotifier {
     _controller.close();
   }
 
-  List<Activity> _newestActivities = [];
+  // @visibleForTesting
+  var _newestActivities = <Activity>[];
 
   Stream<UnmodifiableListView<Activity>> last3() async* {
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(seconds: 2));
     yield UnmodifiableListView<Activity>(_newestActivities);
     yield* _controller.stream;
   }

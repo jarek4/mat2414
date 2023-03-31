@@ -13,7 +13,9 @@ import '../data/models/models.dart';
 enum ReportStateStatus { error, loading, success }
 
 class ReportState with ChangeNotifier {
-  ReportState(this._selectedDate);
+  ReportState(this._selectedDate) {
+    _getBibleStudiesNumberFromUserRepo();
+  }
 
   CalendarDay _selectedDate;
 
@@ -22,22 +24,22 @@ class ReportState with ChangeNotifier {
   /// ChangeNotifierProxyProvider update
   void update(CalendarDay selected) {
     // when user select next or previews month - day will be set to 1.
-    final bool isUpdated = _selectedDate.month != selected.month || _selectedDate.year != selected.year;
+    // final bool isUpdated = _selectedDate.month != selected.month || _selectedDate.year != selected.year;
     if (_selectedDate != selected) {
       _selectedDate = selected;
       notifyListeners();
     }
-    print('update stream isUpdated: $isUpdated');
-    if (/*_selectedDate.month != selected.month || _selectedDate.year != selected.year*/ isUpdated) {
+    /*  print('update stream isUpdated: $isUpdated');
+    if (*/ /*_selectedDate.month != selected.month || _selectedDate.year != selected.year*/ /* isUpdated) {
       // print('update stream: ${_selectedDate.month != selected.month || _selectedDate.year != selected.year}');
       // buildSelectedMonthReport();
       print('update stream isUpdated: $isUpdated');
-    }
+    }*/
   }
 
   final IActivitiesRepository _activitiesRepository = locator<IActivitiesRepository>();
   final IReportsRepository _reportsRepository = locator<IReportsRepository>();
-  static final IUserRepository _userRepository = locator<IUserRepository>();
+  final IUserRepository _userRepository = locator<IUserRepository>();
 
   bool _isMounted = true;
 
@@ -55,17 +57,21 @@ class ReportState with ChangeNotifier {
     if (!report.isClosed) report.close();
   }
 
-  final StreamController<Report> report = StreamController<Report>.broadcast();
+  final report = StreamController<Report>.broadcast();
 
-  ReportStateStatus _status = ReportStateStatus.loading;
+  var _status = ReportStateStatus.loading;
 
   ReportStateStatus get status => _status;
 
-  int _bibleStudies = _userRepository.user.preferences.bibleStudies;
+  int _bibleStudies = 0;
+
+  int _getBibleStudiesNumberFromUserRepo() {
+    return _bibleStudies = _userRepository.user.preferences.bibleStudies;
+  }
 
   int get bibleStudies => _bibleStudies;
 
-  final DateTime now = DateTime.now();
+  final now = DateTime.now();
 
   Report get emptyReport => Report(
       createdAt: now,
@@ -110,7 +116,6 @@ class ReportState with ChangeNotifier {
     }
 
     // for selected month there is no report - need to make it:
-    // final DateTime now = DateTime.now();
     Report temp = emptyReport;
     final List<Activity> activities = await _getActivitiesForAMonth();
 
@@ -124,9 +129,9 @@ class ReportState with ChangeNotifier {
           activities.where((element) => element.isLDCHours == true).toList();
       if (lcdActivities.isEmpty) {
         int p = 0, v = 0, r = 0;
-        String remarks = '';
-        Duration duration = const Duration();
-        for (Activity a in activities) {
+        var remarks = '';
+        var duration = const Duration();
+        for (final a in activities) {
           //h += a.hours;
           duration += Duration(hours: a.hours, minutes: a.minutes);
           p += a.placements;
@@ -149,15 +154,15 @@ class ReportState with ChangeNotifier {
         // activities contains also the LCD hours. This hours need to be separated.
         // Will be collected in report.specialHours. If activity is LCD hours - placements, returnVisits, ...
         // are zero. So need to count only hours and minutes. Subtract them from the total number of hours.
-        Duration lcdDuration = const Duration();
-        for (Activity lcd in lcdActivities) {
+        var lcdDuration = const Duration();
+        for (final lcd in lcdActivities) {
           Duration duration = Duration(hours: lcd.hours, minutes: lcd.minutes);
           lcdDuration += duration;
         }
         // all activities:
         int p = 0, v = 0, r = 0;
-        String remarks = '';
-        Duration duration = const Duration();
+        var remarks = '';
+        var duration = const Duration();
         for (Activity a in activities) {
           duration += Duration(hours: a.hours, minutes: a.minutes);
           p += a.placements;
@@ -169,10 +174,10 @@ class ReportState with ChangeNotifier {
         duration = duration - lcdDuration;
         // remarks, add LCD description(02:45, 2 is saved, 45 remains for the next month)
         // if any minutes remains - create LCD activity with this minutes, and add remarks.
-        final int remainingLCDMinutes = lcdDuration.inMinutes.remainder(60);
-        final String remainingMinutes =
+        final remainingLCDMinutes = lcdDuration.inMinutes.remainder(60);
+        final remainingMinutes =
             remainingLCDMinutes < 1 ? '' : ', $remainingLCDMinutes remains for the next month.';
-        final String reportRemarks =
+        final reportRemarks =
             'LCD: ${lcdDuration.hoursAndMinutesString()}, $remainingMinutes.\n $remarks';
 
         final Report created = temp.copyWith(
@@ -200,7 +205,7 @@ class ReportState with ChangeNotifier {
     return _activitiesRepository.getForAMonth(_selectedDate.year, _selectedDate.month);
   }
 
-  // TODO: Report State refresh
+  // TODO: Report State refresh ?
   void refresh() {
     print('ReportState refresh()');
   }

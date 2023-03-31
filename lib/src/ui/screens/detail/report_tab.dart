@@ -267,12 +267,18 @@ class _ReportTabState extends State<ReportTab> {
                     final bool isClosed = snapshot.data ?? false;
                     VoidCallback? handle;
                     if (!isWaiting && isClosed) {
-                      /*handle = () =>
-                          Provider.of<DetailState>(context, listen: false).copyReportToClipboard();*/
                       handle = () {
-                        Provider.of<DetailState>(context, listen: false).copyReportToClipboard().then((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Report was copied', textAlign: TextAlign.center,)));
+                        Provider.of<DetailState>(context, listen: false)
+                            .copyReportToClipboard()
+                            .then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+                              //margin: EdgeInsets.symmetric(vertical: double.maxFinite),
+                              content: Text(
+                                'Report was copied',
+                                textAlign: TextAlign.center,
+                              )));
                         });
                       };
                     }
