@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mat2414/src/calendar/calendar.dart';
 import 'package:mat2414/src/ui/navigation/navigation.dart';
 import 'package:mat2414/src/ui/screens/screens.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class RootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // final ThemeProvider? result = context.dependOnInheritedWidgetOfExactType<ThemeProvider>();
     // final themeProvider = ThemeProvider.of(context);
+
     final int selectedTabIndex = Provider.of<BottomNavigationController>(context).selectedIndex;
     return Scaffold(
         resizeToAvoidBottomInset: false,

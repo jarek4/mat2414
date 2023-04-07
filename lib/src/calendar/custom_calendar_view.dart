@@ -62,11 +62,21 @@ class CustomCalendarView extends StatelessWidget {
               child: Center(
                 child: Consumer<CalendarStateProvider>(
                     builder: (BuildContext context, CalendarStateProvider cp, _) {
+                  final String locale = Localizations.localeOf(context).toString();
+                  context.read<CalendarStateProvider>().translateWithLocale(locale);
                   final int index = cp.state.currentDate.month - 1;
                   final String month = cp.monthNames[index];
                   final int year = cp.state.currentDate.year;
-                  return Text('$month $year',
-                      textAlign: TextAlign.center, style: context.titleLarge);
+                  return RichText(
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    text: TextSpan(
+                        text: '   $month   ',
+                        style: context.titleLarge,
+                        children: <TextSpan>[
+                          TextSpan(text: ' $year', style: context.bodySmall?.copyWith(fontSize: 9)),
+                        ]),
+                  );
                 }),
               ),
             ),
@@ -80,11 +90,13 @@ class CustomCalendarView extends StatelessWidget {
       const SizedBox(height: 5),
       const Flexible(child: Divider(thickness: 1.2)),
       const SizedBox(height: 2),
+      // week days names
       Flexible(
           child: WeekDaysHeader(
         context.labelLarge,
         key: const Key('CalendarViews-datesView'),
       )),
+      // calendar: numbers of the month days
       Expanded(flex: 5, child: _calendarBody()),
     ]);
   }
@@ -101,7 +113,7 @@ class CustomCalendarView extends StatelessWidget {
     });
   }
 
-  // calendar
+  // numbers of the month days
   Widget _calendarBody() {
     return Consumer<CalendarStateProvider>(
         builder: (BuildContext context, CalendarStateProvider cp, _) {
@@ -189,6 +201,9 @@ class CustomCalendarView extends StatelessWidget {
       Expanded(
         child: Consumer<CalendarStateProvider>(
             builder: (BuildContext context, CalendarStateProvider cp, _) {
+          final String locale = Localizations.localeOf(context).toString();
+          // context.read<CalendarStateProvider>().translateWithLocale(locale);
+          cp.translateWithLocale(locale);
           final List<String> monthsNames = cp.monthNames;
           final DateTime current = cp.state.currentDate;
           return ListView.builder(

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/ui/widgets/activity_card.dart';
 import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_alert;
@@ -23,6 +24,9 @@ class DismissibleActivityListItem extends StatefulWidget {
 class _DismissibleActivityListItemState extends State<DismissibleActivityListItem> {
   late Activity _activity;
 
+  String _editTxt = 'Edit';
+  String _deleteTxt = 'Delete';
+
   @override
   void initState() {
     _activity = widget.item;
@@ -30,17 +34,26 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _editTxt = AppLocalizations.of(context)?.generalEdit ?? _editTxt;
+    _deleteTxt = AppLocalizations.of(context)?.generalDelete ?? _deleteTxt;
+  }
+
+  @override
   Widget build(BuildContext context) {
     // print('DismissibleActivityListItem id: ${widget.item.id}');
     return Dismissible(
       // key: ObjectKey(widget.item),
-      key:  widget.key ?? ObjectKey(widget.item),
+      key: widget.key ?? ObjectKey(widget.item),
       direction: DismissDirection.horizontal,
       background: _swipeActionLeft(),
       secondaryBackground: _swipeActionRight(),
       onDismissed: (DismissDirection direction) => _onDismiss(context, direction),
       confirmDismiss: (DismissDirection direction) => _confirmDismiss(context, direction),
-      child: ActivityCard(key: Key('${_activity.createdAt}_${_activity.hashCode}'), activity: Future<Activity>.value(_activity)),
+      child: ActivityCard(
+          key: Key('${_activity.createdAt}_${_activity.hashCode}'),
+          activity: Future<Activity>.value(_activity)),
     );
   }
 
@@ -56,7 +69,7 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         margin: const EdgeInsets.only(left: 10.0),
         // color: Colors.blue,
-        child: _buildSwipeHint(Icons.edit, 'Edit'),
+        child: _buildSwipeHint(Icons.edit, _editTxt),
       );
 
   Widget _swipeActionRight() => Container(
@@ -71,7 +84,7 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         margin: const EdgeInsets.only(right: 10.0),
         // color: Colors.red,
-        child: _buildSwipeHint(Icons.delete, 'Delete'),
+        child: _buildSwipeHint(Icons.delete, _deleteTxt),
       );
 
   Widget _buildSwipeHint(IconData iconData, String text) {
@@ -101,11 +114,15 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
 
   // if returns true triggers _onDismiss
   Future<bool?> _confirmDismiss(BuildContext context, DismissDirection direction) async {
+    String wantToChangeDialog = 'Do you want to change something?';
+    String wantToDeleteDialog = 'Are you sure you want to delete it?';
+
+    wantToDeleteDialog = AppLocalizations.of(context)?.dialogWantToDelete ?? wantToDeleteDialog;
     switch (direction) {
       case DismissDirection.startToEnd:
-        String text = 'Do you want to change something?';
+        wantToChangeDialog = AppLocalizations.of(context)?.dialogMakeChanges ?? wantToDeleteDialog;
         if (kDebugMode) print('_confirmDismiss DismissDirection.startToEnd');
-        if (await _showConfirmationAlert(context, text) ?? false) {
+        if (await _showConfirmationAlert(context, wantToChangeDialog) ?? false) {
           // final Activity? aa = await _openEditModalBottomSheet(context);
           final Activity? aa = await widget.onUpdate();
           if (aa != null) {
@@ -121,9 +138,9 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
       // return await _customAlert(context, text);
       case DismissDirection.endToStart:
         // from right to left (delete)
-        String text = 'Are you sure you want to delete it?';
+        wantToDeleteDialog = AppLocalizations.of(context)?.dialogWantToDelete ?? wantToDeleteDialog;
         if (kDebugMode) print('_confirmDismiss DismissDirection.endToStart');
-        return await _showConfirmationAlert(context, text);
+        return await _showConfirmationAlert(context, wantToDeleteDialog);
       default:
         return false;
     }

@@ -1,12 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/activity_add_update/activity_add_update_view.dart';
 import 'package:mat2414/src/data/models/activity/activity.dart';
+import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
+import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_dialog;
 import 'package:provider/provider.dart';
 
+import '../../../settings/native_code/n_open_link.dart';
 import 'home_screen_state_provider.dart';
 import 'last_activities.dart';
 import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bottom_sheet;
@@ -21,6 +26,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Timer? timer;
 
+  String _hello = 'Hello!';
+  String _lastActivity = 'Your last activity:';
+  String _today = 'Today is';
+
+  // var _isShowRateAppDialog = false;
+
   @override
   void dispose() {
     /*   if (timer != null && timer!.isActive) {
@@ -28,6 +39,29 @@ class _HomeScreenState extends State<HomeScreen> {
     }*/
     timer?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _hello = AppLocalizations.of(context)?.homeHello('Default user') ?? _hello;
+    _lastActivity = AppLocalizations.of(context)?.homeYorLastActivities ?? _lastActivity;
+    _today = AppLocalizations.of(context)?.homeTodayIs ?? _today;
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 1000), () async {
+        print('_checkDoNeedToRateTheAppNow: ${_checkDoNeedToRateTheAppNow()}');
+        if (!_checkDoNeedToRateTheAppNow()) {
+          // setState(() {
+          //
+          // });
+          _launchRateApp().then((wasRated) {
+            Provider.of<SettingsController>(context, listen: false)
+                .updateUserRateTheApp(wasRated ?? false);
+          });
+        }
+      });
+    });
   }
 
   @override
@@ -59,14 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                 ),
                 child: Column(children: [
-                  FittedBox(child: Text('Hello!', style: context.headlineSmall)),
+                  FittedBox(child: Text(_hello, style: context.headlineSmall)),
                   FittedBox(
                       child: Text(
-                          'Today is ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                          '$_today ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
                           style: context.titleLarge)),
                   const SizedBox(height: 16.0),
                   FittedBox(
-                      child: Text('Your last activities:',
+                      child: Text(_lastActivity,
                           style: context.titleMedium, textAlign: TextAlign.start)),
                   const Expanded(child: LastActivities()),
                   Padding(
@@ -74,6 +108,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                        final String activitySaved =
+                            AppLocalizations.of(context)?.addActivityBtnSavedNotification ??
+                                'Activity was saved.';
+                        final String activityNotSaved =
+                            AppLocalizations.of(context)?.addActivityBtnNotSavedNotification ??
+                                'Not saved.';
                         return Column(children: [
                           if (tempNotification != null)
                             AnimatedUserNotification(height: 28, msg: tempNotification ?? ''),
@@ -83,13 +123,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 final Activity? a = await _openAddBottomSheet(context);
                                 if (a == null) {
                                   if (timer != null && timer!.isActive) timer?.cancel();
-                                  setState(() => tempNotification = 'Not saved.');
+                                  setState(() => tempNotification = activityNotSaved);
                                   timer = Timer(const Duration(milliseconds: 3000), () {
                                     if (mounted) setState(() => tempNotification = null);
                                   });
                                 } else {
                                   if (timer != null && timer!.isActive) timer?.cancel();
-                                  setState(() => tempNotification = 'Activity was saved.');
+                                  setState(() => tempNotification = activitySaved);
                                   timer = Timer(const Duration(milliseconds: 3000), () {
                                     if (mounted) setState(() => tempNotification = null);
                                   });
@@ -124,5 +164,55 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<Activity?> _openAddBottomSheet(BuildContext context) async {
     return await utils_bottom_sheet.showCustomBottomSheet<Activity>(
         context, const ActivityAddUpdateView());
+  }
+
+  bool _checkDoNeedToRateTheAppNow() {
+    var isRated = !Provider.of<SettingsController>(context, listen: false).user.haveRatedTheApp;
+    if (!isRated) return false;
+    var nextNotification =
+        Provider.of<SettingsController>(context, listen: false).user.nextRateRequestDate;
+    if (nextNotification != null && nextNotification.compareTo(DateTime.now()) > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool?> _launchRateApp() async {
+    //  var isRated = false;
+    //  SchedulerBinding.instance.addPostFrameCallback((_) {
+    //    Future.delayed(const Duration(milliseconds: 100), () async {
+    //     //   setState(() { });
+    //    });
+    //  });
+    // return await utils_dialog.showConfirmationDialog(context, 'Please rate the app', confirmText: 'Rate It Now', refuseText: 'Remind Me Later');
+    return showGeneralDialog<bool>(
+      barrierLabel: 'Please rate the app',
+      barrierDismissible: true,
+      context: context,
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, _) {
+        var curve = Curves.easeInOut.transform(a1.value);
+        return Transform.scale(
+          scale: curve,
+          child: AlertDialog(
+              title: Text('Please rate the app t'),
+              content: Text('Please rate the app c'),
+              actions: [
+                TextButton(onPressed: () => Navigator.pop<bool>(context, false), child: Text('NO')),
+                TextButton(
+                    onPressed: () {
+                      NOpenLink.openUrl('https://play.google.com/store').then((_) {
+                        Navigator.pop<bool>(context, true);
+                      });
+                    },
+                    child: Text('OK'))
+              ]),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 380),
+    );
   }
 }

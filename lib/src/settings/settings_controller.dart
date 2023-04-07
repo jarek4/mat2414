@@ -13,7 +13,9 @@ class SettingsController with ChangeNotifier {
   SettingsController(this._settingsService);
 
   // Make SettingsService a private variable so it is not used directly.
-  final SettingsService _settingsService /* = locator<SettingsService>()*/;
+  final SettingsService _settingsService
+
+  /* = locator<SettingsService>()*/;
 
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
@@ -59,4 +61,26 @@ class SettingsController with ChangeNotifier {
     _user = await _settingsService.getUser();
     notifyListeners();
   }
+
+  Future<void> updateUserRateTheApp(bool wasRated) async {
+   /* var tempUser = _user;
+    if (wasRated) {
+      tempUser = tempUser.copyWith(haveRatedTheApp: true, nextRateRequestDate: null);
+    } else {
+      var nextAfterDays = 35;
+      var displayedRequests = tempUser.displayedRatingRequestsNo;
+      if (displayedRequests < 2) nextAfterDays = 15;
+      if (displayedRequests > 5) nextAfterDays = 85;
+      var nextDate = DateTime.now().add(Duration(days: nextAfterDays));
+      tempUser = tempUser.copyWith(haveRatedTheApp: false,
+          nextRateRequestDate: nextDate,
+          displayedRatingRequestsNo: displayedRequests + 1);
+    }
+    await _settingsService.updateUser(user);
+    _user = await _settingsService.getUser();
+    notifyListeners();*/
+    print('updateUserRateTheApp(bool $wasRated)');
+  }
+
 }
+

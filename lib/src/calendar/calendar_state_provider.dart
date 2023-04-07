@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:mat2414/src/calendar/calendar_day.dart';
 import 'package:mat2414/src/calendar/custom_calendar.dart';
+import 'package:mat2414/utils/date_formatter.dart' as utils;
 
 import 'calendar_constants.dart';
 import 'calendar_state.dart';
-
-
 
 class CalendarStateProvider with ChangeNotifier {
   CalendarStateProvider() {
@@ -14,26 +13,28 @@ class CalendarStateProvider with ChangeNotifier {
 
   static final DateTime _dateNow = DateTime.now();
 
+  String _localeCode = 'en';
+
+  String get localeCode => _localeCode;
+
   // can not be CalendarDay(date: _dateNow)!
   // because it will not select current day at start:
   // GridView.builder days[index].date: 2023-02-25 00:00:00.000 != selectedDay: 2023-01-15 12:04:07.102
   CalendarState _state = CalendarState(
     currentDate: _dateNow,
-    selectedDay: CalendarDay(
-      date: DateTime(
-          _dateNow.year, _dateNow.month, _dateNow.day)
-    ),
+    selectedDay: CalendarDay(date: DateTime(_dateNow.year, _dateNow.month, _dateNow.day)),
   );
 
-  List<String> get monthNames => kCalendarMonthNames;
+  List<String> _monthNames = kCalendarMonthNames;
+
+  List<String> get monthNames => _monthNames;
 
   CalendarState get state => _state;
 
   CalendarType get status => _state.calendarType;
 
   set selectedDate(DateTime value) {
-    _state = _state.copyWith(
-        selectedDay: CalendarDay(date: value));
+    _state = _state.copyWith(selectedDay: CalendarDay(date: value));
     notifyListeners();
   }
 
@@ -57,8 +58,7 @@ class CalendarStateProvider with ChangeNotifier {
       } else if (calendarDate.prevMonth) {
         getPrevMonth();
       }
-      _state =
-          _state.copyWith(selectedDay: CalendarDay(date: calendarDate.date));
+      _state = _state.copyWith(selectedDay: CalendarDay(date: calendarDate.date));
       notifyListeners();
     }
     return calendarDate;
@@ -150,5 +150,28 @@ class CalendarStateProvider with ChangeNotifier {
     // final List<CalendarDay> monthDays = _calendar.getMonthCalendar(m, y);
     _state = _state.copyWith(sequentialDates: monthDays, calendarType: type);
     notifyListeners();
+  }
+
+  void translateWithLocale(String localeCode){
+    // final String locale = Localizations.localeOf(context).toString();
+    // if(localeCode == _localeCode) return;
+    _localeCode = localeCode;
+    _monthNames = _translateMonthsNames(localeCode);
+    // notifyListeners();
+  }
+
+  List<String> _translateMonthsNames(String localeCode) {
+    var monthFromLocale = <String>[];
+    // find the first month (january) from _dateNow
+    var januaryDateTime = DateTime(_dateNow.year, 1);
+    // WEEKDAY - EEEE
+    // ABBR_WEEKDAY - E
+    // MONTH - MMMM
+    var tempMonth = januaryDateTime;
+    for (int i = 1; i < 12; i++) {
+      monthFromLocale.add(utils.dateFormatter(tempMonth, 'MMMM', localeCode));
+      tempMonth = DateTime(tempMonth.year, i + 1);
+    }
+    return monthFromLocale;
   }
 }

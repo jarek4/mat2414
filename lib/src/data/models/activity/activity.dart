@@ -41,7 +41,7 @@ class Activity {
   final bool isInformalWitnessing;
   final bool isPublicWitnessing;
   final bool isSundayWitnessing;
-  final bool isWithFieldServiceGroupWitnessing;
+  final bool isWithFieldServiceGroupWitnessing; // change to: Group Witnessing!
   final DateTime lastModified;
   final byte minutes;
   final byte month;

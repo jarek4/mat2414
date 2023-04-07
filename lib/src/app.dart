@@ -2,7 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:mat2414/locator.dart';
+
 import 'package:mat2414/src/ui/navigation/navigation.dart';
 import 'package:mat2414/src/ui/root_widget.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // final String locale = Localizations.localeOf(context).toString();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SettingsController>.value(value: widget.settingsController),
@@ -65,7 +66,9 @@ class _MyAppState extends State<MyApp> {
                     ],
                     supportedLocales: const [
                       Locale('en', ''), // English, no country code
+                      Locale('pl', ''),
                     ],
+                    locale: const Locale('pl'),
                     onGenerateTitle: (BuildContext context) =>
                         AppLocalizations.of(context)!.appTitle,
                     theme: theme.light(settings.value.sourceColor).copyWith(),

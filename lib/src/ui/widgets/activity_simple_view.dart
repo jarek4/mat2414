@@ -17,7 +17,6 @@ class ActivitySimpleView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = context.textTheme;
     Color color = context.colors.primaryContainer;
-    // final String time = _makeTime(duration);
     return Container(
       // height: 70.0,
       // minHeight:isEditable 69 : 38 !
@@ -38,11 +37,11 @@ class ActivitySimpleView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Center(
-                      child: Text(_makeDate(item.year, item.month, item.day)[0],
+                      child: Text(_makeDate(context, item.year, item.month, item.day, )[0],
                           style: textTheme.labelMedium, textAlign: TextAlign.center)),
                   const SizedBox(height: 2),
                   Center(
-                      child: Text(_makeDate(item.year, item.month, item.day)[1],
+                      child: Text(_makeDate(context, item.year, item.month, item.day)[1],
                           style: textTheme.titleSmall, textAlign: TextAlign.center)),
                 ],
               ),
@@ -99,12 +98,13 @@ class ActivitySimpleView extends StatelessWidget {
     );
   }
 
-  List<String> _makeDate(int year, int month, int day) {
+  List<String> _makeDate(BuildContext context, int year, int month, int day) {
+    final String locale = Localizations.localeOf(context).toString();
     final Activity ea = ConstantValues.emptyActivity;
     final DateTime emptyActivityDate = DateTime(ea.year, ea.month, ea.day);
     final DateTime itemDate = DateTime(year, month, day);
     if (itemDate == emptyActivityDate) return <String>['***', '**'];
-    final String d = utils.dateFormatter(DateTime(year, month, day), 'MMM,d');
+    final String d = utils.dateFormatter(DateTime(year, month, day), 'MMM,d', locale);
     return d.toUpperCase().split(',');
   }
 

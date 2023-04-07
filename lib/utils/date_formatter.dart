@@ -1,8 +1,9 @@
 import 'package:intl/intl.dart';
 
 /// String pattern = 'yyyy-MM-dd' like 2013-04-20
-String dateFormatter(DateTime date, [String pattern = 'yyyy-MM-dd']) {
-  final DateFormat formatter = DateFormat(pattern);
+String dateFormatter(DateTime date, [String pattern = 'yyyy-MM-dd', String? locale]) {
+  if(!DateFormat.allLocalesWithSymbols().contains(locale)) locale = 'en';
+  final DateFormat formatter = DateFormat(pattern, locale);
   return formatter.format(date);
 }
 

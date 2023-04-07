@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 
@@ -15,10 +16,11 @@ class ReportTable extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final Stream<String>? placements;
-  final Stream<String>? returnVisits;
-  final Stream<String>? time;
-  final Stream<String>? videoShowings;
+  final Stream<String>? placements, returnVisits, time, videoShowings;
+
+  // final Stream<String>? returnVisits;
+  // final Stream<String>? time;
+  // final Stream<String>? videoShowings;
 
   final bool isMonthly;
 
@@ -44,24 +46,23 @@ class _ReportTableState extends State<ReportTable> {*/
   }
 
   TableRow _buildHeader(BuildContext context) {
+    String placementsTitle = 'Placements',
+        returnsTitle = 'Return Visits',
+        hoursTitle = 'Hours',
+        videosTitle = 'Video Showings';
+    placementsTitle = AppLocalizations.of(context)?.generalPlacements ?? placementsTitle;
+    returnsTitle = AppLocalizations.of(context)?.generalReturnVisits ?? returnsTitle;
+    hoursTitle = AppLocalizations.of(context)?.generalHour(2) ?? hoursTitle;
+    videosTitle = AppLocalizations.of(context)?.generalVideoShowings ?? videosTitle;
     final List<Map<String, dynamic>> headers = [
-      {
-        'title': 'Placements',
-        'icon': Image.asset('assets/images/magazine_t_ic512.png', height: 12)
-      },
-      {
-        'title': 'Video Showings',
-        'icon': Image.asset('assets/images/video_camera_t_ic512.png', height: 12)
-      },
-      {'title': 'Hours', 'icon': Image.asset('assets/images/hourglass_t_ic512.png', height: 12)},
-      {
-        'title': 'Return Visits',
-        'icon': Image.asset('assets/images/two_person_t_ic512.png', height: 12)
-      },
+      {'title': placementsTitle, 'icon': Image.asset(AssetPath.imgMagazine512, height: 12)},
+      {'title': videosTitle, 'icon': Image.asset(AssetPath.imgVideoCamera512, height: 12)},
+      {'title': hoursTitle, 'icon': Image.asset(AssetPath.imgHourglass512, height: 12)},
+      {'title': returnsTitle, 'icon': Image.asset(AssetPath.imgTwoPersons512, height: 12)},
     ];
-    final TextStyle style =
-        context.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 9) ?? const TextStyle();
-    final TextStyle monthlyStyle = context.labelSmall?.copyWith(fontSize: 8) ?? const TextStyle();
+    final TextStyle? style =
+        context.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 9);
+    final TextStyle? monthlyStyle = context.labelMedium?.copyWith(fontWeight: FontWeight.w500 ,fontSize: 8.5);
 
     List<Widget> rows = [];
     for (Map<String, dynamic> m in headers) {

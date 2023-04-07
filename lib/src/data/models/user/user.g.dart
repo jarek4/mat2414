@@ -27,39 +27,59 @@ const UserSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'hashCode': PropertySchema(
+    r'displayedRatingRequestsNo': PropertySchema(
       id: 2,
+      name: r'displayedRatingRequestsNo',
+      type: IsarType.byte,
+    ),
+    r'hashCode': PropertySchema(
+      id: 3,
       name: r'hashCode',
       type: IsarType.long,
     ),
+    r'haveRatedTheApp': PropertySchema(
+      id: 4,
+      name: r'haveRatedTheApp',
+      type: IsarType.bool,
+    ),
+    r'isOnboardingPassed': PropertySchema(
+      id: 5,
+      name: r'isOnboardingPassed',
+      type: IsarType.bool,
+    ),
     r'languageCode': PropertySchema(
-      id: 3,
+      id: 6,
       name: r'languageCode',
       type: IsarType.string,
     ),
     r'lastModified': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'lastModified',
       type: IsarType.dateTime,
     ),
     r'name': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'name',
       type: IsarType.string,
     ),
+    r'nextRateRequestDate': PropertySchema(
+      id: 9,
+      name: r'nextRateRequestDate',
+      type: IsarType.dateTime,
+    ),
     r'preferences': PropertySchema(
-      id: 6,
+      id: 10,
       name: r'preferences',
       type: IsarType.object,
       target: r'Preferences',
     ),
     r'token': PropertySchema(
-      id: 7,
+      id: 11,
       name: r'token',
       type: IsarType.string,
     ),
     r'uid': PropertySchema(
-      id: 8,
+      id: 12,
       name: r'uid',
       type: IsarType.string,
     )
@@ -116,18 +136,22 @@ void _userSerialize(
 ) {
   writer.writeByte(offsets[0], object.avatarIndex);
   writer.writeDateTime(offsets[1], object.createdAt);
-  writer.writeLong(offsets[2], object.hashCode);
-  writer.writeString(offsets[3], object.languageCode);
-  writer.writeDateTime(offsets[4], object.lastModified);
-  writer.writeString(offsets[5], object.name);
+  writer.writeByte(offsets[2], object.displayedRatingRequestsNo);
+  writer.writeLong(offsets[3], object.hashCode);
+  writer.writeBool(offsets[4], object.haveRatedTheApp);
+  writer.writeBool(offsets[5], object.isOnboardingPassed);
+  writer.writeString(offsets[6], object.languageCode);
+  writer.writeDateTime(offsets[7], object.lastModified);
+  writer.writeString(offsets[8], object.name);
+  writer.writeDateTime(offsets[9], object.nextRateRequestDate);
   writer.writeObject<Preferences>(
-    offsets[6],
+    offsets[10],
     allOffsets,
     PreferencesSchema.serialize,
     object.preferences,
   );
-  writer.writeString(offsets[7], object.token);
-  writer.writeString(offsets[8], object.uid);
+  writer.writeString(offsets[11], object.token);
+  writer.writeString(offsets[12], object.uid);
 }
 
 User _userDeserialize(
@@ -139,18 +163,22 @@ User _userDeserialize(
   final object = User(
     avatarIndex: reader.readByteOrNull(offsets[0]) ?? 0,
     createdAt: reader.readDateTime(offsets[1]),
+    displayedRatingRequestsNo: reader.readByteOrNull(offsets[2]) ?? 0,
+    haveRatedTheApp: reader.readBoolOrNull(offsets[4]) ?? false,
     id: id,
-    languageCode: reader.readStringOrNull(offsets[3]) ?? '',
-    lastModified: reader.readDateTime(offsets[4]),
-    name: reader.readStringOrNull(offsets[5]) ?? 'default user',
+    isOnboardingPassed: reader.readBoolOrNull(offsets[5]) ?? false,
+    languageCode: reader.readStringOrNull(offsets[6]) ?? '',
+    lastModified: reader.readDateTime(offsets[7]),
+    name: reader.readStringOrNull(offsets[8]) ?? 'default user',
+    nextRateRequestDate: reader.readDateTimeOrNull(offsets[9]),
     preferences: reader.readObjectOrNull<Preferences>(
-          offsets[6],
+          offsets[10],
           PreferencesSchema.deserialize,
           allOffsets,
         ) ??
         const Preferences(),
-    token: reader.readStringOrNull(offsets[7]) ?? '',
-    uid: reader.readStringOrNull(offsets[8]) ?? 'defaultUserUid',
+    token: reader.readStringOrNull(offsets[11]) ?? '',
+    uid: reader.readStringOrNull(offsets[12]) ?? 'defaultUserUid',
   );
   return object;
 }
@@ -167,23 +195,31 @@ P _userDeserializeProp<P>(
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 3:
-      return (reader.readStringOrNull(offset) ?? '') as P;
+      return (reader.readLong(offset)) as P;
     case 4:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 5:
-      return (reader.readStringOrNull(offset) ?? 'default user') as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 6:
+      return (reader.readStringOrNull(offset) ?? '') as P;
+    case 7:
+      return (reader.readDateTime(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset) ?? 'default user') as P;
+    case 9:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 10:
       return (reader.readObjectOrNull<Preferences>(
             offset,
             PreferencesSchema.deserialize,
             allOffsets,
           ) ??
           const Preferences()) as P;
-    case 7:
+    case 11:
       return (reader.readStringOrNull(offset) ?? '') as P;
-    case 8:
+    case 12:
       return (reader.readStringOrNull(offset) ?? 'defaultUserUid') as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -479,6 +515,62 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
+  QueryBuilder<User, User, QAfterFilterCondition>
+      displayedRatingRequestsNoEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'displayedRatingRequestsNo',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition>
+      displayedRatingRequestsNoGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'displayedRatingRequestsNo',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition>
+      displayedRatingRequestsNoLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'displayedRatingRequestsNo',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition>
+      displayedRatingRequestsNoBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'displayedRatingRequestsNo',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<User, User, QAfterFilterCondition> hashCodeEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -531,6 +623,16 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
+  QueryBuilder<User, User, QAfterFilterCondition> haveRatedTheAppEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'haveRatedTheApp',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<User, User, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -579,6 +681,16 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> isOnboardingPassedEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isOnboardingPassed',
+        value: value,
       ));
     });
   }
@@ -894,6 +1006,77 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
+  QueryBuilder<User, User, QAfterFilterCondition> nextRateRequestDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'nextRateRequestDate',
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition>
+      nextRateRequestDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'nextRateRequestDate',
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> nextRateRequestDateEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'nextRateRequestDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition>
+      nextRateRequestDateGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'nextRateRequestDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> nextRateRequestDateLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'nextRateRequestDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> nextRateRequestDateBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'nextRateRequestDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<User, User, QAfterFilterCondition> tokenEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1187,6 +1370,18 @@ extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
     });
   }
 
+  QueryBuilder<User, User, QAfterSortBy> sortByDisplayedRatingRequestsNo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'displayedRatingRequestsNo', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByDisplayedRatingRequestsNoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'displayedRatingRequestsNo', Sort.desc);
+    });
+  }
+
   QueryBuilder<User, User, QAfterSortBy> sortByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
@@ -1196,6 +1391,30 @@ extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
   QueryBuilder<User, User, QAfterSortBy> sortByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByHaveRatedTheApp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'haveRatedTheApp', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByHaveRatedTheAppDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'haveRatedTheApp', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByIsOnboardingPassed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isOnboardingPassed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByIsOnboardingPassedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isOnboardingPassed', Sort.desc);
     });
   }
 
@@ -1232,6 +1451,18 @@ extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
   QueryBuilder<User, User, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByNextRateRequestDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nextRateRequestDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByNextRateRequestDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nextRateRequestDate', Sort.desc);
     });
   }
 
@@ -1285,6 +1516,18 @@ extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
     });
   }
 
+  QueryBuilder<User, User, QAfterSortBy> thenByDisplayedRatingRequestsNo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'displayedRatingRequestsNo', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByDisplayedRatingRequestsNoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'displayedRatingRequestsNo', Sort.desc);
+    });
+  }
+
   QueryBuilder<User, User, QAfterSortBy> thenByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
@@ -1297,6 +1540,18 @@ extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
     });
   }
 
+  QueryBuilder<User, User, QAfterSortBy> thenByHaveRatedTheApp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'haveRatedTheApp', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByHaveRatedTheAppDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'haveRatedTheApp', Sort.desc);
+    });
+  }
+
   QueryBuilder<User, User, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -1306,6 +1561,18 @@ extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
   QueryBuilder<User, User, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByIsOnboardingPassed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isOnboardingPassed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByIsOnboardingPassedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isOnboardingPassed', Sort.desc);
     });
   }
 
@@ -1342,6 +1609,18 @@ extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
   QueryBuilder<User, User, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByNextRateRequestDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nextRateRequestDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByNextRateRequestDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nextRateRequestDate', Sort.desc);
     });
   }
 
@@ -1383,9 +1662,27 @@ extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
     });
   }
 
+  QueryBuilder<User, User, QDistinct> distinctByDisplayedRatingRequestsNo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'displayedRatingRequestsNo');
+    });
+  }
+
   QueryBuilder<User, User, QDistinct> distinctByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hashCode');
+    });
+  }
+
+  QueryBuilder<User, User, QDistinct> distinctByHaveRatedTheApp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'haveRatedTheApp');
+    });
+  }
+
+  QueryBuilder<User, User, QDistinct> distinctByIsOnboardingPassed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isOnboardingPassed');
     });
   }
 
@@ -1406,6 +1703,12 @@ extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<User, User, QDistinct> distinctByNextRateRequestDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'nextRateRequestDate');
     });
   }
 
@@ -1443,9 +1746,28 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
     });
   }
 
+  QueryBuilder<User, int, QQueryOperations>
+      displayedRatingRequestsNoProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'displayedRatingRequestsNo');
+    });
+  }
+
   QueryBuilder<User, int, QQueryOperations> hashCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hashCode');
+    });
+  }
+
+  QueryBuilder<User, bool, QQueryOperations> haveRatedTheAppProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'haveRatedTheApp');
+    });
+  }
+
+  QueryBuilder<User, bool, QQueryOperations> isOnboardingPassedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isOnboardingPassed');
     });
   }
 
@@ -1464,6 +1786,13 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
   QueryBuilder<User, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<User, DateTime?, QQueryOperations>
+      nextRateRequestDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'nextRateRequestDate');
     });
   }
 
@@ -1512,39 +1841,44 @@ const PreferencesSchema = Schema(
       name: r'descriptionLDC',
       type: IsarType.string,
     ),
-    r'hashCode': PropertySchema(
+    r'firstWeekDay': PropertySchema(
       id: 3,
+      name: r'firstWeekDay',
+      type: IsarType.byte,
+    ),
+    r'hashCode': PropertySchema(
+      id: 4,
       name: r'hashCode',
       type: IsarType.long,
     ),
     r'minutesPrecision': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'minutesPrecision',
       type: IsarType.byte,
       enumMap: _PreferencesminutesPrecisionEnumValueMap,
     ),
     r'monthlyHourGoal': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'monthlyHourGoal',
       type: IsarType.int,
     ),
     r'selectedStatistics': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'selectedStatistics',
       type: IsarType.byteList,
     ),
     r'showButtonLDCHours': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'showButtonLDCHours',
       type: IsarType.bool,
     ),
     r'showTips': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'showTips',
       type: IsarType.bool,
     ),
     r'themeMode': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'themeMode',
       type: IsarType.byte,
     )
@@ -1575,13 +1909,14 @@ void _preferencesSerialize(
   writer.writeInt(offsets[0], object.annualHourGoal);
   writer.writeByte(offsets[1], object.bibleStudies);
   writer.writeString(offsets[2], object.descriptionLDC);
-  writer.writeLong(offsets[3], object.hashCode);
-  writer.writeByte(offsets[4], object.minutesPrecision.index);
-  writer.writeInt(offsets[5], object.monthlyHourGoal);
-  writer.writeByteList(offsets[6], object.selectedStatistics);
-  writer.writeBool(offsets[7], object.showButtonLDCHours);
-  writer.writeBool(offsets[8], object.showTips);
-  writer.writeByte(offsets[9], object.themeMode);
+  writer.writeByte(offsets[3], object.firstWeekDay);
+  writer.writeLong(offsets[4], object.hashCode);
+  writer.writeByte(offsets[5], object.minutesPrecision.index);
+  writer.writeInt(offsets[6], object.monthlyHourGoal);
+  writer.writeByteList(offsets[7], object.selectedStatistics);
+  writer.writeBool(offsets[8], object.showButtonLDCHours);
+  writer.writeBool(offsets[9], object.showTips);
+  writer.writeByte(offsets[10], object.themeMode);
 }
 
 Preferences _preferencesDeserialize(
@@ -1594,14 +1929,15 @@ Preferences _preferencesDeserialize(
     annualHourGoal: reader.readIntOrNull(offsets[0]) ?? 0,
     bibleStudies: reader.readByteOrNull(offsets[1]) ?? 0,
     descriptionLDC: reader.readStringOrNull(offsets[2]) ?? '',
+    firstWeekDay: reader.readByteOrNull(offsets[3]) ?? 0,
     minutesPrecision: _PreferencesminutesPrecisionValueEnumMap[
-            reader.readByteOrNull(offsets[4])] ??
+            reader.readByteOrNull(offsets[5])] ??
         MinutesPrecision.five,
-    monthlyHourGoal: reader.readIntOrNull(offsets[5]) ?? 0,
-    selectedStatistics: reader.readByteList(offsets[6]) ?? const <byte>[],
-    showButtonLDCHours: reader.readBoolOrNull(offsets[7]) ?? false,
-    showTips: reader.readBoolOrNull(offsets[8]) ?? true,
-    themeMode: reader.readByteOrNull(offsets[9]) ?? 0,
+    monthlyHourGoal: reader.readIntOrNull(offsets[6]) ?? 0,
+    selectedStatistics: reader.readByteList(offsets[7]) ?? const <byte>[],
+    showButtonLDCHours: reader.readBoolOrNull(offsets[8]) ?? false,
+    showTips: reader.readBoolOrNull(offsets[9]) ?? true,
+    themeMode: reader.readByteOrNull(offsets[10]) ?? 0,
   );
   return object;
 }
@@ -1620,20 +1956,22 @@ P _preferencesDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset) ?? '') as P;
     case 3:
-      return (reader.readLong(offset)) as P;
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
       return (_PreferencesminutesPrecisionValueEnumMap[
               reader.readByteOrNull(offset)] ??
           MinutesPrecision.five) as P;
-    case 5:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 6:
-      return (reader.readByteList(offset) ?? const <byte>[]) as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 7:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readByteList(offset) ?? const <byte>[]) as P;
     case 8:
-      return (reader.readBoolOrNull(offset) ?? true) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 9:
+      return (reader.readBoolOrNull(offset) ?? true) as P;
+    case 10:
       return (reader.readByteOrNull(offset) ?? 0) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1901,6 +2239,62 @@ extension PreferencesQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'descriptionLDC',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      firstWeekDayEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'firstWeekDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      firstWeekDayGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'firstWeekDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      firstWeekDayLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'firstWeekDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Preferences, Preferences, QAfterFilterCondition>
+      firstWeekDayBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'firstWeekDay',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -2305,9 +2699,14 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       createdAt: User._fromJson(json['createdAt'] as int),
       lastModified: User._fromJson(json['lastModified'] as int),
       avatarIndex: json['avatarIndex'] as int? ?? 0,
+      displayedRatingRequestsNo: json['displayedRatingRequestsNo'] as int? ?? 0,
+      haveRatedTheApp: json['haveRatedTheApp'] as bool? ?? false,
       id: json['id'] as int? ?? Isar.autoIncrement,
+      isOnboardingPassed: json['isOnboardingPassed'] as bool? ?? false,
       languageCode: json['languageCode'] as String? ?? '',
       name: json['name'] as String? ?? 'default user',
+      nextRateRequestDate:
+          User._fromJsonNullable(json['nextRateRequestDate'] as int?),
       preferences: json['preferences'] == null
           ? const Preferences()
           : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
@@ -2317,11 +2716,15 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'avatarIndex': instance.avatarIndex,
+      'displayedRatingRequestsNo': instance.displayedRatingRequestsNo,
+      'haveRatedTheApp': instance.haveRatedTheApp,
       'id': instance.id,
+      'isOnboardingPassed': instance.isOnboardingPassed,
       'createdAt': User._toJson(instance.createdAt),
       'lastModified': User._toJson(instance.lastModified),
       'languageCode': instance.languageCode,
       'name': instance.name,
+      'nextRateRequestDate': User._toJsonNullable(instance.nextRateRequestDate),
       'preferences': instance.preferences,
       'token': instance.token,
       'uid': instance.uid,
@@ -2331,6 +2734,7 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
       annualHourGoal: json['annualHourGoal'] as int? ?? 0,
       bibleStudies: json['bibleStudies'] as int? ?? 0,
       descriptionLDC: json['descriptionLDC'] as String? ?? '',
+      firstWeekDay: json['firstWeekDay'] as int? ?? 0,
       minutesPrecision: $enumDecodeNullable(
               _$MinutesPrecisionEnumMap, json['minutesPrecision']) ??
           MinutesPrecision.five,
@@ -2349,6 +2753,7 @@ Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
       'annualHourGoal': instance.annualHourGoal,
       'bibleStudies': instance.bibleStudies,
       'descriptionLDC': instance.descriptionLDC,
+      'firstWeekDay': instance.firstWeekDay,
       'minutesPrecision': _$MinutesPrecisionEnumMap[instance.minutesPrecision]!,
       'monthlyHourGoal': instance.monthlyHourGoal,
       'selectedStatistics': instance.selectedStatistics,

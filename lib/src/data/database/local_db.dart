@@ -25,24 +25,29 @@ class LocalDb {
       final Isar isar = await Isar.open(_schemas, directory: dir.path, name: DbConst.dbName);
       // prepopulate default user
       if (await isar.collection<User>().count() < 1) await _prepopulateUser(isar);
-      /* if (await isar.collection<User>().count() < 1) {
+      /*if (await isar.collection<User>().count() < 1) {
         DateTime dateT = DateTime.now();
         Preferences p = const Preferences();
         User u = User(createdAt: dateT, lastModified: dateT, id: 1, preferences: p);
         await isar.writeTxn(() async => await isar.collection<User>().importJson([
           {
             "avatarIndex": 0,
-            "createdAt": 1679994569152356,
-            "hashCode": 62005513,
+            "createdAt": u.createdAt.microsecondsSinceEpoch,
+            "displayedRatingRequestsNo": 0,
+            "hashCode": u.hashCode,
+            "haveRatedTheApp": false,
             "id": 1,
+            "isOnboardingPassed": false,
             "languageCode": "",
-            "lastModified": 1679994569152356,
+            "lastModified": u.lastModified.microsecondsSinceEpoch,
             "name": "default user",
+            "nextRateRequestDate": null,
             "preferences": {
               "annualHourGoal": 0,
               "bibleStudies": 0,
+              "firstWeekDay": 0,
               "descriptionLDC": "",
-              "hashCode": 26170436,
+              "hashCode": p.hashCode,
               "minutesPrecision": 1,
               "monthlyHourGoal": 0,
               "selectedStatistics": [],
@@ -97,17 +102,22 @@ class LocalDb {
 
   static final Map<String, dynamic> _defaultUserAsMap = {
     'avatarIndex': 0,
-    'createdAt': 1679994569152356,
-    'hashCode': 62005513,
+    'createdAt':1680767755777587,
+    'displayedRatingRequestsNo': 0,
+    'hashCode':846855,
+    'haveRatedTheApp': false,
     'id': 1,
+    'isOnboardingPassed': false,
     'languageCode': '',
-    'lastModified': 1679994569152356,
+    'lastModified': 1680767755777587,
     'name': 'default user',
+    'nextRateRequestDate': null,
     'preferences': {
       'annualHourGoal': 0,
       'bibleStudies': 0,
       'descriptionLDC': '',
-      'hashCode': 26170436,
+      'firstWeekDay': 0,
+      'hashCode': 524385371,
       'minutesPrecision': 1,
       'monthlyHourGoal': 0,
       'selectedStatistics': [],
@@ -115,8 +125,8 @@ class LocalDb {
       'showTips': true,
       'themeMode': 0
     },
-    'uid': 'defaultUserUid',
-    'token': ''
+    'token': '',
+    'uid': 'defaultUserUid'
   };
 }
 

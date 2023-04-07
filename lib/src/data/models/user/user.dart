@@ -10,16 +10,23 @@ class User {
     required this.createdAt,
     required this.lastModified,
     this.avatarIndex = 0,
+    this.displayedRatingRequestsNo = 0,
+    this.haveRatedTheApp = false,
     this.id = Isar.autoIncrement,
+    this.isOnboardingPassed = false,
     this.languageCode = '',
     this.name = 'default user',
+    this.nextRateRequestDate,
     this.preferences = const Preferences(),
     this.token = '',
     this.uid = 'defaultUserUid',
   });
 
   final byte avatarIndex;
+  final byte displayedRatingRequestsNo;
+  final bool haveRatedTheApp;
   final Id id;
+  final bool isOnboardingPassed;
   @JsonKey(
     toJson: _toJson,
     fromJson: _fromJson,
@@ -34,6 +41,11 @@ class User {
   final String languageCode; // empty String represents null - for system settings
   @Index(unique: true, replace: true)
   final String name;
+  @JsonKey(
+    toJson: _toJsonNullable,
+    fromJson: _fromJsonNullable,
+  )
+  final DateTime? nextRateRequestDate;
   final Preferences preferences;
   final String token;
   final String uid;
@@ -41,10 +53,14 @@ class User {
   User copyWith({
     int? avatarIndex,
     DateTime? createdAt,
+    int? displayedRatingRequestsNo,
+    bool? haveRatedTheApp,
     int? id,
+    bool? isOnboardingPassed,
     String? languageCode,
     DateTime? lastModified,
     String? name,
+    DateTime? nextRateRequestDate,
     Preferences? preferences,
     String? token,
     String? uid,
@@ -52,8 +68,12 @@ class User {
     return User(
       avatarIndex: avatarIndex ?? this.avatarIndex,
       createdAt: createdAt ?? this.createdAt,
+      displayedRatingRequestsNo: displayedRatingRequestsNo ?? this.displayedRatingRequestsNo,
+      haveRatedTheApp: haveRatedTheApp ?? this.haveRatedTheApp,
       id: id ?? this.id,
+      isOnboardingPassed: isOnboardingPassed ?? this.isOnboardingPassed,
       name: name ?? this.name,
+      nextRateRequestDate: nextRateRequestDate ?? this.nextRateRequestDate,
       languageCode: languageCode ?? this.languageCode,
       lastModified: lastModified ?? this.lastModified,
       preferences: preferences ?? this.preferences,
@@ -74,9 +94,14 @@ class User {
 
   static DateTime _fromJson(int value) => DateTime.fromMicrosecondsSinceEpoch(value);
 
+  static int? _toJsonNullable(DateTime? value) => value?.microsecondsSinceEpoch;
+
+  static DateTime? _fromJsonNullable(int? value) =>
+      value != null ? DateTime.fromMicrosecondsSinceEpoch(value) : null;
+
   @override
   String toString() {
-    return 'User(avatarIndex: $avatarIndex, createdAt: $createdAt, id: $id, languageCode: $languageCode, lastModified: $lastModified, name: $name, preferences: $preferences, token: $token, uid: $uid';
+    return 'User(avatarIndex: $avatarIndex, createdAt: $createdAt, displayedRatingRequestsNo: $displayedRatingRequestsNo, haveRatedTheApp: $haveRatedTheApp, id: $id, isOnboardingPassed: $isOnboardingPassed, languageCode: $languageCode, lastModified: $lastModified, name: $name, nextRateRequestDate: $nextRateRequestDate, preferences: $preferences, token: $token, uid: $uid';
   }
 
   @override
@@ -92,12 +117,33 @@ class User {
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             (identical(other.languageCode, languageCode) || other.languageCode == languageCode) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.isOnboardingPassed, isOnboardingPassed) ||
+                other.isOnboardingPassed == isOnboardingPassed) &&
+            (identical(other.haveRatedTheApp, haveRatedTheApp) ||
+                other.haveRatedTheApp == haveRatedTheApp) &&
+            (identical(other.displayedRatingRequestsNo, displayedRatingRequestsNo) ||
+                other.displayedRatingRequestsNo == displayedRatingRequestsNo) &&
+            (identical(other.nextRateRequestDate, nextRateRequestDate) ||
+                other.nextRateRequestDate == nextRateRequestDate) &&
             (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, avatarIndex, createdAt, languageCode, lastModified,
-      preferences, id, token, uid, name);
+  int get hashCode => Object.hash(
+      runtimeType,
+      avatarIndex,
+      createdAt,
+      languageCode,
+      lastModified,
+      preferences,
+      id,
+      isOnboardingPassed,
+      token,
+      uid,
+      name,
+      haveRatedTheApp,
+      nextRateRequestDate,
+      displayedRatingRequestsNo);
 }
 
 @JsonSerializable()
@@ -107,6 +153,7 @@ class Preferences {
     this.annualHourGoal = 0,
     this.bibleStudies = 0,
     this.descriptionLDC = '',
+    this.firstWeekDay = 0,
     this.minutesPrecision = MinutesPrecision.five,
     this.monthlyHourGoal = 0,
     this.selectedStatistics = const <byte>[],
@@ -121,6 +168,9 @@ class Preferences {
   final byte bibleStudies;
 
   final String descriptionLDC;
+
+  /// [0-mon, 1-sun, 2-sat]
+  final byte firstWeekDay;
 
   @enumerated
   final MinutesPrecision minutesPrecision;
@@ -141,6 +191,7 @@ class Preferences {
     int? annualHourGoal,
     int? bibleStudies,
     String? descriptionLDC,
+    int? firstWeekDay,
     MinutesPrecision? minutesPrecision,
     int? monthlyHourGoal,
     List<byte>? selectedStatistics,
@@ -150,6 +201,7 @@ class Preferences {
       annualHourGoal: annualHourGoal ?? this.annualHourGoal,
       bibleStudies: bibleStudies ?? this.bibleStudies,
       descriptionLDC: descriptionLDC ?? this.descriptionLDC,
+      firstWeekDay: firstWeekDay ?? this.firstWeekDay,
       minutesPrecision: minutesPrecision ?? this.minutesPrecision,
       monthlyHourGoal: monthlyHourGoal ?? this.monthlyHourGoal,
       selectedStatistics: selectedStatistics ?? this.selectedStatistics,
@@ -163,7 +215,7 @@ class Preferences {
 
   @override
   String toString() {
-    return 'Preferences(annualHourGoal: $annualHourGoal, bibleStudies: $bibleStudies, descriptionLDC: $descriptionLDC, minutesPrecision: $minutesPrecision, monthlyHourGoal: $monthlyHourGoal, selectedStatistics: $selectedStatistics, showButtonLDCHours: $showButtonLDCHours, showTips: $showTips, themeMode: $themeMode';
+    return 'Preferences(annualHourGoal: $annualHourGoal, bibleStudies: $bibleStudies, descriptionLDC: $descriptionLDC, firstWeekDay: $firstWeekDay, minutesPrecision: $minutesPrecision, monthlyHourGoal: $monthlyHourGoal, selectedStatistics: $selectedStatistics, showButtonLDCHours: $showButtonLDCHours, showTips: $showTips, themeMode: $themeMode';
   }
 
   @override
@@ -176,6 +228,7 @@ class Preferences {
             (identical(other.bibleStudies, bibleStudies) || other.bibleStudies == bibleStudies) &&
             (identical(other.descriptionLDC, descriptionLDC) ||
                 other.descriptionLDC == descriptionLDC) &&
+            (identical(other.firstWeekDay, firstWeekDay) || other.firstWeekDay == firstWeekDay) &&
             (identical(other.minutesPrecision, minutesPrecision) ||
                 other.minutesPrecision == minutesPrecision) &&
             (identical(other.monthlyHourGoal, monthlyHourGoal) ||
@@ -194,6 +247,7 @@ class Preferences {
       annualHourGoal,
       bibleStudies,
       descriptionLDC,
+      firstWeekDay,
       minutesPrecision,
       monthlyHourGoal,
       selectedStatistics,
