@@ -1,7 +1,10 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/user/user.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
+
+import 'native_code/n_open_link.dart';
 
 /// A service that stores and retrieves user settings.
 ///
@@ -24,5 +27,15 @@ class SettingsService {
 
   Future<void> updateUser(User user) async {
     await _userRepository.update(user);
+  }
+
+  Future<bool> openStoreUrl() async {
+    var url = 'https://google.com';
+    if (Platform.isIOS) url = 'https://www.apple.com/app-store/';
+    if (Platform.isAndroid) url = 'https://play.google.com/store';
+
+    await NOpenLink.openUrl(url);
+
+    return true;
   }
 }

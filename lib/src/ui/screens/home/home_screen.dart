@@ -8,10 +8,8 @@ import 'package:mat2414/src/data/models/activity/activity.dart';
 import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
-import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_dialog;
 import 'package:provider/provider.dart';
 
-import '../../../settings/native_code/n_open_link.dart';
 import 'home_screen_state_provider.dart';
 import 'last_activities.dart';
 import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bottom_sheet;
@@ -25,18 +23,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Timer? timer;
-
-  String _hello = 'Hello!';
-  String _lastActivity = 'Your last activity:';
-  String _today = 'Today is';
-
-  // var _isShowRateAppDialog = false;
+  String _hello = 'Hello!', _lastActivity = 'Your last activity:', _today = 'Today is';
 
   @override
   void dispose() {
-    /*   if (timer != null && timer!.isActive) {
-      timer!.cancel();
-    }*/
     timer?.cancel();
     super.dispose();
   }
@@ -47,21 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
     _hello = AppLocalizations.of(context)?.homeHello('Default user') ?? _hello;
     _lastActivity = AppLocalizations.of(context)?.homeYorLastActivities ?? _lastActivity;
     _today = AppLocalizations.of(context)?.homeTodayIs ?? _today;
+  }
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 1000), () async {
-        print('_checkDoNeedToRateTheAppNow: ${_checkDoNeedToRateTheAppNow()}');
-        if (!_checkDoNeedToRateTheAppNow()) {
-          // setState(() {
-          //
-          // });
-          _launchRateApp().then((wasRated) {
-            Provider.of<SettingsController>(context, listen: false)
+  @override
+  void initState() {
+    super.initState();
+    // if user have not rated the app display a notification at the appropriate time
+    if (!_checkDoNeedToRateTheAppNow()) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 1000), () async {
+          _launchRateAppDialog().then((wasRated) async {
+            await Provider.of<SettingsController>(context, listen: false)
                 .updateUserRateTheApp(wasRated ?? false);
           });
-        }
+        });
       });
-    });
+    }
   }
 
   @override
@@ -178,16 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<bool?> _launchRateApp() async {
-    //  var isRated = false;
-    //  SchedulerBinding.instance.addPostFrameCallback((_) {
-    //    Future.delayed(const Duration(milliseconds: 100), () async {
-    //     //   setState(() { });
-    //    });
-    //  });
-    // return await utils_dialog.showConfirmationDialog(context, 'Please rate the app', confirmText: 'Rate It Now', refuseText: 'Remind Me Later');
+  Future<bool?> _launchRateAppDialog() async {
     return showGeneralDialog<bool>(
-      barrierLabel: 'Please rate the app',
+      barrierLabel: 'Please rate the app. Remind me later',
       barrierDismissible: true,
       context: context,
       pageBuilder: (ctx, a1, a2) {
@@ -198,17 +182,19 @@ class _HomeScreenState extends State<HomeScreen> {
         return Transform.scale(
           scale: curve,
           child: AlertDialog(
-              title: Text('Please rate the app t'),
-              content: Text('Please rate the app c'),
+              title: Text('How are we doing?'),
+              content: Text(
+                  'If you enjoy using mat2414, would you mind taking a moment to rate it? Thanks for your support!'),
               actions: [
-                TextButton(onPressed: () => Navigator.pop<bool>(context, false), child: Text('NO')),
+                TextButton(
+                    onPressed: () => Navigator.pop<bool>(context, false),
+                    child: Text('Remind me later')),
                 TextButton(
                     onPressed: () {
-                      NOpenLink.openUrl('https://play.google.com/store').then((_) {
-                        Navigator.pop<bool>(context, true);
-                      });
+                      Provider.of<SettingsController>(context, listen: false).openStoreUrl();
+                      Navigator.pop<bool>(context, true);
                     },
-                    child: Text('OK'))
+                    child: Text('Rate it now'))
               ]),
         );
       },

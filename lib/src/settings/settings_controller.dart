@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/user/user.dart';
-
 import 'settings_service.dart';
-
 /// A class that many Widgets can interact with to read user settings, update
 /// user settings, or listen to user settings changes.
 ///
@@ -13,9 +10,7 @@ class SettingsController with ChangeNotifier {
   SettingsController(this._settingsService);
 
   // Make SettingsService a private variable so it is not used directly.
-  final SettingsService _settingsService
-
-  /* = locator<SettingsService>()*/;
+  final SettingsService _settingsService /* = locator<SettingsService>()*/;
 
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
@@ -62,9 +57,14 @@ class SettingsController with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> openStoreUrl() async {
+    _settingsService.openStoreUrl();
+    return true;
+  }
+
   Future<void> updateUserRateTheApp(bool wasRated) async {
-   /* var tempUser = _user;
-    if (wasRated) {
+    var tempUser = _user;
+    /*   if (wasRated) {
       tempUser = tempUser.copyWith(haveRatedTheApp: true, nextRateRequestDate: null);
     } else {
       var nextAfterDays = 35;
@@ -75,12 +75,20 @@ class SettingsController with ChangeNotifier {
       tempUser = tempUser.copyWith(haveRatedTheApp: false,
           nextRateRequestDate: nextDate,
           displayedRatingRequestsNo: displayedRequests + 1);
-    }
-    await _settingsService.updateUser(user);
+    }*/
+   //  _settingsService.openStoreUrl();
+    var nextAfterDays = 35;
+    var displayedRequests = tempUser.displayedRatingRequestsNo;
+    if (displayedRequests < 2) nextAfterDays = 15;
+    if (displayedRequests > 5) nextAfterDays = 85;
+    var nextDate = DateTime.now().add(Duration(days: nextAfterDays));
+    tempUser = tempUser.copyWith(
+        haveRatedTheApp: false,
+        nextRateRequestDate: nextDate,
+        displayedRatingRequestsNo: displayedRequests + 1);
+    await _settingsService.updateUser(tempUser);
     _user = await _settingsService.getUser();
-    notifyListeners();*/
-    print('updateUserRateTheApp(bool $wasRated)');
+    notifyListeners();
+
   }
-
 }
-
