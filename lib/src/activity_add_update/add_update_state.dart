@@ -5,20 +5,27 @@ import 'package:isar/isar.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
+import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/get_service_year.dart' as utils;
 
 import '../domain/repositories/i_activity_repository.dart';
 
 enum AddUpdateStateStatus { error, loading, success }
 
+enum AddUpdateErrorCode { isEmpty, notCreated, noChangesMade, noErrors, notSaved, notUpdated }
+
 class AddUpdateState with ChangeNotifier {
   /// placements, return visits, videos max value 254!
   /// if _activity is null looks for selectedDate
-  AddUpdateState({Activity? activity, DateTime? selectedDate}) : _activity = activity, _selectedDate = selectedDate {
+  AddUpdateState({Activity? activity, DateTime? selectedDate})
+      : _activity = activity,
+        _selectedDate = selectedDate {
     _setup(activity, selectedDate);
   }
 
   final Activity? _activity;
+
+  // ignore: unused_field
   final DateTime? _selectedDate;
 
   final IActivitiesRepository _repository = locator<IActivitiesRepository>();
@@ -36,9 +43,9 @@ class AddUpdateState with ChangeNotifier {
 
   AddUpdateStateStatus get status => _status;
 
-  String _errorMessage = '';
+  AddUpdateErrorCode _errorCode = AddUpdateErrorCode.noErrors;
 
-  String get errorMessage => _errorMessage;
+  AddUpdateErrorCode get errorCode => _errorCode;
 
   int _userMinutesMultiplayer = 5;
 
@@ -47,6 +54,8 @@ class AddUpdateState with ChangeNotifier {
   bool _areLDCHours = false;
 
   bool get areLDCHours => _areLDCHours;
+
+  String _ldcLocaleTranslation = '';
   int _h = 0;
 
   int get h => _h;
@@ -82,8 +91,10 @@ class AddUpdateState with ChangeNotifier {
 
   int get video => _video;
 
-  void onLDCHoursChange() {
+  void onLDCHoursChange(String? ldcLocale) {
     _areLDCHours = !_areLDCHours;
+    // this value is used as a LDC time leading in remarks. It will be translated :)
+    _ldcLocaleTranslation = _areLDCHours ? ldcLocale ?? '' : '';
     _notify();
   }
 
@@ -146,7 +157,7 @@ class AddUpdateState with ChangeNotifier {
     if (_activity == null && isFormEmpty) {
       // Empty activity will not be saved!
       // Show info to the user inside the form. Don't close the bottom sheet form.
-      await _setTemporaryMessage(msg: 'The activity is empty. It wont be saved!');
+      await _setTemporaryMessage(msg: AddUpdateErrorCode.isEmpty);
       return null;
     }
     // The user has entered a data into the form:
@@ -154,7 +165,7 @@ class AddUpdateState with ChangeNotifier {
     // Creating new activity (no activity item was passed into the form).
     if (_activity == null) {
       _status = AddUpdateStateStatus.loading;
-      _errorMessage = '';
+      _errorCode = AddUpdateErrorCode.noErrors;
       _notify();
       final int id = await _repository.create(fromForm);
       if (id > 0) {
@@ -165,7 +176,7 @@ class AddUpdateState with ChangeNotifier {
       } else {
         // The new activity NOT saved into DB. Don't close the bottom sheet form.
         // Show info to the user inside the form.
-        await _setTemporaryMessage(msg: 'Not created. Ups');
+        await _setTemporaryMessage(msg: AddUpdateErrorCode.notCreated);
         return null;
       }
       // Activity item was passed to the form. Update mode.
@@ -175,7 +186,7 @@ class AddUpdateState with ChangeNotifier {
       // so it never is equal to _activity
       if (_activity != fromForm.copyWith(lastModified: _activity!.lastModified)) {
         _status = AddUpdateStateStatus.loading;
-        _errorMessage = '';
+        _errorCode = AddUpdateErrorCode.noErrors;
         _notify();
         final int id = await _repository.update(fromForm);
         if (id > 0) {
@@ -185,27 +196,26 @@ class AddUpdateState with ChangeNotifier {
           return fromForm;
         } else {
           // The updated activity was NOT saved. Don't close the bottom sheet form.
-          await _setTemporaryMessage(msg: 'Not updated. Ups');
+          await _setTemporaryMessage(msg: AddUpdateErrorCode.notUpdated);
           return null;
         }
       }
       // The passed activity was not changed. There is no need to save into DB.
       // Don't close the bottom sheet form.
-      await _setTemporaryMessage(msg: 'No changes was made.');
+      await _setTemporaryMessage(msg: AddUpdateErrorCode.noChangesMade);
       return null;
     }
   }
 
   /// sets status.error for 3600 milliseconds - appropriate message is displayed in bottom sheet form
-  Future<bool> _setTemporaryMessage({String msg = ''}) async {
+  Future<bool> _setTemporaryMessage({AddUpdateErrorCode msg = AddUpdateErrorCode.noErrors}) async {
     bool wasStatusChanged = false;
     _status = AddUpdateStateStatus.error;
-    _errorMessage = msg;
+    _errorCode = msg;
     _notify();
     wasStatusChanged = await Future<bool>.delayed(const Duration(milliseconds: 3600), () {
-      // return _resetErrorState();
       _status = AddUpdateStateStatus.success;
-      _errorMessage = '';
+      _errorCode = AddUpdateErrorCode.noErrors;
       _notify();
       return true;
     });
@@ -216,18 +226,28 @@ class AddUpdateState with ChangeNotifier {
   Activity _createActivityFromFormInputs() => Activity(
       createdAt: _activity?.createdAt ?? DateTime.now(),
       day: _date.day,
-      lastModified: _currentDate,// lastModified: DateTime.now(),
+      lastModified: _currentDate,
+      // lastModified: DateTime.now(),
       month: _date.month,
       serviceYear: utils.getServiceYear(DateTime(_date.year, _date.month)),
       year: _date.year,
       hours: _h,
       id: _activity?.id ?? Isar.autoIncrement,
-      isLDCHours: _areLDCHours,
+      type: _areLDCHours ? ActivityType.ldc : ActivityType.normal,
       minutes: _min,
       placements: _placements,
-      remarks: _areLDCHours ? '${_date.day} [LDC: $_h:$_min${_remarks.isEmpty ? '' : '; $_remarks.'}]' : _remarks,
+      remarks: _areLDCHours
+          ? '[$_ldcLocaleTranslation: ${_makeTimeString(h, min)}${_remarks.isEmpty ? '' : '; $_remarks.'}]'
+          : _remarks,
       returnVisits: _returns,
+      uid: _userRepository.user.uid,
       videos: _video);
+
+  String _makeTimeString(int h, int min) {
+    var hAndM = Duration(hours: h, minutes: min).hoursAndMinutesString();
+    if (hAndM.startsWith('0')) return hAndM.substring(1);
+    return hAndM;
+  }
 
   int _validateTimeNumber(int? v, int max) {
     if (v == null) return 0;
@@ -257,7 +277,7 @@ class AddUpdateState with ChangeNotifier {
     _status = AddUpdateStateStatus.loading;
     notifyListeners();
     if (activity != null) {
-      _areLDCHours = activity.isLDCHours;
+      _areLDCHours = activity.type == ActivityType.ldc;
       _date = DateTime(activity.year, activity.month, activity.day);
       _h = activity.hours;
       _min = activity.minutes;
@@ -266,11 +286,11 @@ class AddUpdateState with ChangeNotifier {
       _returns = activity.returnVisits;
       _video = activity.videos;
     }
-    if(activity == null && selectedDate != null) {
+    if (activity == null && selectedDate != null) {
       _date = selectedDate;
     }
     _status = AddUpdateStateStatus.success;
-    _errorMessage = '';
+    _errorCode = AddUpdateErrorCode.noErrors;
     _isMounted = true;
     _userMinutesMultiplayer = _getUserMinutesMultiplier(_userRepository.user.preferences);
     _userWantsLDCButton = _userRepository.user.preferences.showButtonLDCHours;

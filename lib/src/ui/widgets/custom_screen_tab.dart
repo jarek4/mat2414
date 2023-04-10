@@ -42,7 +42,6 @@ class CustomTabBar extends StatelessWidget {
         }).toList(),
       ),
     );
-    ;
   }
 
   InkWell _buildTab(int index, BuildContext context) {

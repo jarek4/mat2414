@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mat2414/locator.dart';

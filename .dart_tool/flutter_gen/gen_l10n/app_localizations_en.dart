@@ -34,63 +34,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addNewActivityBtn => 'Add new activity';
 
   @override
-  String get calendarDayAbbr1 => 'Mon';
-
-  @override
-  String get calendarDayAbbr2 => 'Tue';
-
-  @override
-  String get calendarDayAbbr3 => 'Wed';
-
-  @override
-  String get calendarDayAbbr4 => 'Thu';
-
-  @override
-  String get calendarDayAbbr5 => 'Fri';
-
-  @override
-  String get calendarDayAbbr6 => 'Sat';
-
-  @override
-  String get calendarDayAbbr7 => 'Sun';
-
-  @override
-  String get calendarMonthApril => 'April';
-
-  @override
-  String get calendarMonthAugust => 'August';
-
-  @override
-  String get calendarMonthDecember => 'December';
-
-  @override
-  String get calendarMonthFebruary => 'February';
-
-  @override
-  String get calendarMonthJanuary => 'January';
-
-  @override
-  String get calendarMonthJuly => 'July';
-
-  @override
-  String get calendarMonthJun => 'Jun';
-
-  @override
-  String get calendarMonthMarch => 'March';
-
-  @override
-  String get calendarMonthMay => 'May';
-
-  @override
-  String get calendarMonthNovember => 'November';
-
-  @override
-  String get calendarMonthOctober => 'October';
-
-  @override
-  String get calendarMonthSeptember => 'September';
-
-  @override
   String get databaseNoPermission => 'No permission to access local storage';
 
   @override
@@ -128,12 +71,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get generalError => 'Error';
-
-  @override
-  String get moreManageCategories => 'Manage categories. Add new one, delete or edit.';
-
-  @override
-  String get newPwd => 'New password';
 
   @override
   String get generalEveningWitnessing => 'Evening witnessing';
@@ -267,6 +204,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onBoardingYourName => 'Your name';
+
+  @override
+  String get rateAppBtnLater => 'Remind me later';
+
+  @override
+  String get rateAppBtnNow => 'Rate it now';
+
+  @override
+  String get rateAppContent => 'If you enjoy using mat2414, would you mind taking a moment to rate it? Thanks for your support!';
+
+  @override
+  String get rateAppTitle => 'How are we doing?';
 
   @override
   String get reportBibleStudiesToolTipWidgetText => 'Use arrows to increase or decrease bible studies quantity. The number you set will be shown next month';

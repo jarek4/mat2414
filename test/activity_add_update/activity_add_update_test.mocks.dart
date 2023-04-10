@@ -208,11 +208,11 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         returnValueForMissingStub: _i7.AddUpdateStateStatus.error,
       ) as _i7.AddUpdateStateStatus);
   @override
-  String get errorMessage => (super.noSuchMethod(
-        Invocation.getter(#errorMessage),
-        returnValue: '',
-        returnValueForMissingStub: '',
-      ) as String);
+  _i7.AddUpdateErrorCode get errorCode => (super.noSuchMethod(
+        Invocation.getter(#errorCode),
+        returnValue: _i7.AddUpdateErrorCode.isEmpty,
+        returnValueForMissingStub: _i7.AddUpdateErrorCode.isEmpty,
+      ) as _i7.AddUpdateErrorCode);
   @override
   int get userMinutesMultiplayer => (super.noSuchMethod(
         Invocation.getter(#userMinutesMultiplayer),
@@ -298,10 +298,10 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  void onLDCHoursChange() => super.noSuchMethod(
+  void onLDCHoursChange(String? ldcLocale) => super.noSuchMethod(
         Invocation.method(
           #onLDCHoursChange,
-          [],
+          [ldcLocale],
         ),
         returnValueForMissingStub: null,
       );

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/data/models/models.dart';
+import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/widgets/activity_card.dart';
 import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_alert;
 
@@ -36,13 +36,12 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _editTxt = AppLocalizations.of(context)?.generalEdit ?? _editTxt;
-    _deleteTxt = AppLocalizations.of(context)?.generalDelete ?? _deleteTxt;
+    _editTxt = context.loc.generalEdit;
+    _deleteTxt = context.loc.generalDelete;
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('DismissibleActivityListItem id: ${widget.item.id}');
     return Dismissible(
       // key: ObjectKey(widget.item),
       key: widget.key ?? ObjectKey(widget.item),
@@ -97,9 +96,7 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
   _onDismiss(BuildContext context, DismissDirection direction) async {
     switch (direction) {
       case DismissDirection.startToEnd:
-        // from left to right (edit)
-        if (kDebugMode) print('onDismiss DismissDirection.startToEnd');
-        // await _openEditModalBottomSheet(context);
+        // from left to right (edit). Always need to turn the item back in place.
         break;
       case DismissDirection.endToStart:
         // from right to left (delete)
@@ -117,17 +114,16 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
     String wantToChangeDialog = 'Do you want to change something?';
     String wantToDeleteDialog = 'Are you sure you want to delete it?';
 
-    wantToDeleteDialog = AppLocalizations.of(context)?.dialogWantToDelete ?? wantToDeleteDialog;
     switch (direction) {
       case DismissDirection.startToEnd:
-        wantToChangeDialog = AppLocalizations.of(context)?.dialogMakeChanges ?? wantToDeleteDialog;
+        wantToChangeDialog = context.loc.dialogMakeChanges;
         if (kDebugMode) print('_confirmDismiss DismissDirection.startToEnd');
         if (await _showConfirmationAlert(context, wantToChangeDialog) ?? false) {
           // final Activity? aa = await _openEditModalBottomSheet(context);
-          final Activity? aa = await widget.onUpdate();
-          if (aa != null) {
+          final Activity? updateResponse = await widget.onUpdate();
+          if (updateResponse != null) {
             setState(() {
-              _activity = aa;
+              _activity = updateResponse;
             });
           }
           //print('_confirmDismiss from NAVIGATOR: $aa');
@@ -135,10 +131,9 @@ class _DismissibleActivityListItemState extends State<DismissibleActivityListIte
         } else {
           return false;
         }
-      // return await _customAlert(context, text);
       case DismissDirection.endToStart:
         // from right to left (delete)
-        wantToDeleteDialog = AppLocalizations.of(context)?.dialogWantToDelete ?? wantToDeleteDialog;
+        wantToDeleteDialog = context.loc.dialogWantToDelete;
         if (kDebugMode) print('_confirmDismiss DismissDirection.endToStart');
         return await _showConfirmationAlert(context, wantToDeleteDialog);
       default:

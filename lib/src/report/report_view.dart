@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/calendar/calendar.dart';
 import 'package:mat2414/src/data/models/models.dart';
@@ -207,8 +208,10 @@ class _ReportViewState extends State<ReportView> {
         updatedRemarks = userEditedRemarks;
         _showConfirmationDialog().then((userConfirmed) {
           if (userConfirmed) {
-            /*Provider.of<DetailState>(context, listen: false)
-              .onMonthReportRemarksChange(updatedRemarks);*/
+            */
+/*Provider.of<DetailState>(context, listen: false)
+              .onMonthReportRemarksChange(updatedRemarks);*//*
+
           }
         });
       }
@@ -226,8 +229,10 @@ class _ReportViewState extends State<ReportView> {
       alignment: Alignment.topLeft,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 2.0),
-        /*child: Text('data assets/ images/two_person_table_t_ic512.\ndata assets',
-            style: context.bodySmall, softWrap: true, maxLines: 3, overflow: TextOverflow.ellipsis),*/
+        */
+/*child: Text('data assets/ images/two_person_table_t_ic512.\ndata assets',
+            style: context.bodySmall, softWrap: true, maxLines: 3, overflow: TextOverflow.ellipsis),*//*
+
         child: Selector<ReportState, ReportStateStatus>(
             selector: (_, state) => state.status,
             shouldRebuild: (ReportStateStatus pre, ReportStateStatus next) {
@@ -291,3 +296,4 @@ class _ReportViewState extends State<ReportView> {
     return changedRemarks;
   }
 }
+*/

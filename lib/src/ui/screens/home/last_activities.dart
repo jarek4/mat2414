@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:mat2414/utils/constant_values.dart';
@@ -45,25 +46,12 @@ class _LastActivitiesState extends State<LastActivities> {
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, i) {
-              /*return ShimmerLoading(
+              return ShimmerLoading(
                 isLoading: isWaiting,
                 child: ActivitySimpleView(
-                  data: [
-                    data.isEmpty ? 0 : data[i].placements,
-                    data.isEmpty ? 0 : data[i].videos,
-                    data.isEmpty ? 0 : data[i].returnVisits
-                  ],
-                  duration: Duration(
-                      hours: data.isEmpty ? 0 : data[i].hours,
-                      minutes: data.isEmpty ? 0 : data[i].minutes),
-                ),
-              );*/
-              return ShimmerLoading(
-                  isLoading: isWaiting,
-                  child: ActivitySimpleView(
-                      item: snapshot.data!.isEmpty
-                          ? ConstantValues.emptyActivity
-                          : snapshot.data![i]));
+                    item:
+                        snapshot.data!.isEmpty ? ConstantValues.emptyActivity : snapshot.data![i]),
+              );
             },
             itemCount: isWaiting ? 1 : data.length,
             // itemCount: 1,
@@ -74,6 +62,7 @@ class _LastActivitiesState extends State<LastActivities> {
   }
 
   Widget _buildEmptyInfo() {
-    return const Text('No activities yet');
+    var noActivities = AppLocalizations.of(context).homeNoActivities;
+    return Text(noActivities);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/activity_add_update/widgets/widgets.dart';
+import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +37,7 @@ class ActivityTimeInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? nameStyle = context.bodySmall;
+
     return Container(
       constraints:
           const BoxConstraints(minHeight: _h - 2, minWidth: _minW, maxWidth: _maxW, maxHeight: _h),
@@ -49,7 +50,7 @@ class ActivityTimeInput extends StatelessWidget {
         Expanded(
           flex: 7,
           child: Row(children: [
-            _buildFieldName(nameStyle),
+            _buildFieldName(context),
             const VerticalDivider(indent: 4.0, endIndent: 4.0, thickness: 0.8, width: 4),
             // shows current value from hours and minutes inputs fields
             _buildShowInputValue(),
@@ -68,12 +69,13 @@ class ActivityTimeInput extends StatelessWidget {
     );
   }
 
-  Widget _buildFieldName(TextStyle? style) {
+  Widget _buildFieldName(BuildContext context) {
+    final TextStyle? style = context.bodySmall;
     return Expanded(
       flex: 5,
       child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('Time',
+          child: Text(context.loc.generalTime,
               style: style, overflow: TextOverflow.fade, maxLines: 1, softWrap: false)),
     );
   }

@@ -28,9 +28,9 @@ class _DetailScreenState extends State<DetailScreen> {
             // return _mobileView(context, constraints);
             final bool isWide = constraints.isTablet;
             final double maxH = constraints.maxHeight;
-            return ReportNarrowed(isWide: isWide, maxHeight: maxH);
+            return DetailNarrowed(isWide: isWide, maxHeight: maxH);
           }
-          return const ReportWide();
+          return const DetailWide();
         });
       },
     );

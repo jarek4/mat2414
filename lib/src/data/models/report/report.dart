@@ -32,6 +32,8 @@ class Report {
     this.minutesLDC = 0,
     this.sundayWitnessingHours = 0,
     this.sundayWitnessingQuantity = 0,
+    this.transferredMinutes = 0,
+    this.transferredMinutesActivityId = -111,
     this.uid,
     this.withFieldServiceGroupWitnessingHours = 0,
     this.withFieldServiceGroupWitnessingQuantity = 0,
@@ -42,6 +44,10 @@ class Report {
 
   final short bibleStudies;
 
+  @JsonKey(
+    toJson: _toJson,
+    fromJson: _fromJson,
+  )
   final DateTime createdAt;
 
   final short businessTerritoryWitnessingHours;
@@ -59,6 +65,10 @@ class Report {
   final short informalWitnessingQuantity;
   final bool isClosed;
 
+  @JsonKey(
+    toJson: _toJson,
+    fromJson: _fromJson,
+  )
   final DateTime lastModified;
 
   final byte minutes;
@@ -83,6 +93,11 @@ class Report {
   final short sundayWitnessingHours;
 
   final short sundayWitnessingQuantity;
+
+  final byte transferredMinutes;
+
+  final int transferredMinutesActivityId;
+
   final String? uid;
 
   final short withFieldServiceGroupWitnessingHours;
@@ -122,6 +137,8 @@ class Report {
     int? minutesLDC,
     int? sundayWitnessingHours,
     int? sundayWitnessingQuantity,
+    int? transferredMinutes,
+    int? transferredMinutesActivityId,
     String? uid,
     int? withFieldServiceGroupWitnessingHours,
     int? withFieldServiceGroupWitnessingQuantity,
@@ -155,6 +172,9 @@ class Report {
       minutesLDC: minutesLDC ?? this.minutesLDC,
       sundayWitnessingHours: sundayWitnessingHours ?? this.sundayWitnessingHours,
       sundayWitnessingQuantity: sundayWitnessingQuantity ?? this.sundayWitnessingQuantity,
+      transferredMinutes: transferredMinutes ?? this.transferredMinutes,
+      transferredMinutesActivityId:
+          transferredMinutesActivityId ?? this.transferredMinutesActivityId,
       uid: uid ?? this.uid,
       withFieldServiceGroupWitnessingHours:
           withFieldServiceGroupWitnessingHours ?? this.withFieldServiceGroupWitnessingHours,
@@ -170,6 +190,12 @@ class Report {
 
   /// Connect the generated function to the `toJson` method.
   Map<String, dynamic> toJson() => _$ReportToJson(this);
+
+  // DateTime custom conversions
+  // Isar db needs DateTime as DateTime.now().microsecondsSinceEpoch!
+  static int _toJson(DateTime value) => value.microsecondsSinceEpoch;
+
+  static DateTime _fromJson(int value) => DateTime.fromMicrosecondsSinceEpoch(value);
 
   @override
   bool operator ==(dynamic other) {
@@ -221,6 +247,10 @@ class Report {
             (identical(other.sundayWitnessingQuantity, sundayWitnessingQuantity) ||
                 other.sundayWitnessingQuantity == sundayWitnessingQuantity) &&
             (identical(other.videos, videos) || other.videos == videos) &&
+            (identical(other.transferredMinutes, transferredMinutes) ||
+                other.transferredMinutes == transferredMinutes) &&
+            (identical(other.transferredMinutesActivityId, transferredMinutesActivityId) ||
+                other.transferredMinutesActivityId == transferredMinutesActivityId) &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -255,11 +285,13 @@ class Report {
         sundayWitnessingHours,
         sundayWitnessingQuantity,
         videos,
+        transferredMinutes,
+        transferredMinutesActivityId,
         uid
       ]);
 
   @override
   String toString() {
-    return 'Report(id: $id, createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, minutes: $minutes, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, hoursLDC: $hoursLDC, minutesLDC: $minutesLDC, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, uid: $uid)';
+    return 'Report(id: $id, createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, minutes: $minutes, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, hoursLDC: $hoursLDC, minutesLDC: $minutesLDC, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, transferredMinutes: $transferredMinutes, transferredMinutesActivityId: $transferredMinutesActivityId,  uid: $uid)';
   }
 }

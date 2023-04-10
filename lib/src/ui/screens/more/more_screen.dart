@@ -51,7 +51,7 @@ class MoreScreen extends StatelessWidget {
                       child: Container(
                         constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
                         child: Image.asset(
-                          'assets/images/schedule_transp.png',
+                          'assets/images/schedule_t.png',
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -79,9 +79,9 @@ class MoreScreen extends StatelessWidget {
                             },
                             builder: (BuildContext context, index, __) {
                               return CustomTabBar(
-                                key: Key('MonthNarrowed'),
+                                key: const Key('MonthNarrowed'),
                                 activeIndex: index,
-                                pageNames: ['History', 'Settings'],
+                                pageNames: const ['History', 'Settings'],
                                 onTap: context
                                     .read<MoreScreenStateProvider>()
                                     .onNarrowedTabIndexChange,

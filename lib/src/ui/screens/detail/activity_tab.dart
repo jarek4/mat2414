@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/screens/detail/detail_state.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:mat2414/utils/constant_values.dart';
@@ -42,7 +43,7 @@ class ActivityTab extends StatelessWidget {
           // isWaiting: false; hasData: true; connectionState: ConnectionState.active
           if (snapshot.hasError) return const Center(child: CircularProgressIndicator.adaptive());
           if (isActive && snapshot.hasData && (snapshot.data == null || snapshot.data!.isEmpty)) {
-            return const Center(child: Text('No activities.'));
+            return Center(child: Text(context.loc.homeNoActivities));
           }
           final UnmodifiableListView<Activity> data =
               snapshot.data ?? UnmodifiableListView<Activity>([]);
@@ -55,8 +56,7 @@ class ActivityTab extends StatelessWidget {
                   child: DismissibleActivityListItem(
                     key: data.isNotEmpty ? ObjectKey(data[i]) : ObjectKey(ConstantValues.emptyActivity),
                     item: data.isEmpty ? ConstantValues.emptyActivity : data[i],
-                    onDelete: () => Provider.of<DetailState>(context, listen: false)
-                        .deleteActivity(data[i].id),
+                    onDelete: () => context.read<DetailState>().deleteActivity(data[i].id),
                     onUpdate: () => _openAddEditModalBottomSheet(context, item: data[i]),
                   ),
                 );

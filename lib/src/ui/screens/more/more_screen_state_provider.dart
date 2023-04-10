@@ -16,7 +16,7 @@ class MoreScreenStateProvider with ChangeNotifier {
       serviceYear: '2022/23',
       year: 2023,
       hours: 1,
-      isWithFieldServiceGroupWitnessing: true,
+      isGroupWitnessing: true,
       minutes: 15);
   final a2 = Activity(createdAt: DateTime(2023, 2, 11),
       day: 11,
@@ -54,7 +54,6 @@ class MoreScreenStateProvider with ChangeNotifier {
   }
 
   Future<void> testIsarDbManual() async {
-    print('testIsarDb name: ${db.name}');
     if (await db.collection<User>().count() >= 0) {
       DateTime d = DateTime(2023, 2, 10);
       await db.writeTxn(() async {
@@ -76,7 +75,8 @@ class MoreScreenStateProvider with ChangeNotifier {
 
   Future<void> testIsarAdd() async {
     ActivityLocalDbHelper dbHelper = ActivityLocalDbHelper();
+    // ignore: unused_local_variable
     final int id = await dbHelper.add(a2);
-    print('testIsarAdd id: $id');
+    // print('testIsarAdd id: $id');
   }
 }

@@ -8,8 +8,8 @@ import '../activity_tab.dart';
 import '../detail_state.dart';
 import '../report_tab.dart';
 
-class ReportWide extends StatelessWidget {
-  const ReportWide({Key? key}) : super(key: key);
+class DetailWide extends StatelessWidget {
+  const DetailWide({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class ReportWide extends StatelessWidget {
                 },
                 builder: (BuildContext context, index, __) {
                   return CustomTabBar(
-                      key: const Key('ReportWide'),
+                      key: const Key('DetailWideLayout'),
                       activeIndex: index,
                       pageNames: context.read<DetailState>().tabs,
                       onTap: context.read<DetailState>().onTabIndexChange);

@@ -4,7 +4,9 @@ import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/domain/repositories/i_activity_repository.dart';
 import 'package:mat2414/src/ui/screens/home/home_screen_state_provider.dart';
 import 'package:mockito/mockito.dart';
-import '../../report/report_state_test.mocks.dart';
+
+import '../detail/detail_state_test.mocks.dart';
+
 
 void main() {
   late IActivitiesRepository activitiesRepository;

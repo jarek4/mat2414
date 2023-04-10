@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/data/models/models.dart';
+import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,8 @@ import 'widgets/widgets.dart';
 class ActivityAddUpdateView extends StatefulWidget {
   /// on close returns through Navigator.pop<Activity?>() created or updated Activity item
   /// or null if has been canceled, error occurs or not created/updated
-  const ActivityAddUpdateView({Key? key, this.activityToUpdate, this.initialDate}) : super(key: key);
+  const ActivityAddUpdateView({Key? key, this.activityToUpdate, this.initialDate})
+      : super(key: key);
 
   final Activity? activityToUpdate;
   final DateTime? initialDate;
@@ -23,7 +25,8 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AddUpdateState>(
-      create: (_) => AddUpdateState(activity: widget.activityToUpdate, selectedDate: widget.initialDate),
+      create: (_) =>
+          AddUpdateState(activity: widget.activityToUpdate, selectedDate: widget.initialDate),
       builder: (BuildContext context, Widget? widget) {
         final bool userWantLDCButton = context.read<AddUpdateState>().userWantLDCButton;
         return DraggableScrollableSheet(
@@ -71,14 +74,17 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           return pre != next;
         },
         builder: (BuildContext context, isUpdate, __) {
-          final String title = isUpdate ? 'Edit' : 'New activity';
+          final localeEdit = context.loc.generalEdit;
+          final localeNew = context.loc.addActivityNewActivity;
+          final String title = isUpdate ? localeEdit : localeNew;
           return Text(title, style: context.labelLarge);
         });
   }
 
   FittedBox _buildDataPicker(BuildContext context) {
-    return FittedBox(child: CustomDatePicker(
-        onDatePicked: context.read<AddUpdateState>().setDate,
+    return FittedBox(
+        child: CustomDatePicker(
+      onDatePicked: context.read<AddUpdateState>().setDate,
       date: context.watch<AddUpdateState>().date,
     ));
   }
@@ -102,7 +108,8 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
               builder: (BuildContext context, areLDCHours, __) {
                 return LDCHoursOption(
                   isSelected: areLDCHours,
-                  handle: () => context.read<AddUpdateState>().onLDCHoursChange(),
+                  handle: () =>
+                      context.read<AddUpdateState>().onLDCHoursChange(context.loc.generalLDCHours),
                 );
               }),
         ),
@@ -123,7 +130,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           builder: (BuildContext context, placements, icon) {
             return ActivityInputField(
                 icon: icon!,
-                name: 'Placements',
+                name: context.loc.generalPlacements,
                 onChange: (int v) => context.read<AddUpdateState>().setPlacements(v),
                 value: placements);
           }),
@@ -142,7 +149,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           builder: (BuildContext context, video, icon) {
             return ActivityInputField(
                 icon: icon!,
-                name: 'Video Showings',
+                name: context.loc.generalVideoShowings,
                 onChange: (int v) => context.read<AddUpdateState>().setVideoShowings(v),
                 value: video);
           }),
@@ -161,7 +168,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           builder: (BuildContext context, returns, icon) {
             return ActivityInputField(
                 icon: icon!,
-                name: 'Return visits',
+                name: context.loc.generalReturnVisits,
                 onChange: (int v) => context.read<AddUpdateState>().setReturnVisits(v),
                 value: returns);
           }),
@@ -180,15 +187,15 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           child: SizedBox(
             height: 40,
             child: FittedBox(
-                child: RemarksBtn(() => context.read<AddUpdateState>().addRemarksRequest(),
-                    text: 'Add remarks')),
+              child: RemarksBtn(() => context.read<AddUpdateState>().addRemarksRequest()),
+            ),
           ),
         ),
         builder: (BuildContext context, showRemarksInput, addRemarksButton) {
           final Function(String) onChange = context.read<AddUpdateState>().remarksOnChange;
           if (showRemarksInput) {
             return TextFormField(
-                decoration: const InputDecoration(labelText: 'Remarks', hintText: '...'),
+                decoration: InputDecoration(labelText: context.loc.generalRemarks, hintText: '...'),
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 3,
@@ -213,23 +220,23 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
             return pre != next;
           },
           builder: (BuildContext context, status, empty) {
-            final String er = context.read<AddUpdateState>().errorMessage;
-            if (status == AddUpdateStateStatus.error && er.isNotEmpty) {
-              return Align(
-                  alignment: Alignment.centerLeft,
-                  child: AnimatedUserNotification(msg: er, isError: true));
-            }
+            final AddUpdateErrorCode code = context.read<AddUpdateState>().errorCode;
+            final isErrWithInfo =
+                status == AddUpdateStateStatus.error && code != AddUpdateErrorCode.noErrors;
+            if (isErrWithInfo) return _buildResolvingErrorCodes(code);
             return empty!;
           },
           child: const SizedBox(), // empty
         ),
       ),
-      TextButton(onPressed: () => _closeBottomSheet(null), child: const Text('Cancel')),
+      TextButton(onPressed: () => _closeBottomSheet(null), child: Text(context.loc.generalCancel)),
       Selector<AddUpdateState, AddUpdateStateStatus>(
           selector: (_, state) => state.status,
           shouldRebuild: (AddUpdateStateStatus pre, AddUpdateStateStatus next) {
             return pre != next;
           },
+
+          /// TODO: add localization, no key
           child: const Text('Save'),
           builder: (BuildContext context, status, text) {
             final bool isDisabled =
@@ -247,6 +254,28 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           }),
       const SizedBox(width: 8.0),
     ]);
+  }
+
+  Widget _buildResolvingErrorCodes(AddUpdateErrorCode errorCode) {
+    String info = '';
+    switch (errorCode) {
+      case AddUpdateErrorCode.isEmpty:
+        info = context.loc.addActivityEmptyError;
+        break;
+      case AddUpdateErrorCode.noChangesMade:
+        info = context.loc.addActivityNoChangesMadeError;
+        break;
+      case AddUpdateErrorCode.notCreated:
+        info = context.loc.addActivityNotCreatedError;
+        break;
+      case AddUpdateErrorCode.notUpdated:
+        info = context.loc.addActivityBtnNotSavedNotification;
+        break;
+      default:
+        break;
+    }
+    return Align(
+        alignment: Alignment.centerLeft, child: AnimatedUserNotification(msg: info, isError: true));
   }
 
   void _closeBottomSheet(Activity? savedActivity) {

@@ -168,7 +168,7 @@ class CalendarStateProvider with ChangeNotifier {
     // ABBR_WEEKDAY - E
     // MONTH - MMMM
     var tempMonth = januaryDateTime;
-    for (int i = 1; i < 12; i++) {
+    for (int i = 1; i < 13; i++) {
       monthFromLocale.add(utils.dateFormatter(tempMonth, 'MMMM', localeCode));
       tempMonth = DateTime(tempMonth.year, i + 1);
     }

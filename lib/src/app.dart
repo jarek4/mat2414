@@ -9,7 +9,9 @@ import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/scaffold_key.dart' as global_key;
 import 'package:provider/provider.dart';
 
+
 import 'calendar/calendar_state_provider.dart';
+import 'localization/app_locales.dart';
 import 'settings/settings_controller.dart';
 
 /// The Widget that configures your application.
@@ -64,13 +66,10 @@ class _MyAppState extends State<MyApp> {
                       GlobalWidgetsLocalizations.delegate,
                       GlobalCupertinoLocalizations.delegate,
                     ],
-                    supportedLocales: const [
-                      Locale('en', ''), // English, no country code
-                      Locale('pl', ''),
-                    ],
+                    supportedLocales: AppLocales.all,
                     locale: const Locale('pl'),
                     onGenerateTitle: (BuildContext context) =>
-                        AppLocalizations.of(context)!.appTitle,
+                        AppLocalizations.of(context).appTitle,
                     theme: theme.light(settings.value.sourceColor).copyWith(),
                     darkTheme: theme.dark(settings.value.sourceColor),
                     themeMode: theme.themeMode(),

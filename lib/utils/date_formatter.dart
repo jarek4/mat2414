@@ -2,9 +2,14 @@ import 'package:intl/intl.dart';
 
 /// String pattern = 'yyyy-MM-dd' like 2013-04-20
 String dateFormatter(DateTime date, [String pattern = 'yyyy-MM-dd', String? locale]) {
-  if(!DateFormat.allLocalesWithSymbols().contains(locale)) locale = 'en';
-  final DateFormat formatter = DateFormat(pattern, locale);
-  return formatter.format(date);
+  // If locale does not exist in our set of supported locales then an ArgumentError is thrown.
+  try {
+    if (!DateFormat.allLocalesWithSymbols().contains(locale)) locale = 'en';
+    final DateFormat formatter = DateFormat(pattern, locale);
+    return formatter.format(date);
+  } catch (e) {
+    return DateFormat(pattern).format(date);
+  }
 }
 
 // ICU Name                   Skeleton

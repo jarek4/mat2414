@@ -52,14 +52,14 @@ const ActivitySchema = CollectionSchema(
       name: r'isEveningWitnessing',
       type: IsarType.bool,
     ),
-    r'isInformalWitnessing': PropertySchema(
+    r'isGroupWitnessing': PropertySchema(
       id: 7,
-      name: r'isInformalWitnessing',
+      name: r'isGroupWitnessing',
       type: IsarType.bool,
     ),
-    r'isLDCHours': PropertySchema(
+    r'isInformalWitnessing': PropertySchema(
       id: 8,
-      name: r'isLDCHours',
+      name: r'isInformalWitnessing',
       type: IsarType.bool,
     ),
     r'isPublicWitnessing': PropertySchema(
@@ -72,45 +72,46 @@ const ActivitySchema = CollectionSchema(
       name: r'isSundayWitnessing',
       type: IsarType.bool,
     ),
-    r'isWithFieldServiceGroupWitnessing': PropertySchema(
-      id: 11,
-      name: r'isWithFieldServiceGroupWitnessing',
-      type: IsarType.bool,
-    ),
     r'lastModified': PropertySchema(
-      id: 12,
+      id: 11,
       name: r'lastModified',
       type: IsarType.dateTime,
     ),
     r'minutes': PropertySchema(
-      id: 13,
+      id: 12,
       name: r'minutes',
       type: IsarType.byte,
     ),
     r'month': PropertySchema(
-      id: 14,
+      id: 13,
       name: r'month',
       type: IsarType.byte,
     ),
     r'placements': PropertySchema(
-      id: 15,
+      id: 14,
       name: r'placements',
       type: IsarType.byte,
     ),
     r'remarks': PropertySchema(
-      id: 16,
+      id: 15,
       name: r'remarks',
       type: IsarType.string,
     ),
     r'returnVisits': PropertySchema(
-      id: 17,
+      id: 16,
       name: r'returnVisits',
       type: IsarType.byte,
     ),
     r'serviceYear': PropertySchema(
-      id: 18,
+      id: 17,
       name: r'serviceYear',
       type: IsarType.string,
+    ),
+    r'type': PropertySchema(
+      id: 18,
+      name: r'type',
+      type: IsarType.byte,
+      enumMap: _ActivitytypeEnumValueMap,
     ),
     r'uid': PropertySchema(
       id: 19,
@@ -196,18 +197,18 @@ void _activitySerialize(
   writer.writeByte(offsets[4], object.hours);
   writer.writeBool(offsets[5], object.isBusinessTerritoryWitnessing);
   writer.writeBool(offsets[6], object.isEveningWitnessing);
-  writer.writeBool(offsets[7], object.isInformalWitnessing);
-  writer.writeBool(offsets[8], object.isLDCHours);
+  writer.writeBool(offsets[7], object.isGroupWitnessing);
+  writer.writeBool(offsets[8], object.isInformalWitnessing);
   writer.writeBool(offsets[9], object.isPublicWitnessing);
   writer.writeBool(offsets[10], object.isSundayWitnessing);
-  writer.writeBool(offsets[11], object.isWithFieldServiceGroupWitnessing);
-  writer.writeDateTime(offsets[12], object.lastModified);
-  writer.writeByte(offsets[13], object.minutes);
-  writer.writeByte(offsets[14], object.month);
-  writer.writeByte(offsets[15], object.placements);
-  writer.writeString(offsets[16], object.remarks);
-  writer.writeByte(offsets[17], object.returnVisits);
-  writer.writeString(offsets[18], object.serviceYear);
+  writer.writeDateTime(offsets[11], object.lastModified);
+  writer.writeByte(offsets[12], object.minutes);
+  writer.writeByte(offsets[13], object.month);
+  writer.writeByte(offsets[14], object.placements);
+  writer.writeString(offsets[15], object.remarks);
+  writer.writeByte(offsets[16], object.returnVisits);
+  writer.writeString(offsets[17], object.serviceYear);
+  writer.writeByte(offsets[18], object.type.index);
   writer.writeString(offsets[19], object.uid);
   writer.writeByte(offsets[20], object.videos);
   writer.writeInt(offsets[21], object.year);
@@ -227,19 +228,19 @@ Activity _activityDeserialize(
     id: id,
     isBusinessTerritoryWitnessing: reader.readBoolOrNull(offsets[5]) ?? false,
     isEveningWitnessing: reader.readBoolOrNull(offsets[6]) ?? false,
-    isInformalWitnessing: reader.readBoolOrNull(offsets[7]) ?? false,
-    isLDCHours: reader.readBoolOrNull(offsets[8]) ?? false,
+    isGroupWitnessing: reader.readBoolOrNull(offsets[7]) ?? false,
+    isInformalWitnessing: reader.readBoolOrNull(offsets[8]) ?? false,
     isPublicWitnessing: reader.readBoolOrNull(offsets[9]) ?? false,
     isSundayWitnessing: reader.readBoolOrNull(offsets[10]) ?? false,
-    isWithFieldServiceGroupWitnessing:
-        reader.readBoolOrNull(offsets[11]) ?? false,
-    lastModified: reader.readDateTime(offsets[12]),
-    minutes: reader.readByteOrNull(offsets[13]) ?? 0,
-    month: reader.readByte(offsets[14]),
-    placements: reader.readByteOrNull(offsets[15]) ?? 0,
-    remarks: reader.readStringOrNull(offsets[16]) ?? '',
-    returnVisits: reader.readByteOrNull(offsets[17]) ?? 0,
-    serviceYear: reader.readString(offsets[18]),
+    lastModified: reader.readDateTime(offsets[11]),
+    minutes: reader.readByteOrNull(offsets[12]) ?? 0,
+    month: reader.readByte(offsets[13]),
+    placements: reader.readByteOrNull(offsets[14]) ?? 0,
+    remarks: reader.readStringOrNull(offsets[15]) ?? '',
+    returnVisits: reader.readByteOrNull(offsets[16]) ?? 0,
+    serviceYear: reader.readString(offsets[17]),
+    type: _ActivitytypeValueEnumMap[reader.readByteOrNull(offsets[18])] ??
+        ActivityType.normal,
     uid: reader.readStringOrNull(offsets[19]),
     videos: reader.readByteOrNull(offsets[20]) ?? 0,
     year: reader.readInt(offsets[21]),
@@ -277,21 +278,22 @@ P _activityDeserializeProp<P>(
     case 10:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 11:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 12:
       return (reader.readDateTime(offset)) as P;
+    case 12:
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 13:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 14:
       return (reader.readByte(offset)) as P;
+    case 14:
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 15:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 16:
       return (reader.readStringOrNull(offset) ?? '') as P;
-    case 17:
+    case 16:
       return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 18:
+    case 17:
       return (reader.readString(offset)) as P;
+    case 18:
+      return (_ActivitytypeValueEnumMap[reader.readByteOrNull(offset)] ??
+          ActivityType.normal) as P;
     case 19:
       return (reader.readStringOrNull(offset)) as P;
     case 20:
@@ -302,6 +304,19 @@ P _activityDeserializeProp<P>(
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _ActivitytypeEnumValueMap = {
+  'normal': 0,
+  'ldc': 1,
+  'transferred': 2,
+  'transferredLdc': 3,
+};
+const _ActivitytypeValueEnumMap = {
+  0: ActivityType.normal,
+  1: ActivityType.ldc,
+  2: ActivityType.transferred,
+  3: ActivityType.transferredLdc,
+};
 
 Id _activityGetId(Activity object) {
   return object.id;
@@ -1023,20 +1038,20 @@ extension ActivityQueryFilter
   }
 
   QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      isInformalWitnessingEqualTo(bool value) {
+      isGroupWitnessingEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isInformalWitnessing',
+        property: r'isGroupWitnessing',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> isLDCHoursEqualTo(
-      bool value) {
+  QueryBuilder<Activity, Activity, QAfterFilterCondition>
+      isInformalWitnessingEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isLDCHours',
+        property: r'isInformalWitnessing',
         value: value,
       ));
     });
@@ -1057,16 +1072,6 @@ extension ActivityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isSundayWitnessing',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition>
-      isWithFieldServiceGroupWitnessingEqualTo(bool value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isWithFieldServiceGroupWitnessing',
         value: value,
       ));
     });
@@ -1601,6 +1606,59 @@ extension ActivityQueryFilter
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterFilterCondition> typeEqualTo(
+      ActivityType value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterFilterCondition> typeGreaterThan(
+    ActivityType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterFilterCondition> typeLessThan(
+    ActivityType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterFilterCondition> typeBetween(
+    ActivityType lower,
+    ActivityType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'type',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterFilterCondition> uidIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1948,6 +2006,18 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsGroupWitnessing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGroupWitnessing', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsGroupWitnessingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGroupWitnessing', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsInformalWitnessing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isInformalWitnessing', Sort.asc);
@@ -1958,18 +2028,6 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
       sortByIsInformalWitnessingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isInformalWitnessing', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLDCHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLDCHours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByIsLDCHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLDCHours', Sort.desc);
     });
   }
 
@@ -1996,20 +2054,6 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
       sortByIsSundayWitnessingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSundayWitnessing', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      sortByIsWithFieldServiceGroupWitnessing() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isWithFieldServiceGroupWitnessing', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      sortByIsWithFieldServiceGroupWitnessingDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isWithFieldServiceGroupWitnessing', Sort.desc);
     });
   }
 
@@ -2094,6 +2138,18 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByServiceYearDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'serviceYear', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.desc);
     });
   }
 
@@ -2235,6 +2291,18 @@ extension ActivityQuerySortThenBy
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsGroupWitnessing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGroupWitnessing', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsGroupWitnessingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGroupWitnessing', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsInformalWitnessing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isInformalWitnessing', Sort.asc);
@@ -2245,18 +2313,6 @@ extension ActivityQuerySortThenBy
       thenByIsInformalWitnessingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isInformalWitnessing', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLDCHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLDCHours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByIsLDCHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLDCHours', Sort.desc);
     });
   }
 
@@ -2283,20 +2339,6 @@ extension ActivityQuerySortThenBy
       thenByIsSundayWitnessingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSundayWitnessing', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      thenByIsWithFieldServiceGroupWitnessing() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isWithFieldServiceGroupWitnessing', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy>
-      thenByIsWithFieldServiceGroupWitnessingDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isWithFieldServiceGroupWitnessing', Sort.desc);
     });
   }
 
@@ -2384,6 +2426,18 @@ extension ActivityQuerySortThenBy
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -2466,15 +2520,15 @@ extension ActivityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Activity, Activity, QDistinct> distinctByIsInformalWitnessing() {
+  QueryBuilder<Activity, Activity, QDistinct> distinctByIsGroupWitnessing() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isInformalWitnessing');
+      return query.addDistinctBy(r'isGroupWitnessing');
     });
   }
 
-  QueryBuilder<Activity, Activity, QDistinct> distinctByIsLDCHours() {
+  QueryBuilder<Activity, Activity, QDistinct> distinctByIsInformalWitnessing() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isLDCHours');
+      return query.addDistinctBy(r'isInformalWitnessing');
     });
   }
 
@@ -2487,13 +2541,6 @@ extension ActivityQueryWhereDistinct
   QueryBuilder<Activity, Activity, QDistinct> distinctByIsSundayWitnessing() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSundayWitnessing');
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QDistinct>
-      distinctByIsWithFieldServiceGroupWitnessing() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isWithFieldServiceGroupWitnessing');
     });
   }
 
@@ -2538,6 +2585,12 @@ extension ActivityQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'serviceYear', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QDistinct> distinctByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'type');
     });
   }
 
@@ -2612,16 +2665,16 @@ extension ActivityQueryProperty
     });
   }
 
+  QueryBuilder<Activity, bool, QQueryOperations> isGroupWitnessingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isGroupWitnessing');
+    });
+  }
+
   QueryBuilder<Activity, bool, QQueryOperations>
       isInformalWitnessingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isInformalWitnessing');
-    });
-  }
-
-  QueryBuilder<Activity, bool, QQueryOperations> isLDCHoursProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isLDCHours');
     });
   }
 
@@ -2634,13 +2687,6 @@ extension ActivityQueryProperty
   QueryBuilder<Activity, bool, QQueryOperations> isSundayWitnessingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isSundayWitnessing');
-    });
-  }
-
-  QueryBuilder<Activity, bool, QQueryOperations>
-      isWithFieldServiceGroupWitnessingProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isWithFieldServiceGroupWitnessing');
     });
   }
 
@@ -2686,6 +2732,12 @@ extension ActivityQueryProperty
     });
   }
 
+  QueryBuilder<Activity, ActivityType, QQueryOperations> typeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'type');
+    });
+  }
+
   QueryBuilder<Activity, String?, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
@@ -2710,9 +2762,9 @@ extension ActivityQueryProperty
 // **************************************************************************
 
 Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: Activity._fromJson(json['createdAt'] as int),
       day: json['day'] as int,
-      lastModified: DateTime.parse(json['lastModified'] as String),
+      lastModified: Activity._fromJson(json['lastModified'] as int),
       month: json['month'] as int,
       serviceYear: json['serviceYear'] as String,
       year: json['year'] as int,
@@ -2725,20 +2777,20 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       isInformalWitnessing: json['isInformalWitnessing'] as bool? ?? false,
       isPublicWitnessing: json['isPublicWitnessing'] as bool? ?? false,
       isSundayWitnessing: json['isSundayWitnessing'] as bool? ?? false,
-      isWithFieldServiceGroupWitnessing:
-          json['isWithFieldServiceGroupWitnessing'] as bool? ?? false,
+      isGroupWitnessing: json['isGroupWitnessing'] as bool? ?? false,
       minutes: json['minutes'] as int? ?? 0,
       placements: json['placements'] as int? ?? 0,
       remarks: json['remarks'] as String? ?? '',
       returnVisits: json['returnVisits'] as int? ?? 0,
-      isLDCHours: json['isLDCHours'] as bool? ?? false,
+      type: $enumDecodeNullable(_$ActivityTypeEnumMap, json['type']) ??
+          ActivityType.normal,
       uid: json['uid'] as String?,
       videos: json['videos'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'bibleStudies': instance.bibleStudies,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'createdAt': Activity._toJson(instance.createdAt),
       'day': instance.day,
       'hours': instance.hours,
       'id': instance.id,
@@ -2747,17 +2799,23 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'isInformalWitnessing': instance.isInformalWitnessing,
       'isPublicWitnessing': instance.isPublicWitnessing,
       'isSundayWitnessing': instance.isSundayWitnessing,
-      'isWithFieldServiceGroupWitnessing':
-          instance.isWithFieldServiceGroupWitnessing,
-      'lastModified': instance.lastModified.toIso8601String(),
+      'isGroupWitnessing': instance.isGroupWitnessing,
+      'lastModified': Activity._toJson(instance.lastModified),
       'minutes': instance.minutes,
       'month': instance.month,
       'placements': instance.placements,
       'remarks': instance.remarks,
       'returnVisits': instance.returnVisits,
       'serviceYear': instance.serviceYear,
-      'isLDCHours': instance.isLDCHours,
+      'type': _$ActivityTypeEnumMap[instance.type]!,
       'uid': instance.uid,
       'videos': instance.videos,
       'year': instance.year,
     };
+
+const _$ActivityTypeEnumMap = {
+  ActivityType.normal: 0,
+  ActivityType.ldc: 1,
+  ActivityType.transferred: 2,
+  ActivityType.transferredLdc: 3,
+};

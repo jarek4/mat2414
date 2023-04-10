@@ -56,6 +56,8 @@ class DetailState with ChangeNotifier {
     }
   }
 
+  // ACTIVITY TAB:
+
   Stream<UnmodifiableListView<Activity>> watchDayActivities() async* {
     yield UnmodifiableListView<Activity>(await _getActivitiesForADay());
     yield* _watchForADayController.stream;
@@ -77,6 +79,12 @@ class DetailState with ChangeNotifier {
   }
 
   // REPORT TAB
+
+  Report _monthlyReport = ConstantValues.emptyReport;
+
+  Report get monthlyReport => _monthlyReport;
+
+  final StreamController<Report> reportController = StreamController<Report>.broadcast();
 
   /// The value has to be +1 or -1
   void onBibleStudiesChange(int value) {
@@ -103,15 +111,8 @@ class DetailState with ChangeNotifier {
     notifyListeners();
   }
 
-  Report _monthlyReport = ConstantValues.emptyReport;
-
-  Report get monthlyReport => _monthlyReport;
-
-  final StreamController<Report> reportController = StreamController<Report>.broadcast();
-
   Stream<Report> watchReport() async* {
     await Future.delayed(const Duration(seconds: 1));
-    //final Report r = await buildSelectedMonthReport();
     await buildSelectedMonthReport();
     yield _monthlyReport;
     yield* reportController.stream;
@@ -137,16 +138,16 @@ class DetailState with ChangeNotifier {
       // there are activities for that month - make a report
 
       // select activities with LDC hours:
-      final List<Activity> ldcActivities = activities.where((a) => a.isLDCHours == true).toList();
+      final List<Activity> ldcActivities = activities.where((a) => a.type == ActivityType.ldc).toList();
 
       if (ldcActivities.isEmpty) {
-        final Report reportNoLDC = _buildReportNoLDCActivities(activities);
+        final Report reportNoLDC = await _buildReportNoLDCActivities(activities);
         reportController.sink.add(_monthlyReport = reportNoLDC);
         notifyListeners();
         return;
         //return reportNoLDC;
       } else {
-        final Report reportWithLDC = _buildReportWithLDCActivities(activities);
+        final Report reportWithLDC = await _buildReportWithLDCActivities(activities);
         reportController.sink.add(_monthlyReport = reportWithLDC);
         notifyListeners();
         return;
@@ -164,7 +165,7 @@ class DetailState with ChangeNotifier {
     // return empty;
   }
 
-  Report _buildReportNoLDCActivities(List<Activity> activities) {
+  Future<Report> _buildReportNoLDCActivities(List<Activity> activities) async {
     int placementsTemp = 0, videosTemp = 0, returnVisitsTemp = 0;
     String remarksTemp = '';
     Duration durationTemp = const Duration();
@@ -196,7 +197,7 @@ class DetailState with ChangeNotifier {
     return created;
   }
 
-  Report _buildReportWithLDCActivities(List<Activity> all) {
+  Future<Report> _buildReportWithLDCActivities(List<Activity> all) async {
     // activities contains also the LDC hours. This hours need to be separated, and
     // will be collected in report.hoursLDC and minutes.LDC. Need to count only hours and minutes.
     // Subtract them from the total number of hours.
@@ -209,7 +210,7 @@ class DetailState with ChangeNotifier {
 
     for (Activity a in all) {
       // Separate (subtract) ldc hours.
-      if (a.isLDCHours) {
+      if (a.type == ActivityType.ldc) {
         ldsDuration += Duration(hours: a.hours, minutes: a.minutes);
       } else {
         noLdcDuration += Duration(hours: a.hours, minutes: a.minutes);
@@ -240,7 +241,51 @@ class DetailState with ChangeNotifier {
       minutesLDC: ldsDuration.inMinutes.remainder(60),
       uid: _userRepository.user.uid,
     );
+
     return created;
+  }
+
+  // only full hours in the report
+  FutureOr<Report> _transferMinutesToTheNextMonth(Report r) async {
+    var rHours = r.hours;
+    var rMinutes = r.minutes;
+    // time is 0:15 or 12:00
+    if (rHours < 1 || rMinutes == 0) return r;
+    // create activity for next month with minutes from this month
+    // have to specify a month, year and service year for the new activity
+    final rMonth = r.month;
+    final rYear = r.year;
+    var aMonth = rMonth == 12 ? 1 : rMonth + 1;
+    var aYear = rMonth == 12 ? rYear + 1 : rYear;
+    var aServiceYear = r.serviceYear;
+    // if current month is 8 august, next month is new service year [2023/2024 -> 2024/2025]
+    if (rMonth == 8) {
+      var rServiceYears = r.serviceYear.split('/');
+      var first = int.tryParse(rServiceYears[0]);
+      var second = int.tryParse(rServiceYears[1]);
+      final int firstNn = first ?? (rMonth != 8 ? rYear : rYear + 1);
+      final int secondNn = second ?? (rMonth != 8 ? rYear : rYear + 2);
+      aServiceYear = '$firstNn/$secondNn';
+    }
+    final nextMonthActivity = Activity(
+      createdAt: _currentDate,
+      day: 1,
+      lastModified: _currentDate,
+      month: aMonth,
+      serviceYear: aServiceYear,
+      year: aYear,
+      minutes: rMinutes,
+      remarks: '$rMonth/$rYear', // Transferred from 4/2023
+      type: ActivityType.transferred,
+      uid: _userRepository.user.uid,
+    );
+    // save transferred minutes activity
+    final id = await _activitiesRepository.create(nextMonthActivity);
+    return r.copyWith(
+        transferredMinutes: rMinutes,
+        transferredMinutesActivityId: id,
+        minutes: 0,
+        remarks: 'Transferred: $rMinutes min. ${r.remarks}');
   }
 
   Future<Report?> _getClosedReport() async {
@@ -253,9 +298,13 @@ class DetailState with ChangeNotifier {
   }
 
   Future<int> closeReport() async {
-    final Report closed = _monthlyReport.copyWith(isClosed: true);
-    final int res = await _reportsRepository.update(closed);
-    reportController.sink.add(_monthlyReport = closed);
+    // final reportAfterTransferMinutes = await _transferMinutesToTheNextMonth(created);
+    // print('buildSelectedMonthReport buildReportWithLDCActivities: $reportAfterTransferMinutes');
+    // return reportAfterTransferMinutes;
+    _monthlyReport = await _transferMinutesToTheNextMonth( _monthlyReport.copyWith(isClosed: true));
+    // final Report closed = _monthlyReport.copyWith(isClosed: true);
+    final int res = await _reportsRepository.update(_monthlyReport);
+    reportController.sink.add(_monthlyReport);
     notifyListeners();
     return res;
   }

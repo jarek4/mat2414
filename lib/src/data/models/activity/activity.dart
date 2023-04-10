@@ -21,17 +21,22 @@ class Activity {
     this.isInformalWitnessing = false,
     this.isPublicWitnessing = false,
     this.isSundayWitnessing = false,
-    this.isWithFieldServiceGroupWitnessing = false,
+    this.isGroupWitnessing = false,
     this.minutes = 0,
     this.placements = 0,
     this.remarks = '',
     this.returnVisits = 0,
-    this.isLDCHours = false,
+    this.type = ActivityType.normal,
     this.uid,
     this.videos = 0,
   });
 
   final byte bibleStudies;
+
+  @JsonKey(
+    toJson: _toJson,
+    fromJson: _fromJson,
+  )
   final DateTime createdAt;
   final byte day; // byte 0 to 255
   final byte hours;
@@ -41,7 +46,12 @@ class Activity {
   final bool isInformalWitnessing;
   final bool isPublicWitnessing;
   final bool isSundayWitnessing;
-  final bool isWithFieldServiceGroupWitnessing; // change to: Group Witnessing!
+  final bool isGroupWitnessing;
+
+  @JsonKey(
+    toJson: _toJson,
+    fromJson: _fromJson,
+  )
   final DateTime lastModified;
   final byte minutes;
   final byte month;
@@ -49,9 +59,10 @@ class Activity {
   final String remarks; // max. 150 characters!
   final byte returnVisits;
   final String serviceYear;
-  final bool isLDCHours;
-  final String? uid;
 
+  @enumerated
+  final ActivityType type;
+  final String? uid;
   final byte videos;
 
   @Index(composite: [
@@ -71,7 +82,7 @@ class Activity {
     bool? isInformalWitnessing,
     bool? isPublicWitnessing,
     bool? isSundayWitnessing,
-    bool? isWithFieldServiceGroupWitnessing,
+    bool? isGroupWitnessing,
     DateTime? lastModified,
     int? minutes,
     int? month,
@@ -79,7 +90,7 @@ class Activity {
     String? remarks,
     int? returnVisits,
     String? serviceYear,
-    bool? isLDCHours,
+    ActivityType? type,
     String? uid,
     int? videos,
     int? year,
@@ -96,8 +107,7 @@ class Activity {
       isInformalWitnessing: isInformalWitnessing ?? this.isInformalWitnessing,
       isPublicWitnessing: isPublicWitnessing ?? this.isPublicWitnessing,
       isSundayWitnessing: isSundayWitnessing ?? this.isSundayWitnessing,
-      isWithFieldServiceGroupWitnessing:
-          isWithFieldServiceGroupWitnessing ?? this.isWithFieldServiceGroupWitnessing,
+      isGroupWitnessing: isGroupWitnessing ?? this.isGroupWitnessing,
       lastModified: lastModified ?? this.lastModified,
       minutes: minutes ?? this.minutes,
       month: month ?? this.month,
@@ -105,7 +115,7 @@ class Activity {
       remarks: remarks ?? this.remarks,
       returnVisits: returnVisits ?? this.returnVisits,
       serviceYear: serviceYear ?? this.serviceYear,
-      isLDCHours: isLDCHours ?? this.isLDCHours,
+      type: type ?? this.type,
       uid: uid ?? this.uid,
       videos: videos ?? this.videos,
       year: year ?? this.year,
@@ -117,6 +127,12 @@ class Activity {
 
   /// Connect the generated function to the `toJson` method.
   Map<String, dynamic> toJson() => _$ActivityToJson(this);
+
+  // DateTime custom conversions
+  // Isar db needs DateTime as DateTime.now().microsecondsSinceEpoch!
+  static int _toJson(DateTime value) => value.microsecondsSinceEpoch;
+
+  static DateTime _fromJson(int value) => DateTime.fromMicrosecondsSinceEpoch(value);
 
   @override
   bool operator ==(dynamic other) {
@@ -133,7 +149,7 @@ class Activity {
             other.isInformalWitnessing == isInformalWitnessing &&
             other.isPublicWitnessing == isPublicWitnessing &&
             other.isSundayWitnessing == isSundayWitnessing &&
-            other.isWithFieldServiceGroupWitnessing == isWithFieldServiceGroupWitnessing &&
+            other.isGroupWitnessing == isGroupWitnessing &&
             other.lastModified == lastModified &&
             other.minutes == minutes &&
             other.month == month &&
@@ -141,7 +157,7 @@ class Activity {
             other.remarks == remarks &&
             other.returnVisits == returnVisits &&
             other.serviceYear == serviceYear &&
-            other.isLDCHours == isLDCHours &&
+            other.type == type &&
             other.uid == uid &&
             other.videos == videos &&
             other.year == year);
@@ -163,19 +179,30 @@ class Activity {
         isInformalWitnessing,
         isPublicWitnessing,
         isSundayWitnessing,
-        isWithFieldServiceGroupWitnessing,
+        isGroupWitnessing,
         minutes,
         uid,
         placements,
         remarks,
         returnVisits,
         serviceYear,
-        isLDCHours,
+        type,
         videos
       ]);
 
   @override
   String toString() {
-    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isWithFieldServiceGroupWitnessing: $isWithFieldServiceGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, isLDCHours: $isLDCHours, videos: $videos)';
+    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isGroupWitnessing: $isGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, type: $type, videos: $videos)';
   }
+}
+@JsonEnum(alwaysCreate: true)
+enum ActivityType {
+  @JsonValue(0)
+  normal,
+  @JsonValue(1)
+  ldc,
+  @JsonValue(2)
+  transferred,
+  @JsonValue(3)
+  transferredLdc,
 }

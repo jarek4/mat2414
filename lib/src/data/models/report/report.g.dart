@@ -137,28 +137,38 @@ const ReportSchema = CollectionSchema(
       name: r'sundayWitnessingQuantity',
       type: IsarType.int,
     ),
-    r'uid': PropertySchema(
+    r'transferredMinutes': PropertySchema(
       id: 24,
+      name: r'transferredMinutes',
+      type: IsarType.byte,
+    ),
+    r'transferredMinutesActivityId': PropertySchema(
+      id: 25,
+      name: r'transferredMinutesActivityId',
+      type: IsarType.long,
+    ),
+    r'uid': PropertySchema(
+      id: 26,
       name: r'uid',
       type: IsarType.string,
     ),
     r'videos': PropertySchema(
-      id: 25,
+      id: 27,
       name: r'videos',
       type: IsarType.int,
     ),
     r'withFieldServiceGroupWitnessingHours': PropertySchema(
-      id: 26,
+      id: 28,
       name: r'withFieldServiceGroupWitnessingHours',
       type: IsarType.int,
     ),
     r'withFieldServiceGroupWitnessingQuantity': PropertySchema(
-      id: 27,
+      id: 29,
       name: r'withFieldServiceGroupWitnessingQuantity',
       type: IsarType.int,
     ),
     r'year': PropertySchema(
-      id: 28,
+      id: 30,
       name: r'year',
       type: IsarType.int,
     )
@@ -248,11 +258,13 @@ void _reportSerialize(
   writer.writeString(offsets[21], object.serviceYear);
   writer.writeInt(offsets[22], object.sundayWitnessingHours);
   writer.writeInt(offsets[23], object.sundayWitnessingQuantity);
-  writer.writeString(offsets[24], object.uid);
-  writer.writeInt(offsets[25], object.videos);
-  writer.writeInt(offsets[26], object.withFieldServiceGroupWitnessingHours);
-  writer.writeInt(offsets[27], object.withFieldServiceGroupWitnessingQuantity);
-  writer.writeInt(offsets[28], object.year);
+  writer.writeByte(offsets[24], object.transferredMinutes);
+  writer.writeLong(offsets[25], object.transferredMinutesActivityId);
+  writer.writeString(offsets[26], object.uid);
+  writer.writeInt(offsets[27], object.videos);
+  writer.writeInt(offsets[28], object.withFieldServiceGroupWitnessingHours);
+  writer.writeInt(offsets[29], object.withFieldServiceGroupWitnessingQuantity);
+  writer.writeInt(offsets[30], object.year);
 }
 
 Report _reportDeserialize(
@@ -286,13 +298,15 @@ Report _reportDeserialize(
     serviceYear: reader.readString(offsets[21]),
     sundayWitnessingHours: reader.readIntOrNull(offsets[22]) ?? 0,
     sundayWitnessingQuantity: reader.readIntOrNull(offsets[23]) ?? 0,
-    uid: reader.readStringOrNull(offsets[24]),
-    videos: reader.readIntOrNull(offsets[25]) ?? 0,
+    transferredMinutes: reader.readByteOrNull(offsets[24]) ?? 0,
+    transferredMinutesActivityId: reader.readLongOrNull(offsets[25]) ?? -111,
+    uid: reader.readStringOrNull(offsets[26]),
+    videos: reader.readIntOrNull(offsets[27]) ?? 0,
     withFieldServiceGroupWitnessingHours:
-        reader.readIntOrNull(offsets[26]) ?? 0,
+        reader.readIntOrNull(offsets[28]) ?? 0,
     withFieldServiceGroupWitnessingQuantity:
-        reader.readIntOrNull(offsets[27]) ?? 0,
-    year: reader.readInt(offsets[28]),
+        reader.readIntOrNull(offsets[29]) ?? 0,
+    year: reader.readInt(offsets[30]),
   );
   return object;
 }
@@ -353,14 +367,18 @@ P _reportDeserializeProp<P>(
     case 23:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 24:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 25:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset) ?? -111) as P;
     case 26:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 27:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 28:
+      return (reader.readIntOrNull(offset) ?? 0) as P;
+    case 29:
+      return (reader.readIntOrNull(offset) ?? 0) as P;
+    case 30:
       return (reader.readInt(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2156,6 +2174,117 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Report, Report, QAfterFilterCondition> transferredMinutesEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'transferredMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      transferredMinutesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'transferredMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      transferredMinutesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'transferredMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition> transferredMinutesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'transferredMinutes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      transferredMinutesActivityIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'transferredMinutesActivityId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      transferredMinutesActivityIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'transferredMinutesActivityId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      transferredMinutesActivityIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'transferredMinutesActivityId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      transferredMinutesActivityIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'transferredMinutesActivityId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Report, Report, QAfterFilterCondition> uidIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2821,6 +2950,32 @@ extension ReportQuerySortBy on QueryBuilder<Report, Report, QSortBy> {
     });
   }
 
+  QueryBuilder<Report, Report, QAfterSortBy> sortByTransferredMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy> sortByTransferredMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy>
+      sortByTransferredMinutesActivityId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutesActivityId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy>
+      sortByTransferredMinutesActivityIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutesActivityId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Report, Report, QAfterSortBy> sortByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -3201,6 +3356,32 @@ extension ReportQuerySortThenBy on QueryBuilder<Report, Report, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Report, Report, QAfterSortBy> thenByTransferredMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy> thenByTransferredMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy>
+      thenByTransferredMinutesActivityId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutesActivityId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy>
+      thenByTransferredMinutesActivityIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transferredMinutesActivityId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Report, Report, QAfterSortBy> thenByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -3420,6 +3601,19 @@ extension ReportQueryWhereDistinct on QueryBuilder<Report, Report, QDistinct> {
     });
   }
 
+  QueryBuilder<Report, Report, QDistinct> distinctByTransferredMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'transferredMinutes');
+    });
+  }
+
+  QueryBuilder<Report, Report, QDistinct>
+      distinctByTransferredMinutesActivityId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'transferredMinutesActivityId');
+    });
+  }
+
   QueryBuilder<Report, Report, QDistinct> distinctByUid(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -3612,6 +3806,19 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Report, int, QQueryOperations> transferredMinutesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'transferredMinutes');
+    });
+  }
+
+  QueryBuilder<Report, int, QQueryOperations>
+      transferredMinutesActivityIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'transferredMinutesActivityId');
+    });
+  }
+
   QueryBuilder<Report, String?, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
@@ -3650,8 +3857,8 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
 // **************************************************************************
 
 Report _$ReportFromJson(Map<String, dynamic> json) => Report(
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      lastModified: DateTime.parse(json['lastModified'] as String),
+      createdAt: Report._fromJson(json['createdAt'] as int),
+      lastModified: Report._fromJson(json['lastModified'] as int),
       month: json['month'] as int,
       serviceYear: json['serviceYear'] as String,
       year: json['year'] as int,
@@ -3678,6 +3885,9 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       minutesLDC: json['minutesLDC'] as int? ?? 0,
       sundayWitnessingHours: json['sundayWitnessingHours'] as int? ?? 0,
       sundayWitnessingQuantity: json['sundayWitnessingQuantity'] as int? ?? 0,
+      transferredMinutes: json['transferredMinutes'] as int? ?? 0,
+      transferredMinutesActivityId:
+          json['transferredMinutesActivityId'] as int? ?? -111,
       uid: json['uid'] as String?,
       withFieldServiceGroupWitnessingHours:
           json['withFieldServiceGroupWitnessingHours'] as int? ?? 0,
@@ -3689,7 +3899,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
 Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'id': instance.id,
       'bibleStudies': instance.bibleStudies,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'createdAt': Report._toJson(instance.createdAt),
       'businessTerritoryWitnessingHours':
           instance.businessTerritoryWitnessingHours,
       'businessTerritoryWitnessingQuantity':
@@ -3700,7 +3910,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'informalWitnessingHours': instance.informalWitnessingHours,
       'informalWitnessingQuantity': instance.informalWitnessingQuantity,
       'isClosed': instance.isClosed,
-      'lastModified': instance.lastModified.toIso8601String(),
+      'lastModified': Report._toJson(instance.lastModified),
       'minutes': instance.minutes,
       'month': instance.month,
       'placements': instance.placements,
@@ -3713,6 +3923,8 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'minutesLDC': instance.minutesLDC,
       'sundayWitnessingHours': instance.sundayWitnessingHours,
       'sundayWitnessingQuantity': instance.sundayWitnessingQuantity,
+      'transferredMinutes': instance.transferredMinutes,
+      'transferredMinutesActivityId': instance.transferredMinutesActivityId,
       'uid': instance.uid,
       'withFieldServiceGroupWitnessingHours':
           instance.withFieldServiceGroupWitnessingHours,

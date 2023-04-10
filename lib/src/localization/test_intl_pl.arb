@@ -6,7 +6,7 @@
     },
   "addActivityAddRemarksBtn": "Dodaj uwagi",
   "@addActivityAddRemarksBtn": {},
-  "addActivityBtnNotSavedNotification": "Nie udało się zapisać",
+  "addActivityBtnNotSavedNotification": "Aktywność nie zapisana",
   "@addActivityBtnNotSavedNotification": {
     "description": ""
   },
@@ -28,50 +28,6 @@
   "@addNewActivityBtn": {
     "description": "button text"
   },
-  "calendarDayAbbr1": "Mon",
-  "@calendarDayAbbr1": {},
-  "calendarDayAbbr2": "Tue",
-  "@calendarDayAbbr2": {},
-  "calendarDayAbbr3": "Wed",
-  "@calendarDayAbbr3": {
-    "description": "week day abbreviation week day abbreviation Wednesday"
-  },
-  "calendarDayAbbr4": "Thu",
-  "@calendarDayAbbr4": {
-    "description": "week day abbreviation week day abbreviation Thursday"
-  },
-  "calendarDayAbbr5": "Fri",
-  "@calendarDayAbbr5": {},
-  "calendarDayAbbr6": "Sat",
-  "@calendarDayAbbr6": {},
-  "calendarDayAbbr7": "Sun",
-  "@calendarDayAbbr7": {},
-  "calendarMonthApril": "April",
-  "@calendarMonthApril": {
-    "description": ""
-  },
-  "calendarMonthAugust": "August",
-  "@calendarMonthAugust": {},
-  "calendarMonthDecember": "December",
-  "@calendarMonthDecember": {},
-  "calendarMonthFebruary": "February",
-  "@calendarMonthFebruary": {},
-  "calendarMonthJanuary": "January",
-  "@calendarMonthJanuary": {},
-  "calendarMonthJuly": "July",
-  "@calendarMonthJuly": {},
-  "calendarMonthJun": "Jun",
-  "@calendarMonthJun": {},
-  "calendarMonthMarch": "March",
-  "@calendarMonthMarch": {},
-  "calendarMonthMay": "May",
-  "@calendarMonthMay": {},
-  "calendarMonthNovember": "November",
-  "@calendarMonthNovember": {},
-  "calendarMonthOctober": "October",
-  "@calendarMonthOctober": {},
-  "calendarMonthSeptember": "September",
-  "@calendarMonthSeptember": {},
   "databaseNoPermission": "No permission to access local storage",
   "@databaseNoPermission": {
     "description": "Error message, access"
@@ -114,12 +70,6 @@
   "@generalError": {
     "description": ""
   },
-  "moreManageCategories": "Manage categories. Add new one, delete or edit.",
-  "@moreManageCategories": {},
-  "newPwd": "New password",
-  "@newPwd": {
-    "description": "New password"
-  },
   "generalEveningWitnessing": "Evening witnessing",
   "@generalEveningWitnessing": {
     "description": ""
@@ -138,15 +88,15 @@
   },
   "generalLDCHours": "Czas LDPB",
   "@generalLDCHours": {},
-  "generalMinute": "Minute",
+  "generalMinute": "Minuta",
   "@generalMinute": {},
-  "generalMonth": "Month",
+  "generalMonth": "Miesiąc",
   "@generalMonth": {},
   "generalNo": "Nie",
   "@generalNo": {
     "description": ""
   },
-  "generalOnlyInEnglish": "Sorry, this section is in English only.",
+  "generalOnlyInEnglish": "Przykro nam. Ta sekcja jest tylko po angielsku",
     "@generalOnlyInEnglish": {
       "description": "when no translation is available"
     },
@@ -241,7 +191,7 @@
     "@onBoardingInfo": {
       "description": ""
     },
-  "onBoardingRateApp": "Rate the app and tell your friends!",
+  "onBoardingRateApp": "Oceń aplikację i poleć znajomym",
     "@onBoardingRateApp": {
       "description": ""
     },
@@ -249,15 +199,31 @@
     "@onBoardingVisitHelp": {
       "description": "visit Help section"
     },
-  "onBoardingYourName": "Your name",
+  "onBoardingYourName": "Twoje imię",
     "@onBoardingYourName": {
       "description": "name form"
     },
+  "rateAppBtnLater": "Przypomnij mi później",
+  "@rateAppBtnLater": {
+    "description": ""
+  },
+  "rateAppBtnNow": "Ocenię teraz",
+  "@rateAppBtnNow": {
+    "description": ""
+  },
+  "rateAppContent": "Jeśli lubisz korzystać z mat2414, czy mógłbyś poświęcić chwilę na ocenę? Dzięki za Twoje wsparcie!",
+  "@rateAppContent": {
+    "description": ""
+  },
+  "rateAppTitle": "Jak Ci się podoba aplikacja",
+  "@rateAppTitle": {
+    "description": ""
+  },
   "reportBibleStudiesToolTipWidgetText": "Use arrows to increase or decrease bible studies quantity. The number you set will be shown next month",
   "@reportBibleStudiesToolTipWidgetText": {},
-  "reportCloseReportBtn": "Close Report",
+  "reportCloseReportBtn": "Zamknij sprawozdanie",
   "@reportCloseReportBtn": {},
-  "reportCopyReportBtn": "Copy Report",
+  "reportCopyReportBtn": "Kopiuj sprawozdanie",
   "@reportCopyReportBtn": {},
   "reportCopyReportToolTipWidgetText": "You cannot undo closing the month! You will also not be able to make changes",
   "@reportCopyReportToolTipWidgetText": {
@@ -267,15 +233,15 @@
   "@reportDecreaseBibleStudiesBtnToolTip": {
     "description": ""
   },
-  "reportErrorRefreshBtn": "Error. Tap here to refresh",
+  "reportErrorRefreshBtn": "Błąd. Naciśnij tu, aby odświerzyć",
   "@reportErrorRefreshBtn": {
     "description": "Button text. On error state"
   },
   "reportIncreaseBibleStudiesBtnToolTip": "Increase bible studies quantity",
   "@reportIncreaseBibleStudiesBtnToolTip": {},
-  "reportReportWasCopied": "Report was copied",
+  "reportReportWasCopied": "Sprawozdanie skopiowane",
   "@reportReportWasCopied": {},
-  "screenDetail": "Detail",
+  "screenDetail": "Szczegóły",
   "@screenDetail": {"description": "screen name"},
   "screenHome": "Początek",
   "@screenHome": {
@@ -289,21 +255,21 @@
   "@settingsAuto": {
     "description": ""
   },
-  "settingsContactDev": "Contact with developer",
+  "settingsContactDev": "Kontakt z developerwm",
     "@settingsContactDev": {},
-  "settingsHelp": "Help",
+  "settingsHelp": "Pomoc",
     "@settingsHelp": {},
-  "settingsLanguage": "Language",
+  "settingsLanguage": "Język",
   "@settingsLanguage": {
     "description": ""
   },
-  "settingsMinutesPrecision": "Service time precision in minutes",
+  "settingsMinutesPrecision": "Dokładność czasu służby",
   "@settingsMinutesPrecision": {},
-  "settingsMinutesPrecisionExample": "e.g. 0:05 or 0:30",
+  "settingsMinutesPrecisionExample": "np. 0:01 lub 0:30",
   "@settingsMinutesPrecisionExample": {
     "description": "The service time precision example"
   },
-  "settingsRateApp": "Rate the app",
+  "settingsRateApp": "Oceń aplikację",
     "@settingsRateApp": {},
   "settingsSelectStatistics": "Select statistics you want to see",
   "@settingsSelectStatistics": {
@@ -311,7 +277,7 @@
   },
   "settingsSetAnnualHourGoal": "Set annual hour goal",
   "@settingsSetAnnualHourGoal": {},
-  "settingsSetAvatar": "Your avatar",
+  "settingsSetAvatar": "Twój awatar",
   "@settingsSetAvatar": {
     "description": ""
   },
@@ -337,13 +303,13 @@
   },
   "settingsSystem": "System",
   "@settingsSystem": {},
-  "settingsThemeDarkTheme": "Dark Theme",
+  "settingsThemeDarkTheme": "Ciemny motyw",
   "@settingsThemeDarkTheme": {},
-   "settingsThemeLightTheme": "Light Theme",
+   "settingsThemeLightTheme": "Jasny motyw",
   "@settingsThemeLightTheme": {},
-   "settingsThemeMode": "Theme Mode",
+   "settingsThemeMode": "Tryb",
   "@settingsThemeMode": {},
-   "settingsThemeSystemTheme": "System Theme",
+   "settingsThemeSystemTheme": "Motyw systemu",
   "@settingsThemeSystemTheme": {},
   "settingsUpdateUsername": "Nazwa użytkownika",
   "@settingsUpdateUsername": {},
@@ -371,7 +337,7 @@
   "@tabStatistics": {
     "description": "tab name"
   },
-  "historyClosedMonthsVisible": "Only closed months are visible",
+  "historyClosedMonthsVisible": "Widoczne są tylko zamknięte sprawozdania",
   "@historyClosedMonthsVisible": {},
   "reportCopyToClipboard": "Kopiuj sprawozdanie do schowka",
   "@reportCopyToClipboard": {}

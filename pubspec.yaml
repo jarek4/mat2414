@@ -64,13 +64,12 @@ flutter:
     # google_fonts license files
     #- fonts/montserrat/OFL.txt
     # Add assets from the images directory to the application.
-    - assets/images/preacher_transp.png
-    - assets/images/schedule_transp.png
+    - assets/images/preacher_t.png
+    - assets/images/clock_with_arrow_tr_ic1085.png
+    - assets/images/schedule_t.png
     - assets/images/hourglass_t_ic512.png
-    - assets/images/cloudlet_t_ic512.png
     - assets/images/engineer_t_ic265.png
     - assets/images/magazine_t_ic512.png
-    - assets/images/notes_t_ic512.png
     - assets/images/qm_ic512.png
     - assets/images/video_camera_t_ic512.png
     - assets/images/two_person_t_ic512.png
@@ -125,3 +124,5 @@ flutter:
         - asset: fonts/montserrat/Montserrat-ExtraBold.ttf
           weight: 800
           style: normal
+flutter_intl:
+  enabled: true

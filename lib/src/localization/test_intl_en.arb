@@ -1,9 +1,9 @@
 {
   "@@locale": "en",
-    "appTitle": "mat2414",
-    "@appTitle": {
-      "description": "The title of the application"
-    },
+  "appTitle": "mat2414",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
   "addActivityAddRemarksBtn": "Add remarks",
   "@addActivityAddRemarksBtn": {},
   "addActivityBtnNotSavedNotification": "Not saved",
@@ -28,50 +28,6 @@
   "@addNewActivityBtn": {
     "description": "button text"
   },
-  "calendarDayAbbr1": "Mon",
-  "@calendarDayAbbr1": {},
-  "calendarDayAbbr2": "Tue",
-  "@calendarDayAbbr2": {},
-  "calendarDayAbbr3": "Wed",
-  "@calendarDayAbbr3": {
-    "description": "week day abbreviation week day abbreviation Wednesday"
-  },
-  "calendarDayAbbr4": "Thu",
-  "@calendarDayAbbr4": {
-    "description": "week day abbreviation week day abbreviation Thursday"
-  },
-  "calendarDayAbbr5": "Fri",
-  "@calendarDayAbbr5": {},
-  "calendarDayAbbr6": "Sat",
-  "@calendarDayAbbr6": {},
-  "calendarDayAbbr7": "Sun",
-  "@calendarDayAbbr7": {},
-  "calendarMonthApril": "April",
-  "@calendarMonthApril": {
-    "description": ""
-  },
-  "calendarMonthAugust": "August",
-  "@calendarMonthAugust": {},
-  "calendarMonthDecember": "December",
-  "@calendarMonthDecember": {},
-  "calendarMonthFebruary": "February",
-  "@calendarMonthFebruary": {},
-  "calendarMonthJanuary": "January",
-  "@calendarMonthJanuary": {},
-  "calendarMonthJuly": "July",
-  "@calendarMonthJuly": {},
-  "calendarMonthJun": "Jun",
-  "@calendarMonthJun": {},
-  "calendarMonthMarch": "March",
-  "@calendarMonthMarch": {},
-  "calendarMonthMay": "May",
-  "@calendarMonthMay": {},
-  "calendarMonthNovember": "November",
-  "@calendarMonthNovember": {},
-  "calendarMonthOctober": "October",
-  "@calendarMonthOctober": {},
-  "calendarMonthSeptember": "September",
-  "@calendarMonthSeptember": {},
   "databaseNoPermission": "No permission to access local storage",
   "@databaseNoPermission": {
     "description": "Error message, access"
@@ -114,12 +70,6 @@
   "@generalError": {
     "description": ""
   },
-  "moreManageCategories": "Manage categories. Add new one, delete or edit.",
-  "@moreManageCategories": {},
-  "newPwd": "New password",
-  "@newPwd": {
-    "description": "New password"
-  },
   "generalEveningWitnessing": "Evening witnessing",
   "@generalEveningWitnessing": {
     "description": ""
@@ -132,12 +82,12 @@
   "@generalGroupWitnessing": {},
   "generalHour": "{count, plural, =1{Hour} =2{Hours} other{Hours}",
   "@generalHour": {
-  "description": "Hour for single, hours for plural",
+    "description": "Hour for single, hours for plural",
     "placeholders": {
-        "count": {
-            "type": "int",
-            "format": "compactLong"
-        }
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
     }
   },
   "generalInformalWitnessing": "Informal witnessing",
@@ -155,9 +105,9 @@
     "description": ""
   },
   "generalOnlyInEnglish": "Sorry, this section is in English only.",
-    "@generalOnlyInEnglish": {
-      "description": "when no translation is available"
-    },
+  "@generalOnlyInEnglish": {
+    "description": "when no translation is available"
+  },
   "generalPlacements": "Placements",
   "@generalPlacements": {
     "description": ""
@@ -177,11 +127,11 @@
     "description": "2022/23"
   },
   "generalSkip": "Skip",
-    "@generalSkip": {
-      "description": ""
-    },
-    "generalStart": "Start",
-      "@generalStart": {},
+  "@generalSkip": {
+    "description": ""
+  },
+  "generalStart": "Start",
+  "@generalStart": {},
   "generalSundayWitnessing": "Sunday witnessing",
   "@generalSundayWitnessing": {
     "description": ""
@@ -202,35 +152,34 @@
   "@generalYes": {
     "description": ""
   },
-    "helpBibleStudies": "The the total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.",
-    "@helpBibleStudies": {
-      "description": ""
-    },
-      "helpClosingReport": "It means to prepare a monthly report and record this value. This action cannot be undone! You can only delete the report. After deletion, it can be created again and saved again. To do this, just set the selected month in the calendar and press the Close report button. Earlier you can edit notes and amount of bible studies. Only the value of a closed report can be copied. Only closed reports are visible in the history.",
-      "@helpClosingReport": {
-        "description": ""
-      },
-     "helpLdcHours": "Time contributed at a construction site or other theocratic project. This is not time spent in field service and is not counted in the Hours column. The value for the whole month is given in the remarks. If you don't need this option, you can turn it off (it's off by default).",
-     "@helpLdcHours": {
-       "description": ""
-     },
-
-       "helpLdcHoursDescription": "You may want to describe or name your activities as a volunteer in more detail. This description will override the default value.",
-       "@helpLdcHoursDescription": {
-         "description": ""
-       },
-         "helpServiceTimePrecision": "Decide how accurately the time will be recorded. For example, you can select every 5 minutes or every half hour. Default set to 5 minutes.",
-         "@helpServiceTimePrecision": {
-           "description": ""
-         },
+  "helpBibleStudies": "The the total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.",
+  "@helpBibleStudies": {
+    "description": ""
+  },
+  "helpClosingReport": "It means to prepare a monthly report and record this value. This action cannot be undone! You can only delete the report. After deletion, it can be created again and saved again. To do this, just set the selected month in the calendar and press the Close report button. Earlier you can edit notes and amount of bible studies. Only the value of a closed report can be copied. Only closed reports are visible in the history.",
+  "@helpClosingReport": {
+    "description": ""
+  },
+  "helpLdcHours": "Time contributed at a construction site or other theocratic project. This is not time spent in field service and is not counted in the Hours column. The value for the whole month is given in the remarks. If you don't need this option, you can turn it off (it's off by default).",
+  "@helpLdcHours": {
+    "description": ""
+  },
+  "helpLdcHoursDescription": "You may want to describe or name your activities as a volunteer in more detail. This description will override the default value.",
+  "@helpLdcHoursDescription": {
+    "description": ""
+  },
+  "helpServiceTimePrecision": "Decide how accurately the time will be recorded. For example, you can select every 5 minutes or every half hour. Default set to 5 minutes.",
+  "@helpServiceTimePrecision": {
+    "description": ""
+  },
   "homeHello": "Hello {name}!",
   "@homeHello": {
     "description": "greeting",
     "placeholders": {
-        "name": {
-            "type": "String",
-            "example": "Mark"
-            }
+      "name": {
+        "type": "String",
+        "example": "Mark"
+      }
     }
   },
   "homeNoActivities": "No activities",
@@ -244,29 +193,45 @@
   "ldcHoursToolTip": "Mark if this is not the time spent in the field service. This hours will be saved in remarks",
   "@ldcHoursToolTip": {},
   "onBoardingCanAddNameLater": "You can add your name later",
-    "@onBoardingCanAddNameLater": {
-      "description": ""
-    },
-    "onBoardingContinueWithoutName": "Do you want to proceed without a name?",
-      "@onBoardingContinueWithoutName": {
-        "description": ""
-      },
+  "@onBoardingCanAddNameLater": {
+    "description": ""
+  },
+  "onBoardingContinueWithoutName": "Do you want to proceed without a name?",
+  "@onBoardingContinueWithoutName": {
+    "description": ""
+  },
   "onBoardingInfo": "Record your each service. At the end of the month, create a personal service report. You can add remarks. You may find the LDC hours option useful.",
-    "@onBoardingInfo": {
-      "description": ""
-    },
+  "@onBoardingInfo": {
+    "description": ""
+  },
   "onBoardingRateApp": "Rate the app and tell your friends!",
-    "@onBoardingRateApp": {
-      "description": ""
-    },
+  "@onBoardingRateApp": {
+    "description": ""
+  },
   "onBoardingVisitHelp": "We encourage you to familiarize yourself with the Help section in the application.",
-    "@onBoardingVisitHelp": {
-      "description": "visit Help section"
-    },
+  "@onBoardingVisitHelp": {
+    "description": "visit Help section"
+  },
   "onBoardingYourName": "Your name",
-    "@onBoardingYourName": {
-      "description": "name form"
-    },
+  "@onBoardingYourName": {
+    "description": "name form"
+  },
+  "rateAppBtnLater": "Remind me later",
+  "@rateAppBtnLater": {
+    "description": ""
+  },
+  "rateAppBtnNow": "Rate it now",
+  "@rateAppBtnNow": {
+    "description": ""
+  },
+  "rateAppContent": "If you enjoy using mat2414, would you mind taking a moment to rate it? Thanks for your support!",
+  "@rateAppContent": {
+    "description": ""
+  },
+  "rateAppTitle": "How are we doing?",
+  "@rateAppTitle": {
+    "description": ""
+  },
   "reportBibleStudiesToolTipWidgetText": "Use arrows to increase or decrease bible studies quantity. The number you set will be shown next month",
   "@reportBibleStudiesToolTipWidgetText": {},
   "reportCloseReportBtn": "Close Report",
@@ -290,7 +255,9 @@
   "reportReportWasCopied": "Report was copied",
   "@reportReportWasCopied": {},
   "screenDetail": "Detail",
-  "@screenDetail": {"description": "screen name"},
+  "@screenDetail": {
+    "description": "screen name"
+  },
   "screenHome": "Home",
   "@screenHome": {
     "description": "screen name"
@@ -304,9 +271,9 @@
     "description": ""
   },
   "settingsContactDev": "Contact with developer",
-    "@settingsContactDev": {},
+  "@settingsContactDev": {},
   "settingsHelp": "Help",
-    "@settingsHelp": {},
+  "@settingsHelp": {},
   "settingsLanguage": "Language",
   "@settingsLanguage": {
     "description": ""
@@ -318,7 +285,7 @@
     "description": "The service time precision example"
   },
   "settingsRateApp": "Rate the app",
-    "@settingsRateApp": {},
+  "@settingsRateApp": {},
   "settingsSelectStatistics": "Select statistics you want to see",
   "@settingsSelectStatistics": {
     "description": "Select statistics you want to see. Field description"
@@ -353,11 +320,11 @@
   "@settingsSystem": {},
   "settingsThemeDarkTheme": "Dark Theme",
   "@settingsThemeDarkTheme": {},
-   "settingsThemeLightTheme": "Light Theme",
+  "settingsThemeLightTheme": "Light Theme",
   "@settingsThemeLightTheme": {},
-   "settingsThemeMode": "Theme Mode",
+  "settingsThemeMode": "Theme Mode",
   "@settingsThemeMode": {},
-   "settingsThemeSystemTheme": "System Theme",
+  "settingsThemeSystemTheme": "System Theme",
   "@settingsThemeSystemTheme": {},
   "settingsUpdateUsername": "Username",
   "@settingsUpdateUsername": {},
@@ -369,19 +336,19 @@
   "@tabActivity": {
     "description": "tab name"
   },
-   "tabHistory": "History",
+  "tabHistory": "History",
   "@tabHistory": {
     "description": "tab name"
   },
-   "tabReport": "Report",
+  "tabReport": "Report",
   "@tabReport": {
     "description": "tab name"
   },
-   "tabSettings": "Settings",
+  "tabSettings": "Settings",
   "@tabSettings": {
     "description": "tab name"
   },
-   "tabStatistics": "Statistics",
+  "tabStatistics": "Statistics",
   "@tabStatistics": {
     "description": "tab name"
   },
@@ -389,5 +356,4 @@
   "@historyClosedMonthsVisible": {},
   "reportCopyToClipboard": "Copy the text of the report to the clipboard",
   "@reportCopyToClipboard": {}
-
 }

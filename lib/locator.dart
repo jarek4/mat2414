@@ -22,8 +22,6 @@ Future<void> setupLocator() async {
   locator.registerSingletonAsync<Isar>(() async => LocalDb.getIsarDb());
   locator.registerSingletonWithDependencies<IUserDbHelper>(() => UserLocalDbHelper(),
       dependsOn: [Isar]);
-  // locator.registerSingletonWithDependencies<IUserRepository>(() => UserRepository()..init(),
-  //     dependsOn: [Isar, IUserDbHelper]);
   locator.registerSingletonAsync<IUserRepository>(() async {
     UserRepository repo = UserRepository();
     await repo.init();
@@ -31,7 +29,8 @@ Future<void> setupLocator() async {
   }, dependsOn: [Isar, IUserDbHelper]);
   locator.registerSingletonWithDependencies<SettingsService>(() => SettingsService(),
       dependsOn: [Isar, IUserRepository, IUserDbHelper]);
-  locator.registerSingletonWithDependencies<SettingsController>(() => SettingsController(locator<SettingsService>()),
+  locator.registerSingletonWithDependencies<SettingsController>(
+      () => SettingsController(locator<SettingsService>()),
       dependsOn: [Isar, IUserRepository, SettingsService, IUserDbHelper]);
   locator.registerSingletonWithDependencies<IActivityDbHelper>(() => ActivityLocalDbHelper(),
       dependsOn: [Isar]);

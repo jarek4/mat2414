@@ -37,8 +37,15 @@ class ActivitySimpleView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Center(
-                      child: Text(_makeDate(context, item.year, item.month, item.day, )[0],
-                          style: textTheme.labelMedium, textAlign: TextAlign.center)),
+                      child: Text(
+                          _makeDate(
+                            context,
+                            item.year,
+                            item.month,
+                            item.day,
+                          )[0],
+                          style: textTheme.labelMedium,
+                          textAlign: TextAlign.center)),
                   const SizedBox(height: 2),
                   Center(
                       child: Text(_makeDate(context, item.year, item.month, item.day)[1],
@@ -70,19 +77,7 @@ class ActivitySimpleView extends StatelessWidget {
                         style: textTheme.labelLarge, textAlign: TextAlign.center),
                   ]),
             ),
-            Expanded(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Image.asset(
-                        item.isLDCHours ? AssetPath.icEngineer305 : AssetPath.imgHourglass512,
-                        height: 18),
-                    const SizedBox(height: 2),
-                    Text(_makeTimeAsReadableString(item.hours, item.minutes),
-                        style: textTheme.labelLarge, textAlign: TextAlign.center),
-                  ]),
-            ),
+            _buildHoursColumn(textTheme),
             Expanded(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,6 +89,23 @@ class ActivitySimpleView extends StatelessWidget {
                         style: textTheme.labelLarge, textAlign: TextAlign.center),
                   ]),
             ),
+          ]),
+    );
+  }
+
+  Expanded _buildHoursColumn(TextTheme textTheme) {
+    var imagePath = AssetPath.imgHourglass512;
+    if (item.type == ActivityType.ldc) imagePath = AssetPath.icEngineer305;
+    if (item.type == ActivityType.transferred) imagePath = AssetPath.icTimeTransfer;
+    return Expanded(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Image.asset(imagePath, height: 18),
+            const SizedBox(height: 2),
+            Text(_makeTimeAsReadableString(item.hours, item.minutes),
+                style: textTheme.labelLarge, textAlign: TextAlign.center),
           ]),
     );
   }

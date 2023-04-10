@@ -8,8 +8,8 @@ import '../activity_tab.dart';
 import '../detail_state.dart';
 import '../report_tab.dart';
 
-class ReportNarrowed extends StatelessWidget {
-  const ReportNarrowed({Key? key, required this.isWide, required this.maxHeight}) : super(key: key);
+class DetailNarrowed extends StatelessWidget {
+  const DetailNarrowed({Key? key, required this.isWide, required this.maxHeight}) : super(key: key);
 
   final bool isWide;
   final double maxHeight;
@@ -62,7 +62,7 @@ class ReportNarrowed extends StatelessWidget {
                   },
                   builder: (BuildContext context, index, _) {
                     return CustomTabBar(
-                      key: const Key('ReportNarrowed'),
+                      key: const Key('DetailNarrowedLayout'),
                       activeIndex: index,
                       pageNames: context.read<DetailState>().tabs,
                       onTap: context.read<DetailState>().onTabIndexChange,

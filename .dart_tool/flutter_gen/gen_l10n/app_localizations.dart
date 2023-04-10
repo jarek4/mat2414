@@ -64,8 +64,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
@@ -147,120 +147,6 @@ abstract class AppLocalizations {
   /// **'Add new activity'**
   String get addNewActivityBtn;
 
-  /// No description provided for @calendarDayAbbr1.
-  ///
-  /// In en, this message translates to:
-  /// **'Mon'**
-  String get calendarDayAbbr1;
-
-  /// No description provided for @calendarDayAbbr2.
-  ///
-  /// In en, this message translates to:
-  /// **'Tue'**
-  String get calendarDayAbbr2;
-
-  /// week day abbreviation week day abbreviation Wednesday
-  ///
-  /// In en, this message translates to:
-  /// **'Wed'**
-  String get calendarDayAbbr3;
-
-  /// week day abbreviation week day abbreviation Thursday
-  ///
-  /// In en, this message translates to:
-  /// **'Thu'**
-  String get calendarDayAbbr4;
-
-  /// No description provided for @calendarDayAbbr5.
-  ///
-  /// In en, this message translates to:
-  /// **'Fri'**
-  String get calendarDayAbbr5;
-
-  /// No description provided for @calendarDayAbbr6.
-  ///
-  /// In en, this message translates to:
-  /// **'Sat'**
-  String get calendarDayAbbr6;
-
-  /// No description provided for @calendarDayAbbr7.
-  ///
-  /// In en, this message translates to:
-  /// **'Sun'**
-  String get calendarDayAbbr7;
-
-  ///
-  ///
-  /// In en, this message translates to:
-  /// **'April'**
-  String get calendarMonthApril;
-
-  /// No description provided for @calendarMonthAugust.
-  ///
-  /// In en, this message translates to:
-  /// **'August'**
-  String get calendarMonthAugust;
-
-  /// No description provided for @calendarMonthDecember.
-  ///
-  /// In en, this message translates to:
-  /// **'December'**
-  String get calendarMonthDecember;
-
-  /// No description provided for @calendarMonthFebruary.
-  ///
-  /// In en, this message translates to:
-  /// **'February'**
-  String get calendarMonthFebruary;
-
-  /// No description provided for @calendarMonthJanuary.
-  ///
-  /// In en, this message translates to:
-  /// **'January'**
-  String get calendarMonthJanuary;
-
-  /// No description provided for @calendarMonthJuly.
-  ///
-  /// In en, this message translates to:
-  /// **'July'**
-  String get calendarMonthJuly;
-
-  /// No description provided for @calendarMonthJun.
-  ///
-  /// In en, this message translates to:
-  /// **'Jun'**
-  String get calendarMonthJun;
-
-  /// No description provided for @calendarMonthMarch.
-  ///
-  /// In en, this message translates to:
-  /// **'March'**
-  String get calendarMonthMarch;
-
-  /// No description provided for @calendarMonthMay.
-  ///
-  /// In en, this message translates to:
-  /// **'May'**
-  String get calendarMonthMay;
-
-  /// No description provided for @calendarMonthNovember.
-  ///
-  /// In en, this message translates to:
-  /// **'November'**
-  String get calendarMonthNovember;
-
-  /// No description provided for @calendarMonthOctober.
-  ///
-  /// In en, this message translates to:
-  /// **'October'**
-  String get calendarMonthOctober;
-
-  /// No description provided for @calendarMonthSeptember.
-  ///
-  /// In en, this message translates to:
-  /// **'September'**
-  String get calendarMonthSeptember;
-
   /// Error message, access
   ///
   /// In en, this message translates to:
@@ -338,18 +224,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get generalError;
-
-  /// No description provided for @moreManageCategories.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage categories. Add new one, delete or edit.'**
-  String get moreManageCategories;
-
-  /// New password
-  ///
-  /// In en, this message translates to:
-  /// **'New password'**
-  String get newPwd;
 
   ///
   ///
@@ -584,6 +458,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your name'**
   String get onBoardingYourName;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me later'**
+  String get rateAppBtnLater;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rate it now'**
+  String get rateAppBtnNow;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'If you enjoy using mat2414, would you mind taking a moment to rate it? Thanks for your support!'**
+  String get rateAppContent;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'How are we doing?'**
+  String get rateAppTitle;
 
   /// No description provided for @reportBibleStudiesToolTipWidgetText.
   ///

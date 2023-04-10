@@ -77,6 +77,7 @@ extension BreakpointUtils on BoxConstraints {
   bool get isDesktop => maxWidth > 1200;
   bool get isMobile => !isTablet && !isDesktop;
 }
+
 /*extension CustomScreenTabStyle on BuildContext {
   ThemeExtension<dynamic> screenTabStyle = CustomScreenTabStyle();
   ThemeData get theme => Theme.of(this).copyWith(

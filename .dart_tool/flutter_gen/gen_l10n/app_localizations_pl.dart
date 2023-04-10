@@ -13,7 +13,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addActivityAddRemarksBtn => 'Dodaj uwagi';
 
   @override
-  String get addActivityBtnNotSavedNotification => 'Nie udało się zapisać';
+  String get addActivityBtnNotSavedNotification => 'Aktywność nie zapisana';
 
   @override
   String get addActivityBtnSavedNotification => 'Aktywność zapisana';
@@ -32,63 +32,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get addNewActivityBtn => 'Dodaj aktywność';
-
-  @override
-  String get calendarDayAbbr1 => 'Mon';
-
-  @override
-  String get calendarDayAbbr2 => 'Tue';
-
-  @override
-  String get calendarDayAbbr3 => 'Wed';
-
-  @override
-  String get calendarDayAbbr4 => 'Thu';
-
-  @override
-  String get calendarDayAbbr5 => 'Fri';
-
-  @override
-  String get calendarDayAbbr6 => 'Sat';
-
-  @override
-  String get calendarDayAbbr7 => 'Sun';
-
-  @override
-  String get calendarMonthApril => 'April';
-
-  @override
-  String get calendarMonthAugust => 'August';
-
-  @override
-  String get calendarMonthDecember => 'December';
-
-  @override
-  String get calendarMonthFebruary => 'February';
-
-  @override
-  String get calendarMonthJanuary => 'January';
-
-  @override
-  String get calendarMonthJuly => 'July';
-
-  @override
-  String get calendarMonthJun => 'Jun';
-
-  @override
-  String get calendarMonthMarch => 'March';
-
-  @override
-  String get calendarMonthMay => 'May';
-
-  @override
-  String get calendarMonthNovember => 'November';
-
-  @override
-  String get calendarMonthOctober => 'October';
-
-  @override
-  String get calendarMonthSeptember => 'September';
 
   @override
   String get databaseNoPermission => 'No permission to access local storage';
@@ -130,12 +73,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get generalError => 'Błąd';
 
   @override
-  String get moreManageCategories => 'Manage categories. Add new one, delete or edit.';
-
-  @override
-  String get newPwd => 'New password';
-
-  @override
   String get generalEveningWitnessing => 'Evening witnessing';
 
   @override
@@ -168,16 +105,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get generalLDCHours => 'Czas LDPB';
 
   @override
-  String get generalMinute => 'Minute';
+  String get generalMinute => 'Minuta';
 
   @override
-  String get generalMonth => 'Month';
+  String get generalMonth => 'Miesiąc';
 
   @override
   String get generalNo => 'Nie';
 
   @override
-  String get generalOnlyInEnglish => 'Sorry, this section is in English only.';
+  String get generalOnlyInEnglish => 'Przykro nam. Ta sekcja jest tylko po angielsku';
 
   @override
   String get generalPlacements => 'Publikacje';
@@ -260,22 +197,34 @@ class AppLocalizationsPl extends AppLocalizations {
   String get onBoardingInfo => 'Record your each service. At the end of the month, create a personal service report. You can add remarks. You may find the LDC hours option useful.';
 
   @override
-  String get onBoardingRateApp => 'Rate the app and tell your friends!';
+  String get onBoardingRateApp => 'Oceń aplikację i poleć znajomym';
 
   @override
   String get onBoardingVisitHelp => 'We encourage you to familiarize yourself with the Help section in the application.';
 
   @override
-  String get onBoardingYourName => 'Your name';
+  String get onBoardingYourName => 'Twoje imię';
+
+  @override
+  String get rateAppBtnLater => 'Przypomnij mi później';
+
+  @override
+  String get rateAppBtnNow => 'Ocenię teraz';
+
+  @override
+  String get rateAppContent => 'Jeśli lubisz korzystać z mat2414, czy mógłbyś poświęcić chwilę na ocenę? Dzięki za Twoje wsparcie!';
+
+  @override
+  String get rateAppTitle => 'Jak Ci się podoba aplikacja';
 
   @override
   String get reportBibleStudiesToolTipWidgetText => 'Use arrows to increase or decrease bible studies quantity. The number you set will be shown next month';
 
   @override
-  String get reportCloseReportBtn => 'Close Report';
+  String get reportCloseReportBtn => 'Zamknij sprawozdanie';
 
   @override
-  String get reportCopyReportBtn => 'Copy Report';
+  String get reportCopyReportBtn => 'Kopiuj sprawozdanie';
 
   @override
   String get reportCopyReportToolTipWidgetText => 'You cannot undo closing the month! You will also not be able to make changes';
@@ -284,16 +233,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get reportDecreaseBibleStudiesBtnToolTip => 'Decrease bible studies quantity';
 
   @override
-  String get reportErrorRefreshBtn => 'Error. Tap here to refresh';
+  String get reportErrorRefreshBtn => 'Błąd. Naciśnij tu, aby odświerzyć';
 
   @override
   String get reportIncreaseBibleStudiesBtnToolTip => 'Increase bible studies quantity';
 
   @override
-  String get reportReportWasCopied => 'Report was copied';
+  String get reportReportWasCopied => 'Sprawozdanie skopiowane';
 
   @override
-  String get screenDetail => 'Detail';
+  String get screenDetail => 'Szczegóły';
 
   @override
   String get screenHome => 'Początek';
@@ -305,22 +254,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsAuto => 'Auto';
 
   @override
-  String get settingsContactDev => 'Contact with developer';
+  String get settingsContactDev => 'Kontakt z developerwm';
 
   @override
-  String get settingsHelp => 'Help';
+  String get settingsHelp => 'Pomoc';
 
   @override
-  String get settingsLanguage => 'Language';
+  String get settingsLanguage => 'Język';
 
   @override
-  String get settingsMinutesPrecision => 'Service time precision in minutes';
+  String get settingsMinutesPrecision => 'Dokładność czasu służby';
 
   @override
-  String get settingsMinutesPrecisionExample => 'e.g. 0:05 or 0:30';
+  String get settingsMinutesPrecisionExample => 'np. 0:01 lub 0:30';
 
   @override
-  String get settingsRateApp => 'Rate the app';
+  String get settingsRateApp => 'Oceń aplikację';
 
   @override
   String get settingsSelectStatistics => 'Select statistics you want to see';
@@ -329,7 +278,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsSetAnnualHourGoal => 'Set annual hour goal';
 
   @override
-  String get settingsSetAvatar => 'Your avatar';
+  String get settingsSetAvatar => 'Twój awatar';
 
   @override
   String get settingsSetLdcDescription => 'Set custom description for LDC hours in month report remarks';
@@ -350,16 +299,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsSystem => 'System';
 
   @override
-  String get settingsThemeDarkTheme => 'Dark Theme';
+  String get settingsThemeDarkTheme => 'Ciemny motyw';
 
   @override
-  String get settingsThemeLightTheme => 'Light Theme';
+  String get settingsThemeLightTheme => 'Jasny motyw';
 
   @override
-  String get settingsThemeMode => 'Theme Mode';
+  String get settingsThemeMode => 'Tryb';
 
   @override
-  String get settingsThemeSystemTheme => 'System Theme';
+  String get settingsThemeSystemTheme => 'Motyw systemu';
 
   @override
   String get settingsUpdateUsername => 'Nazwa użytkownika';
@@ -383,7 +332,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get tabStatistics => 'Statystyki';
 
   @override
-  String get historyClosedMonthsVisible => 'Only closed months are visible';
+  String get historyClosedMonthsVisible => 'Widoczne są tylko zamknięte sprawozdania';
 
   @override
   String get reportCopyToClipboard => 'Kopiuj sprawozdanie do schowka';

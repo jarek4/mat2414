@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -59,6 +61,7 @@ class ReportState with ChangeNotifier {
 
   final report = StreamController<Report>.broadcast();
 
+  // ignore: prefer_final_fields
   var _status = ReportStateStatus.loading;
 
   ReportStateStatus get status => _status;
@@ -121,13 +124,15 @@ class ReportState with ChangeNotifier {
 
     // no activities for given month, return empty Report
     if (activities.isNotEmpty) {
+      print('buildSelectedMonthReport activities.isNotEmpty');
       // there are activities for that month - make a report
 
       // select LCD hours
       // final List<int> lcdIDs = activities.where((element) => element.isLCDHours == true).map((e) => e.id).toList();
       final List<Activity> lcdActivities =
-          activities.where((element) => element.isLDCHours == true).toList();
+          activities.where((element) => element.type == ActivityType.ldc).toList();
       if (lcdActivities.isEmpty) {
+        print('buildSelectedMonthReport lcdActivities.isEmpty');
         int p = 0, v = 0, r = 0;
         var remarks = '';
         var duration = const Duration();
@@ -148,8 +153,10 @@ class ReportState with ChangeNotifier {
           returnVisits: r,
           remarks: remarks,
         );
-        report.add(created);
-        return created;
+        final reportAfterTransferMinutes = await _transferMinutesToTheNextMonth(created);
+        print('buildSelectedMonthReport lcdActivities.isEmpty reportAfterTransferMinutes: $reportAfterTransferMinutes');
+        report.add(reportAfterTransferMinutes);
+        return reportAfterTransferMinutes;
       } else {
         // activities contains also the LCD hours. This hours need to be separated.
         // Will be collected in report.specialHours. If activity is LCD hours - placements, returnVisits, ...
@@ -189,11 +196,60 @@ class ReportState with ChangeNotifier {
             returnVisits: r,
             remarks: reportRemarks,
             hoursLDC: lcdDuration.inHours);
+        // final reportAfterTransferMinutes = await _transferMinutesToTheNextMonth(created);
+        // print('buildSelectedMonthReport lcdActivities.NOTEmpty reportAfterTransferMinutes: $reportAfterTransferMinutes');
         report.add(created);
         return created;
       }
     }
     return temp;
+  }
+
+  // only full hours in the report
+  FutureOr<Report> _transferMinutesToTheNextMonth(Report r) async {
+    var rHours = r.hours;
+    var rMinutes = r.minutes;
+    // time is 0:15 or 12:00
+    print('transferMinutesToTheNextMonth rHours<1 || rMinutes==0: ${rHours < 1 || rMinutes == 0}');
+    if (rHours < 1 || rMinutes == 0) return r;
+    // create activity for next month with minutes from this month
+    // have to specify a month, year and service year for the new activity
+    final rMonth = r.month;
+    final rYear = r.year;
+    var aMonth = rMonth == 12 ? 1 : rMonth + 1;
+    var aYear = rMonth == 12 ? rYear + 1 : rYear;
+    var aServiceYear = r.serviceYear;
+    // if current month is 8 august, next month is new service year [2023/2024 -> 2024/2025]
+    if (rMonth == 8) {
+      print('transferMinutesToTheNextMonth rMonth==8 ${rMonth == 8}');
+      var rServiceYears = r.serviceYear.split('/');
+      var first = int.tryParse(rServiceYears[0]);
+      var second = int.tryParse(rServiceYears[1]);
+      final int firstNn = first ?? (rMonth != 8 ? rYear : rYear + 1);
+      final int secondNn = second ?? (rMonth != 8 ? rYear : rYear + 2);
+      aServiceYear = '$firstNn/$secondNn';
+    }
+    Activity nextMonthActivity = Activity(
+      createdAt: now,
+      day: 1,
+      lastModified: now,
+      month: aMonth,
+      serviceYear: aServiceYear,
+      year: aYear,
+      minutes: rMinutes,
+      remarks: 'Transferred from $rMonth-$rYear',
+      type: ActivityType.transferred,
+    );
+    print('transferMinutesToTheNextMonth nextMonthActivity:  $nextMonthActivity');
+    // save activity with transferred minutes
+    final id = await _activitiesRepository.create(nextMonthActivity);
+    print('transferMinutesToTheNextMonth _activitiesRepository.create: $id');
+    // what if report will be removed? this activity should also be removed!
+    return r.copyWith(
+        transferredMinutes: rMinutes,
+        transferredMinutesActivityId: id,
+        minutes: 0,
+        remarks: 'Transferred: $rMinutes. ${r.remarks}');
   }
 
   Future<Report?> _getClosedReport() async {

@@ -1,6 +1,5 @@
 import 'package:mat2414/src/calendar/calendar_constants.dart' as k;
 
-import '../../utils/get_service_year.dart';
 import 'calendar.dart';
 
 class CustomCalendar {

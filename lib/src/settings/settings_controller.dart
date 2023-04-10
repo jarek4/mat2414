@@ -57,12 +57,12 @@ class SettingsController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> openStoreUrl() async {
+  Future<bool> openStoreUrlToRateTheApp() async {
     _settingsService.openStoreUrl();
     return true;
   }
 
-  Future<void> updateUserRateTheApp(bool wasRated) async {
+  Future<void> updateUserAfterRateAppNotification(bool wasRated) async {
     var tempUser = _user;
     /*   if (wasRated) {
       tempUser = tempUser.copyWith(haveRatedTheApp: true, nextRateRequestDate: null);
@@ -77,14 +77,15 @@ class SettingsController with ChangeNotifier {
           displayedRatingRequestsNo: displayedRequests + 1);
     }*/
    //  _settingsService.openStoreUrl();
+    // ignore: unused_local_variable
     var nextAfterDays = 35;
     var displayedRequests = tempUser.displayedRatingRequestsNo;
     if (displayedRequests < 2) nextAfterDays = 15;
     if (displayedRequests > 5) nextAfterDays = 85;
-    var nextDate = DateTime.now().add(Duration(days: nextAfterDays));
+   //  var nextDate = DateTime.now().add(Duration(days: nextAfterDays));
     tempUser = tempUser.copyWith(
         haveRatedTheApp: false,
-        nextRateRequestDate: nextDate,
+        /*nextRateRequestDate: nextDate,*/
         displayedRatingRequestsNo: displayedRequests + 1);
     await _settingsService.updateUser(tempUser);
     _user = await _settingsService.getUser();

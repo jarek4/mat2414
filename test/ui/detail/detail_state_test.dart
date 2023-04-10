@@ -8,8 +8,25 @@ import 'package:mat2414/src/domain/repositories/i_reports_repository.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
 import 'package:mat2414/src/ui/screens/detail/detail_state.dart';
 import 'package:mat2414/utils/constant_values.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import '../../report/report_state_test.mocks.dart';
+
+// flutter pub run build_runner build --delete-conflicting-outputs
+@GenerateNiceMocks([
+  MockSpec<IActivitiesRepository>(
+    as: #MockIActivitiesRepository,
+    onMissingStub: OnMissingStub.returnDefault,
+  ),
+  MockSpec<IReportsRepository>(
+    as: #MockIReportsRepository,
+    onMissingStub: OnMissingStub.returnDefault,
+  ),
+  MockSpec<IUserRepository>(
+    as: #MockIUserRepository,
+    onMissingStub: OnMissingStub.returnDefault,
+  )
+])
+import 'detail_state_test.mocks.dart';
 
 void main() {
   final defaultCalendarDay = CalendarDay(date: DateTime(2023, 3, 20));

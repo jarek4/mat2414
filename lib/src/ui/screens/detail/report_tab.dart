@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/data/models/models.dart';
+import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/ui/screens/detail/detail_state.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_alert;
@@ -22,14 +24,14 @@ class _ReportTabState extends State<ReportTab> {
   // late StreamSubscription<void> _reportSubscription;
   late Stream<Report> _reportStream;
   Stream<bool>? _isReportClosed;
+  Stream<String>? _timeLDC;
   Stream<String>? _remarks;
   Stream<String>? _monthAndServiceYear;
   Stream<String>? _time;
   Stream<String>? _placements;
   Stream<String>? _videos;
   Stream<String>? _visits;
-
-  // Stream<String>? _studies;
+  var _showButtonLDCHours = false;
 
   /* @override
   void didChangeDependencies() {
@@ -44,15 +46,20 @@ class _ReportTabState extends State<ReportTab> {
     super.initState();
     _reportStream =
         Provider.of<DetailState>(context, listen: false).watchReport().asBroadcastStream();
+    final isLdc = !context.read<SettingsController>().user.preferences.showButtonLDCHours;
+    if(isLdc) {
+      _timeLDC = _reportStream.map((r) => _makeTimeAsReadableString(r.hoursLDC, r.minutesLDC)).distinct();
+      _showButtonLDCHours = isLdc;
+    }
     _remarks = _reportStream.map((report) => report.remarks).distinct();
     _monthAndServiceYear =
         _reportStream.map((report) => '${report.month}, ${report.serviceYear}').distinct();
     _placements = _reportStream.map((report) => report.placements.toString()).distinct();
     _videos = _reportStream.map((report) => report.videos.toString()).distinct();
     _visits = _reportStream.map((report) => report.returnVisits.toString()).distinct();
-    // _studies = _reportStream.map((report) => report.bibleStudies.toString()).distinct();
     _time = _reportStream.map((r) => _makeTimeAsReadableString(r.hours, r.minutes)).distinct();
     _isReportClosed = _reportStream.map((report) => report.isClosed); // no distinct()!
+
   }
 
 /*  @override
@@ -77,7 +84,7 @@ class _ReportTabState extends State<ReportTab> {
       child: _buildReportCardWrapperWithPadding(context, [
         _buildTitleWithMonth(context),
         const SizedBox(height: 4),
-        ReportTable(
+        ReportDataTable(
           placements: _placements,
           returnVisits: _visits,
           time: _time,
@@ -85,6 +92,7 @@ class _ReportTabState extends State<ReportTab> {
           isMonthly: true,
         ),
         _buildBibleStudiesRow(context),
+        if(_showButtonLDCHours) _buildTimeLDC(),
         _buildRemarksBtn(),
         _buildRemarksText(context),
         _buildCloseOrCopyReportBtn()
@@ -133,19 +141,29 @@ class _ReportTabState extends State<ReportTab> {
   }
 
   Widget _buildBibleStudiesRow(BuildContext context) {
+    var bStudies = AppLocalizations.of(context).generalBibleStudies;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         // this FittedBox child must have width: !
         FittedBox(child: Image.asset(AssetPath.imgTwoPeronAtTable, height: 22, width: 22)),
+        Selector<DetailState, int>(
+            selector: (_, state) => state.monthlyReport.bibleStudies,
+            shouldRebuild: (int pre, int next) {
+              return pre != next;
+            },
+            builder: (BuildContext context, bibleStudies, __) {
+              return SizedBox(
+                  width: 35, child: Text(bibleStudies.toString(), style: context.bodyLarge));
+            }),
         FittedBox(
           // flex: 4,
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text('Bible studies:', style: context.bodyMedium)),
+              child: Text(bStudies, style: context.bodyMedium)),
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Selector<DetailState, int>(
+          /*Selector<DetailState, int>(
               selector: (_, state) => state.monthlyReport.bibleStudies,
               shouldRebuild: (int pre, int next) {
                 return pre != next;
@@ -153,7 +171,7 @@ class _ReportTabState extends State<ReportTab> {
               builder: (BuildContext context, bibleStudies, __) {
                 return SizedBox(
                     width: 35, child: Text(bibleStudies.toString(), style: context.bodyLarge));
-              }),
+              }),*/
           SizedBox(
             height: 60,
             child: FittedBox(
@@ -183,6 +201,31 @@ class _ReportTabState extends State<ReportTab> {
                 'Use arrows to increase or decrease bible studies quantity. The number you set will be shown the next month. \nFor more information see More/Settings/Help'),
       ],
     );
+  }
+
+  Widget _buildTimeLDC() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+      FittedBox(child: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 18),
+        child: Image.asset(AssetPath.icEngineer305, height: 20, width: 20),
+      )),
+      StreamBuilder<String?>(
+          stream: _timeLDC,
+          initialData: '...',
+          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            final bool isWaiting = snapshot.connectionState == ConnectionState.waiting;
+            return Shimmer(
+              child: ShimmerLoading(
+                  isLoading: isWaiting,
+                  child: Text(
+                      '${snapshot.data}',
+                      style: context.bodyLarge,
+                  )),
+            );
+          }),
+    ],);
   }
 
   Widget _buildRemarksBtn() {
