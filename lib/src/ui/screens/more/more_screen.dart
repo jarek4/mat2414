@@ -16,12 +16,12 @@ class MoreScreen extends StatelessWidget {
     return Column(
     children: [
       const Text('HISTORY'),
-      TextButton(
+     /* TextButton(
         onPressed: () => context.read<MoreScreenStateProvider>().testIsarAdd(),
         child: const Text('testIsarAdd activity'),),
       TextButton(
           onPressed: () => context.read<MoreScreenStateProvider>().testIsarDbManual(),
-          child: const Text('testIsarDbManual'),),
+          child: const Text('testIsarDbManual'),),*/
     ],
   );
   }

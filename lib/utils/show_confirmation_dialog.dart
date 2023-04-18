@@ -13,8 +13,26 @@ Future<bool?> showConfirmationDialog(
   confirmText ??= context.loc.generalYes;
   refuseText ??= context.loc.generalNo;
 
-  if (Theme.of(context).platform == TargetPlatform.android) {
-
+  if (Theme.of(context).platform == TargetPlatform.iOS) {
+    return showCupertinoDialog(
+        barrierDismissible: true,
+        barrierLabel: barrierLabel,
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: title,
+            content: Text(contentText),
+            actions: [
+              CupertinoDialogAction(
+                  onPressed: () => Navigator.pop<bool>(context, false),
+                  child: Text(refuseText ?? 'No')),
+              CupertinoDialogAction(
+                  onPressed: () => Navigator.pop<bool>(context, true),
+                  child: Text(confirmText ?? 'Yes')),
+            ],
+          );
+        });
+  } else {
     return showGeneralDialog<bool>(
       barrierLabel: barrierLabel,
       barrierDismissible: true,
@@ -38,24 +56,5 @@ Future<bool?> showConfirmationDialog(
       },
       transitionDuration: const Duration(milliseconds: 380),
     );
-  } else {
-    return showCupertinoDialog(
-        barrierDismissible: true,
-        barrierLabel: barrierLabel,
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: title,
-            content: Text(contentText),
-            actions: [
-              CupertinoDialogAction(
-                  onPressed: () => Navigator.pop<bool>(context, false),
-                  child: Text(refuseText ?? 'No')),
-              CupertinoDialogAction(
-                  onPressed: () => Navigator.pop<bool>(context, true),
-                  child: Text(confirmText ?? 'Yes')),
-            ],
-          );
-        });
   }
 }

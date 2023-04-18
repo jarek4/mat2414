@@ -5,6 +5,7 @@ import 'package:isar/isar.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
+import 'package:mat2414/src/localization/locale_notifier.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/get_service_year.dart' as utils;
 
@@ -32,6 +33,9 @@ class AddUpdateState with ChangeNotifier {
 
   final IUserRepository _userRepository = locator<IUserRepository>();
 
+  // localization
+  final ILocaleNotifier _s = locator<ILocaleNotifier>();
+
   // prevents: PlatformDispatcher ERROR: A AddUpdateState was used after being disposed error!
   bool _isMounted = true;
 
@@ -55,7 +59,7 @@ class AddUpdateState with ChangeNotifier {
 
   bool get areLDCHours => _areLDCHours;
 
-  String _ldcLocaleTranslation = '';
+  // String _ldcLocaleTranslation = '';
   int _h = 0;
 
   int get h => _h;
@@ -91,10 +95,10 @@ class AddUpdateState with ChangeNotifier {
 
   int get video => _video;
 
-  void onLDCHoursChange(String? ldcLocale) {
+  void onLDCHoursChange(/*String? ldcLocale*/) {
     _areLDCHours = !_areLDCHours;
     // this value is used as a LDC time leading in remarks. It will be translated :)
-    _ldcLocaleTranslation = _areLDCHours ? ldcLocale ?? '' : '';
+    // _ldcLocaleTranslation = _areLDCHours ? ldcLocale ?? '' : '';
     _notify();
   }
 
@@ -161,12 +165,12 @@ class AddUpdateState with ChangeNotifier {
       return null;
     }
     // The user has entered a data into the form:
+    _status = AddUpdateStateStatus.loading;
+    _errorCode = AddUpdateErrorCode.noErrors;
+    _notify();
     Activity fromForm = _createActivityFromFormInputs();
     // Creating new activity (no activity item was passed into the form).
     if (_activity == null) {
-      _status = AddUpdateStateStatus.loading;
-      _errorCode = AddUpdateErrorCode.noErrors;
-      _notify();
       final int id = await _repository.create(fromForm);
       if (id > 0) {
         // The new activity was saved into DB. Close the bottom sheet form and return created item.
@@ -237,7 +241,7 @@ class AddUpdateState with ChangeNotifier {
       minutes: _min,
       placements: _placements,
       remarks: _areLDCHours
-          ? '[$_ldcLocaleTranslation: ${_makeTimeString(h, min)}${_remarks.isEmpty ? '' : '; $_remarks.'}]'
+          ? '[${_s.loc.generalLDCHours}: ${_makeTimeString(h, min)}${_remarks.isEmpty ? '' : '; $_remarks.'}]'
           : _remarks,
       returnVisits: _returns,
       uid: _userRepository.user.uid,

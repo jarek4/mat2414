@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mat2414/src/ui/theme/theme.dart';
 
 Future<T?> showCustomBottomSheet<T>(BuildContext context, Widget content) {
   if (Theme.of(context).platform == TargetPlatform.android) {
@@ -15,14 +16,20 @@ Future<T?> showCustomBottomSheet<T>(BuildContext context, Widget content) {
             duration: const Duration(milliseconds: 50),
             curve: Curves.bounceIn,
             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: content,
+            child: SafeArea(child: content),
           );
         });
   } else {
     return showCupertinoModalPopup<T>(
         context: context,
         builder: (BuildContext builder) {
-          return CupertinoPopupSurface(isSurfacePainted: true, child: content);
+          return CupertinoPopupSurface(
+            isSurfacePainted: false,
+            child: Material(
+              color: context.colors.tertiaryContainer.withOpacity(0.94),
+              child: SafeArea(child: content),
+            ),
+          );
         });
   }
 }

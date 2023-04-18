@@ -5,6 +5,7 @@ import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/screens/detail/detail_state.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:mat2414/utils/constant_values.dart';
+import 'package:mat2414/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bottom_sheet;
 
@@ -43,7 +44,9 @@ class ActivityTab extends StatelessWidget {
           // isWaiting: false; hasData: true; connectionState: ConnectionState.active
           if (snapshot.hasError) return const Center(child: CircularProgressIndicator.adaptive());
           if (isActive && snapshot.hasData && (snapshot.data == null || snapshot.data!.isEmpty)) {
-            return Center(child: Text(context.loc.homeNoActivities));
+
+            final date = dateFormatter(context.read<DetailState>().selectedDate.date, 'd/MM');
+            return Center(child: Text('$date\n${context.loc.homeNoActivities}',textAlign: TextAlign.center));
           }
           final UnmodifiableListView<Activity> data =
               snapshot.data ?? UnmodifiableListView<Activity>([]);

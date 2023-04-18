@@ -15,9 +15,19 @@ class ReportsRepository implements IReportsRepository {
   }
 
   @override
-  Future<int> delete(int itemId) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<int> delete(int itemId) async {
+    return await _db
+        .delete(itemId)
+        .catchError((e) => -1)
+        .timeout(const Duration(seconds: 2), onTimeout: () => -1);
+  }
+
+  @override
+  Future<List<Report>> readForAServiceYear(String serviceYear) async {
+    return await _db
+        .getForServiceYear(serviceYear)
+        .catchError((e) => <Report>[])
+        .timeout(const Duration(seconds: 2), onTimeout: () => <Report>[]);
   }
 
   @override

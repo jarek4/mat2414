@@ -6,7 +6,6 @@ import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:mat2414/utils/constant_values.dart';
 import 'package:provider/provider.dart';
-
 import 'home_screen_state_provider.dart';
 
 class LastActivities extends StatefulWidget {

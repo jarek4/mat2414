@@ -13,16 +13,19 @@ class DetailWide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisSpacing: 0, crossAxisCount: 2, crossAxisSpacing: 3, childAspectRatio: 3 / 2.0),
-      children: [_buildCalendar(), _buildReportTabs(context)],
+    return SafeArea(
+      child: GridView(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisSpacing: 0, crossAxisCount: 2, crossAxisSpacing: 3, childAspectRatio: 3 / 2.2),
+        children: [_buildCalendar(), _buildReportTabs(context)],
+      ),
     );
   }
 
   Container _buildCalendar() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
       // constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
       // color: Colors.grey,
       child: const CustomCalendarView(),

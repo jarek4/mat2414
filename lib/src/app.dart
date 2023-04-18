@@ -9,9 +9,9 @@ import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/scaffold_key.dart' as global_key;
 import 'package:provider/provider.dart';
 
-
 import 'calendar/calendar_state_provider.dart';
 import 'localization/app_locales.dart';
+
 import 'settings/settings_controller.dart';
 
 /// The Widget that configures your application.
@@ -33,9 +33,10 @@ class _MyAppState extends State<MyApp> {
     themeMode: ThemeMode.system,
   ));
 
+
+
   @override
   Widget build(BuildContext context) {
-    // final String locale = Localizations.localeOf(context).toString();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SettingsController>.value(value: widget.settingsController),
@@ -66,7 +67,9 @@ class _MyAppState extends State<MyApp> {
                       GlobalWidgetsLocalizations.delegate,
                       GlobalCupertinoLocalizations.delegate,
                     ],
-                    supportedLocales: AppLocales.all,
+                   // localizationsDelegates: AppLocalizations.localizationsDelegates,
+                   supportedLocales: AppLocales.all,
+                      // supportedLocales: AppLocalizations.supportedLocales,
                     locale: const Locale('pl'),
                     onGenerateTitle: (BuildContext context) =>
                         AppLocalizations.of(context).appTitle,

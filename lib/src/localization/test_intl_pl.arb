@@ -239,6 +239,16 @@
   },
   "reportIncreaseBibleStudiesBtnToolTip": "Increase bible studies quantity",
   "@reportIncreaseBibleStudiesBtnToolTip": {},
+  "reportTransferredMinutesTxt": "Przeniesione minuty {number}",
+  "@reportTransferredMinutesTxt":  {
+    "description": "Przeniesione minuty na następny miesiąc",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
   "reportReportWasCopied": "Sprawozdanie skopiowane",
   "@reportReportWasCopied": {},
   "screenDetail": "Szczegóły",

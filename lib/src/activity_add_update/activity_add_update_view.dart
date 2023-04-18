@@ -34,27 +34,34 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
             maxChildSize: 0.9,
             minChildSize: 0.4,
             builder: (context, controller) {
-              return ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 2, 16, 8),
-                  shrinkWrap: true,
-                  controller: controller,
-                  children: [
-                    // top bottom sheet draggable indicator
-                    const LineIndicator(),
-                    _buildHeaderArea([
-                      _buildTitle(),
-                      _buildDataPicker(context),
+              return SafeArea(
+                top: false,
+                child: ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 2, 16, 8),
+                    shrinkWrap: true,
+                    controller: controller,
+                    children: [
+                      // top bottom sheet draggable indicator
+                      const LineIndicator(),
+                      _buildHeaderArea([
+                        _buildTitle(),
+                        _buildDataPicker(context),
+                      ]),
+                      _buildDivider(),
+                      _buildTimeField(),
+                      if (!userWantLDCButton) _buildLDCHoursBtn(),
+                      _buildDivider(),
+                      _buildPlacementsField(),
+                      _buildVideoShowingsField(),
+                      _buildReturnVisitsField(),
+                      _buildAddRemarksArea(context),
+                      _buildBottomButtons(context),
+                      // iOS CupertinoPopupSurface does not lift up when keyboard is visible:
+                      const SizedBox(height: 60),
+                      const SizedBox(height: 60),
+                      const SizedBox(height: 80),
                     ]),
-                    _buildDivider(),
-                    _buildTimeField(),
-                    if (!userWantLDCButton) _buildLDCHoursBtn(),
-                    _buildDivider(),
-                    _buildPlacementsField(),
-                    _buildVideoShowingsField(),
-                    _buildReturnVisitsField(),
-                    _buildAddRemarksArea(context),
-                    _buildBottomButtons(context),
-                  ]);
+              );
             });
       },
     );
@@ -109,7 +116,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
                 return LDCHoursOption(
                   isSelected: areLDCHours,
                   handle: () =>
-                      context.read<AddUpdateState>().onLDCHoursChange(context.loc.generalLDCHours),
+                      context.read<AddUpdateState>().onLDCHoursChange(/*context.loc.generalLDCHours*/),
                 );
               }),
         ),

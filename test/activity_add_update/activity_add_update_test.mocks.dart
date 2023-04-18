@@ -12,6 +12,7 @@ import 'package:mat2414/src/data/models/user/user.dart' as _i2;
 import 'package:mat2414/src/data/repositories/activities_repository.dart'
     as _i3;
 import 'package:mat2414/src/data/repositories/user_repository.dart' as _i6;
+import 'package:mat2414/src/localization/locale_notifier.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -298,10 +299,10 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  void onLDCHoursChange(String? ldcLocale) => super.noSuchMethod(
+  void onLDCHoursChange() => super.noSuchMethod(
         Invocation.method(
           #onLDCHoursChange,
-          [ldcLocale],
+          [],
         ),
         returnValueForMissingStub: null,
       );
@@ -407,6 +408,27 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         Invocation.method(
           #notifyListeners,
           [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [ILocaleNotifier].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockILocaleNotifier extends _i1.Mock implements _i9.ILocaleNotifier {
+  @override
+  void update(
+    List<_i8.Locale>? supported,
+    _i8.Locale? locales,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #update,
+          [
+            supported,
+            locales,
+          ],
         ),
         returnValueForMissingStub: null,
       );

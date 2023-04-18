@@ -39,10 +39,10 @@ class ReportDataTable extends StatelessWidget {
     hoursTitle = AppLocalizations.of(context).generalHour(2);
     videosTitle = AppLocalizations.of(context).generalVideoShowings;
     final List<Map<String, dynamic>> headers = [
-      {'title': placementsTitle, 'icon': Image.asset(AssetPath.imgMagazine512, height: 12)},
-      {'title': videosTitle, 'icon': Image.asset(AssetPath.imgVideoCamera512, height: 12)},
-      {'title': hoursTitle, 'icon': Image.asset(AssetPath.imgHourglass512, height: 12)},
-      {'title': returnsTitle, 'icon': Image.asset(AssetPath.imgTwoPersons512, height: 12)},
+      {'title': placementsTitle, 'icon': Image.asset(AssetPath.imgMagazine512, height: 12, width: 12)},
+      {'title': videosTitle, 'icon': Image.asset(AssetPath.imgVideoCamera512, height: 12, width: 12)},
+      {'title': hoursTitle, 'icon': Image.asset(AssetPath.imgHourglass512, height: 12, width: 12)},
+      {'title': returnsTitle, 'icon': Image.asset(AssetPath.imgTwoPersons512, height: 12, width: 12)},
     ];
     final TextStyle? style = context.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 9);
     final TextStyle? monthlyStyle =

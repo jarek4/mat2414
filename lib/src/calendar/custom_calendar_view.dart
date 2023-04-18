@@ -48,14 +48,17 @@ class CustomCalendarView extends StatelessWidget {
     return Column(children: <Widget>[
       const SizedBox(height: 2),
       // header
-      Flexible(
+      SizedBox(
+        height: 34,
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
           const SizedBox(width: 5),
-          // prev month button
-          _calendarNavigationBtn(),
+          // prev month button <
+          // _calendarNavigationBtn(),
+          Flexible(child: _calendarNavigationBtn()),
           const SizedBox(width: 5),
           // month and year: January 2023
-          FittedBox(
+          Flexible(
+            flex: 3,
             child: InkWell(
               onTap: () =>
                   context.read<CalendarStateProvider>().calendarType = CalendarType.monthSelect,
@@ -82,8 +85,9 @@ class CustomCalendarView extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 5),
-          // next month button arrows <>
-          _calendarNavigationBtn(isNext: true),
+          // next month button arrows >
+          // _calendarNavigationBtn(isNext: true),
+          Flexible(child: _calendarNavigationBtn(isNext: true)),
           const SizedBox(width: 5),
         ]),
       ),
@@ -128,7 +132,7 @@ class CustomCalendarView extends StatelessWidget {
             mainAxisSpacing: 0.1,
             crossAxisCount: 7,
             crossAxisSpacing: 13,
-            childAspectRatio: 2.7 / 2.3),
+            childAspectRatio: 2.7 / 2.1), // 2.7 / 2.3
         itemBuilder: (context, index) {
           if (days[index].date == selectedDay) {
             return _selector(context, days[index]);

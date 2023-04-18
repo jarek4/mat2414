@@ -16,3 +16,10 @@ class NavBtn extends StatelessWidget {
     );
   }
 }
+
+// second option:
+/*
+GestureDetector(
+onTap:  () => onTap(),
+child: Alignment(Alignment.center, child: Icon(isForward ? Icons.arrow_forward_ios : Icons.arrow_back_ios))
+);*/

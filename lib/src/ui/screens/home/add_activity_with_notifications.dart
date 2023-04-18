@@ -19,6 +19,7 @@ class _AddActivityWithNotificationsState extends State<AddActivityWithNotificati
   Timer? timer;
   var saved = 'OK, saved.', notSaved = 'Not saved!';
   String? tempInfo;
+  // late I10n locale;
 
   @override
   void dispose() {
@@ -33,6 +34,14 @@ class _AddActivityWithNotificationsState extends State<AddActivityWithNotificati
     notSaved = AppLocalizations.of(context).addActivityBtnNotSavedNotification;
   }
 
+  // @override
+  // void initState() {
+  //   locale = locator<I10n>();
+  //   saved = locale.addActivityBtnSavedNotification;
+  //   notSaved = locale.addActivityBtnNotSavedNotification ;
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -40,7 +49,7 @@ class _AddActivityWithNotificationsState extends State<AddActivityWithNotificati
       // button +
       AddActivityWidget(
         isSmall: false,
-        handle: () => _handleAddNevActivityBtn(),
+        handle: _handleAddNevActivityBtn,
       )
     ]);
   }

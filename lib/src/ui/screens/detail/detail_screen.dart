@@ -7,18 +7,14 @@ import 'layouts/detail_narrowed.dart';
 import 'layouts/detail_wide.dart';
 import 'detail_state.dart';
 
-class DetailScreen extends StatefulWidget {
+class DetailScreen extends StatelessWidget {
   const DetailScreen({Key? key}) : super(key: key);
 
   @override
-  State<DetailScreen> createState() => _DetailScreenState();
-}
-
-class _DetailScreenState extends State<DetailScreen> {
-  @override
   Widget build(BuildContext context) {
     final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    final CalendarDay selected = Provider.of<CalendarStateProvider>(context, listen: false).state.selectedDay;
+    final CalendarDay selected =
+        Provider.of<CalendarStateProvider>(context, listen: false).state.selectedDay;
     return ChangeNotifierProxyProvider<CalendarStateProvider, DetailState>(
       create: (_) => DetailState(selected),
       update: (_, calendar, detailState) => detailState!..update(calendar.state.selectedDay),

@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:provider/provider.dart';
-import '../../../rate_request/rate_request.dart';
+// import '../../../rate_request/rate_request.dart';
 import 'add_activity_with_notifications.dart';
 import 'home_screen_state_provider.dart';
 import 'last_activities.dart';
@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? timer;
   var _lastActivity = 'Your last activity:', _today = 'Today is';
   bool _isAppStillNotRated = false;
+  // late I10n locale;
 
   @override
   void dispose() {
@@ -33,8 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     _lastActivity = AppLocalizations.of(context).homeYorLastActivities;
     _today = AppLocalizations.of(context).homeTodayIs ;
+   //  final locale = locator<I10n>();
+   //  _lastActivity = locale.homeYorLastActivities;
+   //  _today = locale.homeTodayIs ;
     _isAppStillNotRated = !context.read<SettingsController>().user.haveRatedTheApp;
   }
+
+  // @override
+  // void initState() {
+  //   locale = locator<I10n>();
+  //   _lastActivity = locale.homeYorLastActivities;
+  //   _today = locale.homeTodayIs ;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: const Align(
                           alignment: Alignment.bottomCenter,
                           child: AddActivityWithNotifications())),
-                  if (_isAppStillNotRated) const RateRequest(),
+                  /// TODO: uncomment RateRequest
+                  // if (_isAppStillNotRated) const RateRequest(),
                 ]),
               ),
             ),
@@ -103,6 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           builder: (BuildContext context, name, __) {
             var hello = AppLocalizations.of(context).homeHello(name);
+            // var hello = locale.homeHello(name);
             if (name.isEmpty) {
               // locale is 'Hello {name}! Fix: Hello !, to Hello!
               hello = hello.replaceAll(' ', '');

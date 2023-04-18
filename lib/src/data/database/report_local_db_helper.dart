@@ -23,7 +23,32 @@ class ReportLocalDbHelper implements IReportDbHelper {
 
   @override
   Future<int> delete(int id) async {
-    return -1;
+    try {
+      return await _db.writeTxn<int>(() async {
+        // check if report exists
+        final res = await _db.reports.where().idEqualTo(id).findFirst();
+        if (res == null) return -1;
+        final hasTransferredActivity = res.transferredMinutesActivityId > 0; // default id == -111
+        final isDeleted = await _db.reports.delete(id);
+        if (isDeleted && hasTransferredActivity) {
+          final response = await _db.activitys.delete(res.transferredMinutesActivityId);
+          return response ? id : 0;
+        }
+        return isDeleted ? id : -1;
+      });
+    } catch (e) {
+      try {
+        final isDeleted = await _db.reports.delete(id); // delete only report
+        if (kDebugMode) {
+          print('ReportLocalDbHelper delete id: $id. Report deleted:$isDeleted E: $e');
+        }
+        return isDeleted ? 0 : -1;
+      } catch (e) {
+        if (kDebugMode) print('ReportLocalDbHelper delete id: $id. Second catch: $e');
+        return -1;
+      }
+
+    }
   }
 
   @override
@@ -73,9 +98,18 @@ class ReportLocalDbHelper implements IReportDbHelper {
   }
 
   @override
-  Future<List<Report>> getForServiceYear(String serviceYear) {
-    // TODO: implement getForServiceYear
-    throw UnimplementedError();
+  Future<List<Report>> getForServiceYear(String serviceYear) async {
+    try {
+      return await _db.reports
+          .filter()
+          .serviceYearEqualTo(serviceYear)
+          .isClosedEqualTo(true)
+          .sortByYearDesc()
+          .thenByMonthDesc()
+          .findAll();
+    } catch (e) {
+      throw Exception('ReportLocalDbHelper getForServiceYear($serviceYear).\n $e');
+    }
   }
 
   Report _updateLastModified(Report i) {

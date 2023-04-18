@@ -3,5 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // context.loc.itemDetails
 extension LocalizedBuildContext on BuildContext {
+  /// extension on BuildContext.
   AppLocalizations get loc => AppLocalizations.of(this);
 }

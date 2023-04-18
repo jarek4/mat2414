@@ -7,6 +7,8 @@ abstract class IReportsRepository {
 
   Future<Report?> readClosedForAMonth(int year, int month);
 
+  Future<List<Report>> readForAServiceYear(String serviceYear);
+
   Future<List<Report>> readForAYear(int year);
 
   Future<Report?> readSingle(int id);
@@ -15,6 +17,7 @@ abstract class IReportsRepository {
 
   Future<int> update(Report item);
 
-  /// Returns the number of rows affected. -1 on error
+  /// when success returns itemId > 0, -1 on error or if Report does not exist.
+  /// May return 0 if associated Activity was not deleted.
   Future<int> delete(int itemId);
 }

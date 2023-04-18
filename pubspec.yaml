@@ -124,5 +124,9 @@ flutter:
         - asset: fonts/montserrat/Montserrat-ExtraBold.ttf
           weight: 800
           style: normal
-flutter_intl:
-  enabled: true
+  # flutter_intl:
+  # enabled: true
+  # class_name: I10n                              # Add this line
+  # main_locale: en                               # Add this line
+  # arb_dir: lib/core/localization/l10n           # Add this line
+  # output_dir: lib/core/localization/generated  # Add this line

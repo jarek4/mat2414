@@ -525,6 +525,12 @@ abstract class AppLocalizations {
   /// **'Increase bible studies quantity'**
   String get reportIncreaseBibleStudiesBtnToolTip;
 
+  /// Transferred minutes to the next month
+  ///
+  /// In en, this message translates to:
+  /// **'Transferred minutes {number}'**
+  String reportTransferredMinutesTxt(int number);
+
   /// No description provided for @reportReportWasCopied.
   ///
   /// In en, this message translates to:

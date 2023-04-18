@@ -239,6 +239,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportIncreaseBibleStudiesBtnToolTip => 'Increase bible studies quantity';
 
   @override
+  String reportTransferredMinutesTxt(int number) {
+    return 'Transferred minutes $number';
+  }
+
+  @override
   String get reportReportWasCopied => 'Report was copied';
 
   @override

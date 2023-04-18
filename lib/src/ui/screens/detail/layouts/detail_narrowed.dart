@@ -20,12 +20,16 @@ class DetailNarrowed extends StatelessWidget {
     return Container(
       color: context.colors.primaryContainer,
       constraints: const BoxConstraints(maxHeight: double.maxFinite, minWidth: double.maxFinite),
-      child: Column(children: [
-        const SizedBox(height: 28.0),
-        Align(alignment: Alignment.topCenter, child: _buildScreenHeader(context, headerH)),
-        Expanded(child: _buildScreenBody(context)),
-        // _buildScreenBody(context),
-      ]),
+      child: SafeArea(
+        bottom: false,
+        right: false,
+        child: Column(children: [
+          // const SizedBox(height: 28.0),
+          Align(alignment: Alignment.topCenter, child: _buildScreenHeader(context, headerH)),
+          Expanded(child: _buildScreenBody(context)),
+          // _buildScreenBody(context),
+        ]),
+      ),
     );
   }
 
@@ -36,7 +40,7 @@ class DetailNarrowed extends StatelessWidget {
       constraints: BoxConstraints(
         // maxHeight: maxHeight * 0.36 - 28.0,
         maxHeight: height,
-        maxWidth: isWide ? width * 0.7 : width * 0.90,
+        maxWidth: isWide ? width * 0.7 : width * 0.93, // width * 0.90
       ),
       child: const CustomCalendarView(),
     );

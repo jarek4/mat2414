@@ -4,6 +4,7 @@ import 'package:mat2414/src/activity_add_update/add_update_state.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/data/repositories/activities_repository.dart';
 import 'package:mat2414/src/data/repositories/user_repository.dart';
+import 'package:mat2414/src/localization/locale_notifier.dart';
 import 'package:mat2414/utils/constant_values.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -15,9 +16,12 @@ import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
 // call getIt.allReady() in setUpAll async body
 
 // flutter pub run build_runner build --delete-conflicting-outputs
-@GenerateNiceMocks([MockSpec<ActivitiesRepository>(as: #MockActivitiesRepo)])
-@GenerateNiceMocks([MockSpec<UserRepository>(as: #MockUserRepo)])
-@GenerateNiceMocks([MockSpec<AddUpdateState>(as: #MockAddUpdateState)])
+@GenerateNiceMocks([
+  MockSpec<ActivitiesRepository>(as: #MockActivitiesRepo),
+  MockSpec<UserRepository>(as: #MockUserRepo),
+  MockSpec<AddUpdateState>(as: #MockAddUpdateState),
+  MockSpec<ILocaleNotifier>(as: #MockILocaleNotifier)
+])
 import 'activity_add_update_test.mocks.dart';
 
 void main() {
