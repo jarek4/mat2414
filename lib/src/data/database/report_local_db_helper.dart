@@ -28,7 +28,7 @@ class ReportLocalDbHelper implements IReportDbHelper {
         // check if report exists
         final res = await _db.reports.where().idEqualTo(id).findFirst();
         if (res == null) return -1;
-        final hasTransferredActivity = res.transferredMinutesActivityId > 0; // default id == -111
+        final hasTransferredActivity = res.transferredMinutesActivityId != -1;
         final isDeleted = await _db.reports.delete(id);
         if (isDeleted && hasTransferredActivity) {
           final response = await _db.activitys.delete(res.transferredMinutesActivityId);
@@ -47,7 +47,6 @@ class ReportLocalDbHelper implements IReportDbHelper {
         if (kDebugMode) print('ReportLocalDbHelper delete id: $id. Second catch: $e');
         return -1;
       }
-
     }
   }
 
@@ -88,10 +87,28 @@ class ReportLocalDbHelper implements IReportDbHelper {
   }
 
   @override
+  Future<List<String>> readAvailableServiceYears() async {
+    try {
+      // return await _db.reports.where().serviceYearProperty().findAll();
+      return await _db.reports
+          .where()
+          .serviceYearProperty()
+          .findAll()
+          .then((value) => value.toSet().toList())
+          .then((resp) => resp
+            ..sort()
+            ..reversed);
+    } catch (e) {
+      throw Exception('ReportLocalDbHelper readAvailableServiceYears().\n $e');
+    }
+  }
+
+  @override
   Future<Report?> getClosedForAMonth(int year, int month) async {
     try {
       // if (kDebugMode) print('ActivityLocalDbHelper getForMonth($year, $month)');
-      return await _db.reports.where().yearMonthIsClosedEqualTo(year, month, true).findFirst();
+      //return await _db.reports.where().yearMonthIsClosedEqualTo(year, month, true).findFirst();
+      return await _db.reports.where().yearMonthEqualToAnyServiceYear(year, month).findFirst();
     } catch (e) {
       throw Exception('ReportLocalDbHelper getClosedForMonth($year, $month).\n $e');
     }

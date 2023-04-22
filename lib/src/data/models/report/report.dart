@@ -20,21 +20,19 @@ class Report {
     this.id = Isar.autoIncrement,
     this.informalWitnessingHours = 0,
     this.informalWitnessingQuantity = 0,
-    this.hours = 0,
+    this.durationInMinutes = 0,
     this.isClosed = false,
-    this.minutes = 0,
     this.placements = 0,
     this.publicWitnessingHours = 0,
     this.publicWitnessingQuantity = 0,
     this.remarks = '',
     this.returnVisits = 0,
-    this.hoursLDC = 0,
     this.minutesLDC = 0,
     this.sundayWitnessingHours = 0,
     this.sundayWitnessingQuantity = 0,
     this.transferredMinutes = 0,
-    this.transferredMinutesActivityId = -111,
-    this.uid,
+    this.transferredMinutesActivityId = -1,
+    this.uid = '',
     this.withFieldServiceGroupWitnessingHours = 0,
     this.withFieldServiceGroupWitnessingQuantity = 0,
     this.videos = 0,
@@ -58,7 +56,7 @@ class Report {
 
   final short eveningWitnessingQuantity;
 
-  final short hours;
+  final short durationInMinutes;
 
   final short informalWitnessingHours;
 
@@ -70,8 +68,6 @@ class Report {
     fromJson: _fromJson,
   )
   final DateTime lastModified;
-
-  final byte minutes;
 
   final byte month;
 
@@ -86,8 +82,6 @@ class Report {
 
   final short returnVisits;
   final String serviceYear;
-
-  final short hoursLDC;
   final short minutesLDC;
 
   final short sundayWitnessingHours;
@@ -96,9 +90,10 @@ class Report {
 
   final byte transferredMinutes;
 
+  /// -1 is like a null
   final int transferredMinutesActivityId;
 
-  final String? uid;
+  final String uid;
 
   final short withFieldServiceGroupWitnessingHours;
 
@@ -108,7 +103,7 @@ class Report {
 
   @Index(composite: [
     CompositeIndex('month', type: IndexType.value),
-    CompositeIndex('isClosed', type: IndexType.value)
+    CompositeIndex('serviceYear', type: IndexType.value)
   ], type: IndexType.value)
   final short year;
 
@@ -119,13 +114,12 @@ class Report {
     int? businessTerritoryWitnessingQuantity,
     int? eveningWitnessingHours,
     int? eveningWitnessingQuantity,
-    int? hours,
     int? id,
     int? informalWitnessingHours,
     int? informalWitnessingQuantity,
     bool? isClosed,
     DateTime? lastModified,
-    int? minutes,
+    int? durationInMinutes,
     int? month,
     int? placements,
     int? publicWitnessingHours,
@@ -133,7 +127,6 @@ class Report {
     String? remarks,
     int? returnVisits,
     String? serviceYear,
-    int? hoursLDC,
     int? minutesLDC,
     int? sundayWitnessingHours,
     int? sundayWitnessingQuantity,
@@ -154,13 +147,12 @@ class Report {
           businessTerritoryWitnessingQuantity ?? this.businessTerritoryWitnessingQuantity,
       eveningWitnessingHours: eveningWitnessingHours ?? this.eveningWitnessingHours,
       eveningWitnessingQuantity: eveningWitnessingQuantity ?? this.eveningWitnessingQuantity,
-      hours: hours ?? this.hours,
+      durationInMinutes: durationInMinutes ?? this.durationInMinutes,
       id: id ?? this.id,
       informalWitnessingHours: informalWitnessingHours ?? this.informalWitnessingHours,
       informalWitnessingQuantity: informalWitnessingQuantity ?? this.informalWitnessingQuantity,
       isClosed: isClosed ?? this.isClosed,
       lastModified: lastModified ?? this.lastModified,
-      minutes: minutes ?? this.minutes,
       month: month ?? this.month,
       placements: placements ?? this.placements,
       publicWitnessingHours: publicWitnessingHours ?? this.publicWitnessingHours,
@@ -168,7 +160,6 @@ class Report {
       remarks: remarks ?? this.remarks,
       returnVisits: returnVisits ?? this.returnVisits,
       serviceYear: serviceYear ?? this.serviceYear,
-      hoursLDC: hoursLDC ?? this.hoursLDC,
       minutesLDC: minutesLDC ?? this.minutesLDC,
       sundayWitnessingHours: sundayWitnessingHours ?? this.sundayWitnessingHours,
       sundayWitnessingQuantity: sundayWitnessingQuantity ?? this.sundayWitnessingQuantity,
@@ -221,7 +212,7 @@ class Report {
                 other.informalWitnessingHours == informalWitnessingHours) &&
             (identical(other.informalWitnessingQuantity, informalWitnessingQuantity) ||
                 other.informalWitnessingQuantity == informalWitnessingQuantity) &&
-            (identical(other.hours, hours) || other.hours == hours) &&
+            (identical(other.durationInMinutes, durationInMinutes) || other.durationInMinutes == durationInMinutes) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.isClosed, isClosed) || other.isClosed == isClosed) &&
             (identical(other.withFieldServiceGroupWitnessingHours,
@@ -232,7 +223,6 @@ class Report {
                     withFieldServiceGroupWitnessingQuantity) ||
                 other.withFieldServiceGroupWitnessingQuantity ==
                     withFieldServiceGroupWitnessingQuantity) &&
-            (identical(other.minutes, minutes) || other.minutes == minutes) &&
             (identical(other.placements, placements) || other.placements == placements) &&
             (identical(other.publicWitnessingHours, publicWitnessingHours) ||
                 other.publicWitnessingHours == publicWitnessingHours) &&
@@ -240,7 +230,6 @@ class Report {
                 other.publicWitnessingQuantity == publicWitnessingQuantity) &&
             (identical(other.remarks, remarks) || other.remarks == remarks) &&
             (identical(other.returnVisits, returnVisits) || other.returnVisits == returnVisits) &&
-            (identical(other.hoursLDC, hoursLDC) || other.hoursLDC == hoursLDC) &&
             (identical(other.minutesLDC, minutesLDC) || other.minutesLDC == minutesLDC) &&
             (identical(other.sundayWitnessingHours, sundayWitnessingHours) ||
                 other.sundayWitnessingHours == sundayWitnessingHours) &&
@@ -269,18 +258,16 @@ class Report {
         eveningWitnessingQuantity,
         informalWitnessingHours,
         informalWitnessingQuantity,
-        hours,
+        durationInMinutes,
         id,
         isClosed,
         withFieldServiceGroupWitnessingHours,
         withFieldServiceGroupWitnessingQuantity,
-        minutes,
         placements,
         publicWitnessingHours,
         publicWitnessingQuantity,
         remarks,
         returnVisits,
-        hoursLDC,
         minutesLDC,
         sundayWitnessingHours,
         sundayWitnessingQuantity,
@@ -292,6 +279,6 @@ class Report {
 
   @override
   String toString() {
-    return 'Report(id: $id, createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, hours: $hours, minutes: $minutes, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, hoursLDC: $hoursLDC, minutesLDC: $minutesLDC, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, transferredMinutes: $transferredMinutes, transferredMinutesActivityId: $transferredMinutesActivityId,  uid: $uid)';
+    return 'Report(id: $id, createdAt: $createdAt, lastModified: $lastModified, month: $month, serviceYear: $serviceYear, year: $year, bibleStudies: $bibleStudies, businessTerritoryWitnessingHours: $businessTerritoryWitnessingHours, businessTerritoryWitnessingQuantity: $businessTerritoryWitnessingQuantity, eveningWitnessingHours: $eveningWitnessingHours, eveningWitnessingQuantity: $eveningWitnessingQuantity, informalWitnessingHours: $informalWitnessingHours, informalWitnessingQuantity: $informalWitnessingQuantity, durationInMinutes: $durationInMinutes, isClosed: $isClosed, withFieldServiceGroupWitnessingHours: $withFieldServiceGroupWitnessingHours, withFieldServiceGroupWitnessingQuantity: $withFieldServiceGroupWitnessingQuantity, placements: $placements, publicWitnessingHours: $publicWitnessingHours, publicWitnessingQuantity: $publicWitnessingQuantity, remarks: $remarks, returnVisits: $returnVisits, minutesLDC: $minutesLDC, sundayWitnessingHours: $sundayWitnessingHours, sundayWitnessingQuantity: $sundayWitnessingQuantity, videos: $videos, transferredMinutes: $transferredMinutes, transferredMinutesActivityId: $transferredMinutesActivityId,  uid: $uid)';
   }
 }

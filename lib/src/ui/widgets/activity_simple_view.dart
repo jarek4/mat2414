@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/constant_values.dart';
-import 'package:mat2414/utils/date_formatter.dart' as utils;
+import 'package:mat2414/utils/date_formatter.dart' as utils_df;
+import 'package:mat2414/utils/convert_duration.dart' as utils_cd;
 
 /// data = List<int>[placements, videoShowings, returnVisits]. duration=Duration(hours: 1, minutes: 15)
 class ActivitySimpleView extends StatelessWidget {
@@ -28,12 +29,10 @@ class ActivitySimpleView extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: Row(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Expanded(
               child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Center(
@@ -45,7 +44,7 @@ class ActivitySimpleView extends StatelessWidget {
                             item.day,
                           )[0],
                           style: textTheme.labelMedium,
-                          textAlign: TextAlign.center)),
+                          textAlign: TextAlign.center),),
                   const SizedBox(height: 2),
                   Center(
                       child: Text(_makeDate(context, item.year, item.month, item.day)[1],
@@ -104,7 +103,7 @@ class ActivitySimpleView extends StatelessWidget {
           children: <Widget>[
             Image.asset(imagePath, height: 18),
             const SizedBox(height: 2),
-            Text(_makeTimeAsReadableString(item.hours, item.minutes),
+            Text(_makeTimeAsReadableString(item.durationInMinutes),
                 style: textTheme.labelLarge, textAlign: TextAlign.center),
           ]),
     );
@@ -116,12 +115,12 @@ class ActivitySimpleView extends StatelessWidget {
     final DateTime emptyActivityDate = DateTime(ea.year, ea.month, ea.day);
     final DateTime itemDate = DateTime(year, month, day);
     if (itemDate == emptyActivityDate) return <String>['***', '**'];
-    final String d = utils.dateFormatter(DateTime(year, month, day), 'MMM,d', locale);
+    final d = utils_df.dateFormatter(DateTime(year, month, day), 'MMM,d', locale);
     return d.toUpperCase().split(',');
   }
 
-  String _makeTimeAsReadableString(int h, int m) {
-    final String hoursAndMinutes = Duration(hours: h, minutes: m).hoursAndMinutesString();
+  String _makeTimeAsReadableString(int m) {
+    final hoursAndMinutes = utils_cd.minutesDurationToFormattedString(m);
     if (hoursAndMinutes.startsWith('0')) {
       return hoursAndMinutes.substring(1);
     }

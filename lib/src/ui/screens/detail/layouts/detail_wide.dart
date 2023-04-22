@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/calendar/calendar.dart';
+import 'package:mat2414/src/ui/screens/detail/activity_tab/activity_tab.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../activity_tab.dart';
 import '../detail_state.dart';
-import '../report_tab.dart';
+import '../report_tab/report_tab.dart';
 
 class DetailWide extends StatelessWidget {
   const DetailWide({Key? key}) : super(key: key);

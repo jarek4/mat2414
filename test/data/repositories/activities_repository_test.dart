@@ -57,8 +57,7 @@ void main() {
       Stream<List<Activity>> stream = sut.watch3recent().asBroadcastStream();
       final List<Activity> activities2 = [
         emptyActivity.copyWith(videos: 3),
-        emptyActivity.copyWith(hours: 4),
-        emptyActivity.copyWith(minutes: 25)
+        emptyActivity.copyWith(durationInMinutes: 4)
       ];
       when(db.getLast(3)).thenAnswer((realInvocation) async => activities2);
       stream.listen(

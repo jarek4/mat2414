@@ -19,4 +19,7 @@ abstract class IReportDbHelper {
   /// Checks does report with given id exist. If does, checks associated Activity (transferred minutes).
   /// If there is transferred activity id it will be deleted!
   Future<int> delete(int id);
+
+  /// returns property serviceYear from all stored Reports
+  Future<List<String>> readAvailableServiceYears();
 }

@@ -183,6 +183,17 @@ class MockIReportsRepository extends _i1.Mock
         returnValueForMissingStub: _i4.Future<_i2.Report?>.value(),
       ) as _i4.Future<_i2.Report?>);
   @override
+  _i4.Future<List<_i2.Report>> readForAServiceYear(String? serviceYear) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #readForAServiceYear,
+          [serviceYear],
+        ),
+        returnValue: _i4.Future<List<_i2.Report>>.value(<_i2.Report>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i2.Report>>.value(<_i2.Report>[]),
+      ) as _i4.Future<List<_i2.Report>>);
+  @override
   _i4.Future<List<_i2.Report>> readForAYear(int? year) => (super.noSuchMethod(
         Invocation.method(
           #readForAYear,

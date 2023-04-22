@@ -5,7 +5,8 @@ import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
-import 'package:mat2414/utils/date_formatter.dart' as utils;
+import 'package:mat2414/utils/convert_duration.dart' as utils_cd;
+import 'package:mat2414/utils/date_formatter.dart' as utils_df;
 
 class ActivityCard extends StatefulWidget {
   const ActivityCard({Key? key, required this.activity}) : super(key: key);
@@ -42,7 +43,7 @@ class _ActivityCardState extends State<ActivityCard> {
     _placements = _activityAsStream.map((Activity a) => a.placements.toString()).distinct();
     _remarks = _activityAsStream.map((Activity a) => a.remarks).distinct();
     _returnVisits = _activityAsStream.map((Activity a) => a.returnVisits.toString()).distinct();
-    _time = _activityAsStream.map((Activity a) => _makeTimeString(a.hours, a.minutes)).distinct();
+    _time = _activityAsStream.map((Activity a) => _makeTimeString(a.durationInMinutes)).distinct();
     _videoShowings = _activityAsStream.map((Activity a) => a.videos.toString()).distinct();
   }
 
@@ -51,20 +52,20 @@ class _ActivityCardState extends State<ActivityCard> {
     try {
       // used for translation month or day name
       final currentLocale = Localizations.localeOf(context).toString();
-      final formattedDate = utils.dateFormatter(activityDate, 'EEEE, d MMM', currentLocale);
-      final createdAtTime = utils.dateFormatter(a.createdAt, 'H:m', currentLocale);
+      final formattedDate = utils_df.dateFormatter(activityDate, 'EEEE, d MMM', currentLocale);
+      final createdAtTime = utils_df.dateFormatter(a.createdAt, 'HH:mm', currentLocale);
       // date and time are split with ;
       return '$formattedDate; $createdAtTime';
     } catch (e) {
-      final createdAtTime = utils.dateFormatter(a.createdAt, 'H:m');
-      final formattedDate = utils.dateFormatter(activityDate, 'EEEE, d MMM');
+      final createdAtTime = utils_df.dateFormatter(a.createdAt, 'HH:mm');
+      final formattedDate = utils_df.dateFormatter(activityDate, 'EEEE, d MMM');
       // date and time are split with ;
       return '$formattedDate; $createdAtTime';
     }
   }
 
-  String _makeTimeString(int h, int min) {
-    final String hoursAndMinutes = Duration(hours: h, minutes: min).hoursAndMinutesString();
+  String _makeTimeString(int min) {
+    final String hoursAndMinutes = utils_cd.minutesDurationToFormattedString(min);
     if (hoursAndMinutes.startsWith('0')) {
       return hoursAndMinutes.substring(1);
     }

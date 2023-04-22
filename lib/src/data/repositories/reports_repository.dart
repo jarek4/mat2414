@@ -58,4 +58,12 @@ class ReportsRepository implements IReportsRepository {
         .catchError((e) => null)
         .timeout(const Duration(seconds: 3), onTimeout: () => null);
   }
+
+  @override
+  Future<List<String>> getStoredServiceYearProperties() async {
+    return await _db
+        .readAvailableServiceYears()
+        .catchError((e) => <String>[])
+        .timeout(const Duration(seconds: 2), onTimeout: () => <String>[]);
+  }
 }

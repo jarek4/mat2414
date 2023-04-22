@@ -33,4 +33,12 @@ class ConstantValues {
     remarks: 'emptyReport',
     id: -100,
   );
+
+  static final _now = DateTime.now();
+
+  static String _getServiceYear(DateTime date) {
+    return (date.month <= 8) ? '${date.year - 1}/${date.year}' : '${date.year}/${date.year +1}';
+  }
+  static final String  currentServiceYear = _getServiceYear(_now);
+
 }

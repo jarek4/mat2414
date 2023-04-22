@@ -3,34 +3,21 @@ import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/custom_screen_tab.dart';
+import 'history_tab/history_tab.dart';
+import 'history_tab/history_tab_state.dart';
 import 'more_screen_state_provider.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({Key? key}) : super(key: key);
 
- /* static final List<Widget> w = [
-    _historyWidget(),
-    const Text('SETTINGS'),];*/
-
-  Column _historyWidget(BuildContext context) {
-    return Column(
-    children: [
-      const Text('HISTORY'),
-     /* TextButton(
-        onPressed: () => context.read<MoreScreenStateProvider>().testIsarAdd(),
-        child: const Text('testIsarAdd activity'),),
-      TextButton(
-          onPressed: () => context.read<MoreScreenStateProvider>().testIsarDbManual(),
-          child: const Text('testIsarDbManual'),),*/
-    ],
-  );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    return ChangeNotifierProvider<MoreScreenStateProvider>(
-      create: (_) => MoreScreenStateProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MoreScreenStateProvider>(create: (_) => MoreScreenStateProvider()),
+        ChangeNotifierProvider<HistoryTabState>(create: (_) => HistoryTabState()),
+      ],
       child: LayoutBuilder(builder: (context, constraints) {
         // maxHeight - portrait: 679.27; horizontal: 312.72
         // ..maxHeight portrait:  BoxConstraints(0.0<=w<=392.7, 0.0<=h<=679.3)
@@ -45,18 +32,13 @@ class MoreScreen extends StatelessWidget {
               const BoxConstraints(maxHeight: double.maxFinite, minWidth: double.maxFinite),
           child: Column(
             children: [
-              showHeader
-                  ? Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
-                        child: Image.asset(
-                          'assets/images/schedule_t.png',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+              if (showHeader)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                      constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
+                      child: Image.asset(AssetPath.imgCalendar, fit: BoxFit.fitHeight)),
+                ),
               Expanded(
                 child: Container(
                   constraints: const BoxConstraints(minWidth: double.maxFinite),
@@ -66,47 +48,55 @@ class MoreScreen extends StatelessWidget {
                         topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                   ),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const SizedBox(height: 12.0),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        // child: _tapBar(constraints, context),
-                        child: Selector<MoreScreenStateProvider, int>(
-                            selector: (_, state) => state.narrowedLayoutTabIndex,
-                            shouldRebuild: (int pre, int next) {
-                              return pre != next;
-                            },
-                            builder: (BuildContext context, index, __) {
-                              return CustomTabBar(
-                                key: const Key('MonthNarrowed'),
-                                activeIndex: index,
-                                pageNames: const ['History', 'Settings'],
-                                onTap: context
-                                    .read<MoreScreenStateProvider>()
-                                    .onNarrowedTabIndexChange,
-                              );
-                            }),
-                      ),
-                      Selector<MoreScreenStateProvider, int>(
-                          selector: (_, state) => state.narrowedLayoutTabIndex,
-                          shouldRebuild: (int pre, int next) {
-                            return pre != next;
-                          },
-                          builder: (BuildContext context, index, __) {
-                            return [
-                              _historyWidget(context),
-                              const Text('SETTINGS'),
-                            ][index];
-                          }),
-                    ],
-                  ),
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const SizedBox(height: 12.0),
+                        _buildScreenTabBar(),
+                        _buildTabContent(),
+                      ]),
                 ),
-              ),
+              )
             ],
           ),
         );
       }),
+    );
+  }
+
+  Align _buildScreenTabBar() {
+    return Align(
+      alignment: Alignment.topCenter,
+      // child: _tapBar(constraints, context),
+      child: Selector<MoreScreenStateProvider, int>(
+          selector: (_, state) => state.tabIndex,
+          shouldRebuild: (int pre, int next) {
+            return pre != next;
+          },
+          builder: (BuildContext context, index, __) {
+            return CustomTabBar(
+              key: const Key('MonthNarrowed'),
+              activeIndex: index,
+              pageNames: context.read<MoreScreenStateProvider>().tabs,
+              onTap: context.read<MoreScreenStateProvider>().onTabIndexChange,
+            );
+          }),
+    );
+  }
+
+  Flexible _buildTabContent() {
+    return Flexible(
+      child: Selector<MoreScreenStateProvider, int>(
+          selector: (_, state) => state.tabIndex,
+          shouldRebuild: (int pre, int next) {
+            return pre != next;
+          },
+          builder: (BuildContext context, index, __) {
+            return [
+              // const Text('HistoryTab'),
+              const HistoryTab(),
+              const Text('SETTINGS'),
+            ][index];
+          }),
     );
   }
 }

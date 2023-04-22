@@ -33,7 +33,7 @@ void main() {
   late Activity? activityToUpdate;
   final User emptyUser = ConstantValues.emptyUser;
   final Activity mockActivity = ConstantValues.emptyActivity
-      .copyWith(month: 2, year: 2023, hours: 2, minutes: 30, placements: 5, returnVisits: 3);
+      .copyWith(month: 2, year: 2023, durationInMinutes: 2, placements: 5, returnVisits: 3);
 
   setUpAll(() async {
     // await Isar.initializeIsarCore(download: true);

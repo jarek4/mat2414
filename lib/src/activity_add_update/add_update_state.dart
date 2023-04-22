@@ -6,8 +6,8 @@ import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/models.dart';
 import 'package:mat2414/src/domain/repositories/i_user_repository.dart';
 import 'package:mat2414/src/localization/locale_notifier.dart';
-import 'package:mat2414/src/ui/theme/theme.dart';
-import 'package:mat2414/utils/get_service_year.dart' as utils;
+import 'package:mat2414/utils/convert_duration.dart' as utils_cd;
+import 'package:mat2414/utils/get_service_year.dart' as utils_sy;
 
 import '../domain/repositories/i_activity_repository.dart';
 
@@ -51,7 +51,7 @@ class AddUpdateState with ChangeNotifier {
 
   AddUpdateErrorCode get errorCode => _errorCode;
 
-  int _userMinutesMultiplayer = 5;
+  int _userMinutesMultiplayer = 1;
 
   int get userMinutesMultiplayer => _userMinutesMultiplayer;
 
@@ -95,10 +95,8 @@ class AddUpdateState with ChangeNotifier {
 
   int get video => _video;
 
-  void onLDCHoursChange(/*String? ldcLocale*/) {
+  void onLDCHoursChange() {
     _areLDCHours = !_areLDCHours;
-    // this value is used as a LDC time leading in remarks. It will be translated :)
-    // _ldcLocaleTranslation = _areLDCHours ? ldcLocale ?? '' : '';
     _notify();
   }
 
@@ -231,14 +229,12 @@ class AddUpdateState with ChangeNotifier {
       createdAt: _activity?.createdAt ?? DateTime.now(),
       day: _date.day,
       lastModified: _currentDate,
-      // lastModified: DateTime.now(),
       month: _date.month,
-      serviceYear: utils.getServiceYear(DateTime(_date.year, _date.month)),
+      serviceYear: utils_sy.getServiceYear(DateTime(_date.year, _date.month)),
       year: _date.year,
-      hours: _h,
+      durationInMinutes: utils_cd.minAndHoursToDurationInMinutes(_h, _min),
       id: _activity?.id ?? Isar.autoIncrement,
       type: _areLDCHours ? ActivityType.ldc : ActivityType.normal,
-      minutes: _min,
       placements: _placements,
       remarks: _areLDCHours
           ? '[${_s.loc.generalLDCHours}: ${_makeTimeString(h, min)}${_remarks.isEmpty ? '' : '; $_remarks.'}]'
@@ -248,19 +244,17 @@ class AddUpdateState with ChangeNotifier {
       videos: _video);
 
   String _makeTimeString(int h, int min) {
-    var hAndM = Duration(hours: h, minutes: min).hoursAndMinutesString();
+    var hAndM = utils_cd.minutesDurationToFormattedString(h * 60 + min);
     if (hAndM.startsWith('0')) return hAndM.substring(1);
     return hAndM;
   }
 
-  int _validateTimeNumber(int? v, int max) {
-    if (v == null) return 0;
-    if (v > max - 1) {
+  int _validateTimeNumber(int? value, int max) {
+    if (value == null || value < 1) return 0;
+    if (value > max - 1) {
       return max;
-    } else if (v < 1) {
-      return 0;
-    } else {
-      return v;
+    }else {
+      return value;
     }
   }
 
@@ -281,10 +275,11 @@ class AddUpdateState with ChangeNotifier {
     _status = AddUpdateStateStatus.loading;
     notifyListeners();
     if (activity != null) {
+      final hAndMin = utils_cd.minutesToHoursAndMin(activity.durationInMinutes);
       _areLDCHours = activity.type == ActivityType.ldc;
       _date = DateTime(activity.year, activity.month, activity.day);
-      _h = activity.hours;
-      _min = activity.minutes;
+      _h = hAndMin[0];
+      _min = hAndMin[1];
       _placements = activity.placements;
       _remarks = activity.remarks;
       _returns = activity.returnVisits;

@@ -14,7 +14,7 @@ class Activity {
     required this.serviceYear,
     required this.year,
     this.bibleStudies = 0,
-    this.hours = 0,
+    this.durationInMinutes = 0,
     this.id = Isar.autoIncrement,
     this.isBusinessTerritoryWitnessing = false,
     this.isEveningWitnessing = false,
@@ -22,12 +22,11 @@ class Activity {
     this.isPublicWitnessing = false,
     this.isSundayWitnessing = false,
     this.isGroupWitnessing = false,
-    this.minutes = 0,
     this.placements = 0,
     this.remarks = '',
     this.returnVisits = 0,
     this.type = ActivityType.normal,
-    this.uid,
+    this.uid = '',
     this.videos = 0,
   });
 
@@ -39,7 +38,7 @@ class Activity {
   )
   final DateTime createdAt;
   final byte day; // byte 0 to 255
-  final byte hours;
+  final short durationInMinutes;
   final Id id;
   final bool isBusinessTerritoryWitnessing;
   final bool isEveningWitnessing;
@@ -53,7 +52,7 @@ class Activity {
     fromJson: _fromJson,
   )
   final DateTime lastModified;
-  final byte minutes;
+  // final byte minutes;
   final byte month;
   final byte placements;
   final String remarks; // max. 150 characters!
@@ -62,7 +61,7 @@ class Activity {
 
   @enumerated
   final ActivityType type;
-  final String? uid;
+  final String uid;
   final byte videos;
 
   @Index(composite: [
@@ -75,7 +74,7 @@ class Activity {
     int? bibleStudies,
     DateTime? createdAt,
     int? day,
-    int? hours,
+    int? durationInMinutes,
     int? id,
     bool? isBusinessTerritoryWitnessing,
     bool? isEveningWitnessing,
@@ -84,7 +83,6 @@ class Activity {
     bool? isSundayWitnessing,
     bool? isGroupWitnessing,
     DateTime? lastModified,
-    int? minutes,
     int? month,
     int? placements,
     String? remarks,
@@ -99,7 +97,7 @@ class Activity {
       bibleStudies: bibleStudies ?? this.bibleStudies,
       createdAt: createdAt ?? this.createdAt,
       day: day ?? this.day,
-      hours: hours ?? this.hours,
+      durationInMinutes: durationInMinutes ?? this.durationInMinutes,
       id: id ?? this.id,
       isBusinessTerritoryWitnessing:
           isBusinessTerritoryWitnessing ?? this.isBusinessTerritoryWitnessing,
@@ -109,7 +107,6 @@ class Activity {
       isSundayWitnessing: isSundayWitnessing ?? this.isSundayWitnessing,
       isGroupWitnessing: isGroupWitnessing ?? this.isGroupWitnessing,
       lastModified: lastModified ?? this.lastModified,
-      minutes: minutes ?? this.minutes,
       month: month ?? this.month,
       placements: placements ?? this.placements,
       remarks: remarks ?? this.remarks,
@@ -142,7 +139,7 @@ class Activity {
             other.bibleStudies == bibleStudies &&
             other.createdAt == createdAt &&
             other.day == day &&
-            other.hours == hours &&
+            other.durationInMinutes == durationInMinutes &&
             other.id == id &&
             other.isBusinessTerritoryWitnessing == isBusinessTerritoryWitnessing &&
             other.isEveningWitnessing == isEveningWitnessing &&
@@ -151,7 +148,6 @@ class Activity {
             other.isSundayWitnessing == isSundayWitnessing &&
             other.isGroupWitnessing == isGroupWitnessing &&
             other.lastModified == lastModified &&
-            other.minutes == minutes &&
             other.month == month &&
             other.placements == placements &&
             other.remarks == remarks &&
@@ -172,7 +168,7 @@ class Activity {
         month,
         year,
         bibleStudies,
-        hours,
+        durationInMinutes,
         id,
         isBusinessTerritoryWitnessing,
         isEveningWitnessing,
@@ -180,7 +176,6 @@ class Activity {
         isPublicWitnessing,
         isSundayWitnessing,
         isGroupWitnessing,
-        minutes,
         uid,
         placements,
         remarks,
@@ -192,7 +187,7 @@ class Activity {
 
   @override
   String toString() {
-    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, hours: $hours, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isGroupWitnessing: $isGroupWitnessing, minutes: $minutes, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, type: $type, videos: $videos)';
+    return 'Activity(createdAt: $createdAt, day: $day, lastModified: $lastModified, month: $month, year: $year, bibleStudies: $bibleStudies, durationInMinutes: $durationInMinutes, id: $id, isBusinessTerritoryWitnessing: $isBusinessTerritoryWitnessing, isEveningWitnessing: $isEveningWitnessing, isInformalWitnessing: $isInformalWitnessing, isPublicWitnessing: $isPublicWitnessing, isSundayWitnessing: $isSundayWitnessing, isGroupWitnessing: $isGroupWitnessing, uid: $uid, placements: $placements, remarks: $remarks, returnVisits: $returnVisits, serviceYear: $serviceYear, type: $type, videos: $videos)';
   }
 }
 @JsonEnum(alwaysCreate: true)

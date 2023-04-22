@@ -32,15 +32,15 @@ const ActivitySchema = CollectionSchema(
       name: r'day',
       type: IsarType.byte,
     ),
-    r'hashCode': PropertySchema(
+    r'durationInMinutes': PropertySchema(
       id: 3,
+      name: r'durationInMinutes',
+      type: IsarType.int,
+    ),
+    r'hashCode': PropertySchema(
+      id: 4,
       name: r'hashCode',
       type: IsarType.long,
-    ),
-    r'hours': PropertySchema(
-      id: 4,
-      name: r'hours',
-      type: IsarType.byte,
     ),
     r'isBusinessTerritoryWitnessing': PropertySchema(
       id: 5,
@@ -77,54 +77,49 @@ const ActivitySchema = CollectionSchema(
       name: r'lastModified',
       type: IsarType.dateTime,
     ),
-    r'minutes': PropertySchema(
-      id: 12,
-      name: r'minutes',
-      type: IsarType.byte,
-    ),
     r'month': PropertySchema(
-      id: 13,
+      id: 12,
       name: r'month',
       type: IsarType.byte,
     ),
     r'placements': PropertySchema(
-      id: 14,
+      id: 13,
       name: r'placements',
       type: IsarType.byte,
     ),
     r'remarks': PropertySchema(
-      id: 15,
+      id: 14,
       name: r'remarks',
       type: IsarType.string,
     ),
     r'returnVisits': PropertySchema(
-      id: 16,
+      id: 15,
       name: r'returnVisits',
       type: IsarType.byte,
     ),
     r'serviceYear': PropertySchema(
-      id: 17,
+      id: 16,
       name: r'serviceYear',
       type: IsarType.string,
     ),
     r'type': PropertySchema(
-      id: 18,
+      id: 17,
       name: r'type',
       type: IsarType.byte,
       enumMap: _ActivitytypeEnumValueMap,
     ),
     r'uid': PropertySchema(
-      id: 19,
+      id: 18,
       name: r'uid',
       type: IsarType.string,
     ),
     r'videos': PropertySchema(
-      id: 20,
+      id: 19,
       name: r'videos',
       type: IsarType.byte,
     ),
     r'year': PropertySchema(
-      id: 21,
+      id: 20,
       name: r'year',
       type: IsarType.int,
     )
@@ -175,12 +170,7 @@ int _activityEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.remarks.length * 3;
   bytesCount += 3 + object.serviceYear.length * 3;
-  {
-    final value = object.uid;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.uid.length * 3;
   return bytesCount;
 }
 
@@ -193,8 +183,8 @@ void _activitySerialize(
   writer.writeByte(offsets[0], object.bibleStudies);
   writer.writeDateTime(offsets[1], object.createdAt);
   writer.writeByte(offsets[2], object.day);
-  writer.writeLong(offsets[3], object.hashCode);
-  writer.writeByte(offsets[4], object.hours);
+  writer.writeInt(offsets[3], object.durationInMinutes);
+  writer.writeLong(offsets[4], object.hashCode);
   writer.writeBool(offsets[5], object.isBusinessTerritoryWitnessing);
   writer.writeBool(offsets[6], object.isEveningWitnessing);
   writer.writeBool(offsets[7], object.isGroupWitnessing);
@@ -202,16 +192,15 @@ void _activitySerialize(
   writer.writeBool(offsets[9], object.isPublicWitnessing);
   writer.writeBool(offsets[10], object.isSundayWitnessing);
   writer.writeDateTime(offsets[11], object.lastModified);
-  writer.writeByte(offsets[12], object.minutes);
-  writer.writeByte(offsets[13], object.month);
-  writer.writeByte(offsets[14], object.placements);
-  writer.writeString(offsets[15], object.remarks);
-  writer.writeByte(offsets[16], object.returnVisits);
-  writer.writeString(offsets[17], object.serviceYear);
-  writer.writeByte(offsets[18], object.type.index);
-  writer.writeString(offsets[19], object.uid);
-  writer.writeByte(offsets[20], object.videos);
-  writer.writeInt(offsets[21], object.year);
+  writer.writeByte(offsets[12], object.month);
+  writer.writeByte(offsets[13], object.placements);
+  writer.writeString(offsets[14], object.remarks);
+  writer.writeByte(offsets[15], object.returnVisits);
+  writer.writeString(offsets[16], object.serviceYear);
+  writer.writeByte(offsets[17], object.type.index);
+  writer.writeString(offsets[18], object.uid);
+  writer.writeByte(offsets[19], object.videos);
+  writer.writeInt(offsets[20], object.year);
 }
 
 Activity _activityDeserialize(
@@ -224,7 +213,7 @@ Activity _activityDeserialize(
     bibleStudies: reader.readByteOrNull(offsets[0]) ?? 0,
     createdAt: reader.readDateTime(offsets[1]),
     day: reader.readByte(offsets[2]),
-    hours: reader.readByteOrNull(offsets[4]) ?? 0,
+    durationInMinutes: reader.readIntOrNull(offsets[3]) ?? 0,
     id: id,
     isBusinessTerritoryWitnessing: reader.readBoolOrNull(offsets[5]) ?? false,
     isEveningWitnessing: reader.readBoolOrNull(offsets[6]) ?? false,
@@ -233,17 +222,16 @@ Activity _activityDeserialize(
     isPublicWitnessing: reader.readBoolOrNull(offsets[9]) ?? false,
     isSundayWitnessing: reader.readBoolOrNull(offsets[10]) ?? false,
     lastModified: reader.readDateTime(offsets[11]),
-    minutes: reader.readByteOrNull(offsets[12]) ?? 0,
-    month: reader.readByte(offsets[13]),
-    placements: reader.readByteOrNull(offsets[14]) ?? 0,
-    remarks: reader.readStringOrNull(offsets[15]) ?? '',
-    returnVisits: reader.readByteOrNull(offsets[16]) ?? 0,
-    serviceYear: reader.readString(offsets[17]),
-    type: _ActivitytypeValueEnumMap[reader.readByteOrNull(offsets[18])] ??
+    month: reader.readByte(offsets[12]),
+    placements: reader.readByteOrNull(offsets[13]) ?? 0,
+    remarks: reader.readStringOrNull(offsets[14]) ?? '',
+    returnVisits: reader.readByteOrNull(offsets[15]) ?? 0,
+    serviceYear: reader.readString(offsets[16]),
+    type: _ActivitytypeValueEnumMap[reader.readByteOrNull(offsets[17])] ??
         ActivityType.normal,
-    uid: reader.readStringOrNull(offsets[19]),
-    videos: reader.readByteOrNull(offsets[20]) ?? 0,
-    year: reader.readInt(offsets[21]),
+    uid: reader.readStringOrNull(offsets[18]) ?? '',
+    videos: reader.readByteOrNull(offsets[19]) ?? 0,
+    year: reader.readInt(offsets[20]),
   );
   return object;
 }
@@ -262,9 +250,9 @@ P _activityDeserializeProp<P>(
     case 2:
       return (reader.readByte(offset)) as P;
     case 3:
-      return (reader.readLong(offset)) as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 4:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
+      return (reader.readLong(offset)) as P;
     case 5:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 6:
@@ -280,25 +268,23 @@ P _activityDeserializeProp<P>(
     case 11:
       return (reader.readDateTime(offset)) as P;
     case 12:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 13:
       return (reader.readByte(offset)) as P;
+    case 13:
+      return (reader.readByteOrNull(offset) ?? 0) as P;
     case 14:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 15:
       return (reader.readStringOrNull(offset) ?? '') as P;
-    case 16:
+    case 15:
       return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 17:
+    case 16:
       return (reader.readString(offset)) as P;
-    case 18:
+    case 17:
       return (_ActivitytypeValueEnumMap[reader.readByteOrNull(offset)] ??
           ActivityType.normal) as P;
+    case 18:
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 19:
-      return (reader.readStringOrNull(offset)) as P;
-    case 20:
       return (reader.readByteOrNull(offset) ?? 0) as P;
-    case 21:
+    case 20:
       return (reader.readInt(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -859,6 +845,62 @@ extension ActivityQueryFilter
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterFilterCondition>
+      durationInMinutesEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'durationInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterFilterCondition>
+      durationInMinutesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'durationInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterFilterCondition>
+      durationInMinutesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'durationInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterFilterCondition>
+      durationInMinutesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'durationInMinutes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterFilterCondition> hashCodeEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
@@ -904,59 +946,6 @@ extension ActivityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'hashCode',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> hoursEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'hours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> hoursGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'hours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> hoursLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'hours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> hoursBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'hours',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1123,59 +1112,6 @@ extension ActivityQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'lastModified',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> minutesEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'minutes',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> minutesGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'minutes',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> minutesLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'minutes',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> minutesBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'minutes',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1659,24 +1595,8 @@ extension ActivityQueryFilter
     });
   }
 
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> uidIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'uid',
-      ));
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterFilterCondition> uidIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'uid',
-      ));
-    });
-  }
-
   QueryBuilder<Activity, Activity, QAfterFilterCondition> uidEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1689,7 +1609,7 @@ extension ActivityQueryFilter
   }
 
   QueryBuilder<Activity, Activity, QAfterFilterCondition> uidGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1704,7 +1624,7 @@ extension ActivityQueryFilter
   }
 
   QueryBuilder<Activity, Activity, QAfterFilterCondition> uidLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1719,8 +1639,8 @@ extension ActivityQueryFilter
   }
 
   QueryBuilder<Activity, Activity, QAfterFilterCondition> uidBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1955,6 +1875,18 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByDurationInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> sortByDurationInMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
@@ -1964,18 +1896,6 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.desc);
     });
   }
 
@@ -2066,18 +1986,6 @@ extension ActivityQuerySortBy on QueryBuilder<Activity, Activity, QSortBy> {
   QueryBuilder<Activity, Activity, QAfterSortBy> sortByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByMinutes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> sortByMinutesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.desc);
     });
   }
 
@@ -2228,6 +2136,18 @@ extension ActivityQuerySortThenBy
     });
   }
 
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByDurationInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Activity, Activity, QAfterSortBy> thenByDurationInMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.desc);
+    });
+  }
+
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
@@ -2237,18 +2157,6 @@ extension ActivityQuerySortThenBy
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.desc);
     });
   }
 
@@ -2351,18 +2259,6 @@ extension ActivityQuerySortThenBy
   QueryBuilder<Activity, Activity, QAfterSortBy> thenByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByMinutes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QAfterSortBy> thenByMinutesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.desc);
     });
   }
 
@@ -2495,15 +2391,15 @@ extension ActivityQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Activity, Activity, QDistinct> distinctByHashCode() {
+  QueryBuilder<Activity, Activity, QDistinct> distinctByDurationInMinutes() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'hashCode');
+      return query.addDistinctBy(r'durationInMinutes');
     });
   }
 
-  QueryBuilder<Activity, Activity, QDistinct> distinctByHours() {
+  QueryBuilder<Activity, Activity, QDistinct> distinctByHashCode() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'hours');
+      return query.addDistinctBy(r'hashCode');
     });
   }
 
@@ -2547,12 +2443,6 @@ extension ActivityQueryWhereDistinct
   QueryBuilder<Activity, Activity, QDistinct> distinctByLastModified() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastModified');
-    });
-  }
-
-  QueryBuilder<Activity, Activity, QDistinct> distinctByMinutes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'minutes');
     });
   }
 
@@ -2640,15 +2530,15 @@ extension ActivityQueryProperty
     });
   }
 
-  QueryBuilder<Activity, int, QQueryOperations> hashCodeProperty() {
+  QueryBuilder<Activity, int, QQueryOperations> durationInMinutesProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'hashCode');
+      return query.addPropertyName(r'durationInMinutes');
     });
   }
 
-  QueryBuilder<Activity, int, QQueryOperations> hoursProperty() {
+  QueryBuilder<Activity, int, QQueryOperations> hashCodeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'hours');
+      return query.addPropertyName(r'hashCode');
     });
   }
 
@@ -2696,12 +2586,6 @@ extension ActivityQueryProperty
     });
   }
 
-  QueryBuilder<Activity, int, QQueryOperations> minutesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'minutes');
-    });
-  }
-
   QueryBuilder<Activity, int, QQueryOperations> monthProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'month');
@@ -2738,7 +2622,7 @@ extension ActivityQueryProperty
     });
   }
 
-  QueryBuilder<Activity, String?, QQueryOperations> uidProperty() {
+  QueryBuilder<Activity, String, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
     });
@@ -2769,7 +2653,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       serviceYear: json['serviceYear'] as String,
       year: json['year'] as int,
       bibleStudies: json['bibleStudies'] as int? ?? 0,
-      hours: json['hours'] as int? ?? 0,
+      durationInMinutes: json['durationInMinutes'] as int? ?? 0,
       id: json['id'] as int? ?? Isar.autoIncrement,
       isBusinessTerritoryWitnessing:
           json['isBusinessTerritoryWitnessing'] as bool? ?? false,
@@ -2778,13 +2662,12 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       isPublicWitnessing: json['isPublicWitnessing'] as bool? ?? false,
       isSundayWitnessing: json['isSundayWitnessing'] as bool? ?? false,
       isGroupWitnessing: json['isGroupWitnessing'] as bool? ?? false,
-      minutes: json['minutes'] as int? ?? 0,
       placements: json['placements'] as int? ?? 0,
       remarks: json['remarks'] as String? ?? '',
       returnVisits: json['returnVisits'] as int? ?? 0,
       type: $enumDecodeNullable(_$ActivityTypeEnumMap, json['type']) ??
           ActivityType.normal,
-      uid: json['uid'] as String?,
+      uid: json['uid'] as String? ?? '',
       videos: json['videos'] as int? ?? 0,
     );
 
@@ -2792,7 +2675,7 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'bibleStudies': instance.bibleStudies,
       'createdAt': Activity._toJson(instance.createdAt),
       'day': instance.day,
-      'hours': instance.hours,
+      'durationInMinutes': instance.durationInMinutes,
       'id': instance.id,
       'isBusinessTerritoryWitnessing': instance.isBusinessTerritoryWitnessing,
       'isEveningWitnessing': instance.isEveningWitnessing,
@@ -2801,7 +2684,6 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'isSundayWitnessing': instance.isSundayWitnessing,
       'isGroupWitnessing': instance.isGroupWitnessing,
       'lastModified': Activity._toJson(instance.lastModified),
-      'minutes': instance.minutes,
       'month': instance.month,
       'placements': instance.placements,
       'remarks': instance.remarks,

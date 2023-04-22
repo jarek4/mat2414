@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mat2414/src/calendar/calendar.dart';
+import 'package:mat2414/src/ui/screens/detail/activity_tab/activity_tab.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/src/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../activity_tab.dart';
 import '../detail_state.dart';
-import '../report_tab.dart';
+import '../report_tab/report_tab.dart';
 
 class DetailNarrowed extends StatelessWidget {
   const DetailNarrowed({Key? key, required this.isWide, required this.maxHeight}) : super(key: key);
@@ -38,10 +38,10 @@ class DetailNarrowed extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isWide ? 68 : 1.0, vertical: isWide ? 8 : 1),
       constraints: BoxConstraints(
-        // maxHeight: maxHeight * 0.36 - 28.0,
-        maxHeight: height,
-        maxWidth: isWide ? width * 0.7 : width * 0.93, // width * 0.90
-      ),
+          // maxHeight: maxHeight * 0.36 - 28.0,
+          maxHeight: height,
+          maxWidth: isWide ? width * 0.7 : width * 0.93 // width * 0.90
+          ),
       child: const CustomCalendarView(),
     );
   }
@@ -54,43 +54,51 @@ class DetailNarrowed extends StatelessWidget {
         borderRadius:
             const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
       ),
-      child: Column(
-          children: [
-            const SizedBox(height: 12.0),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Selector<DetailState, int>(
-                  selector: (_, state) => state.tabIndex,
-                  shouldRebuild: (int pre, int next) {
-                    return pre != next;
-                  },
-                  builder: (BuildContext context, index, _) {
-                    return CustomTabBar(
-                      key: const Key('DetailNarrowedLayout'),
-                      activeIndex: index,
-                      pageNames: context.read<DetailState>().tabs,
-                      onTap: context.read<DetailState>().onTabIndexChange,
-                    );
-                  }),
-            ),
-            const SizedBox(height: 8),
-            Flexible(
-                child: Selector<DetailState, int>(
-                    selector: (_, state) => state.tabIndex,
-                    shouldRebuild: (int pre, int next) {
-                      return pre != next;
-                    },
-                    builder: (BuildContext context, index, __) {
-                      switch (index) {
-                        case 0:
-                          return const ActivityTab();
-                        case 1:
-                          return const ReportTab();
-                        default:
-                          return const ActivityTab();
-                      }
-                    }))
-          ]),
+      child: Column(children: [
+        const SizedBox(height: 12.0),
+        _buildScreenTabBar(),
+        const SizedBox(height: 8),
+        _buildTabContent()
+      ]),
+    );
+  }
+
+  Align _buildScreenTabBar() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Selector<DetailState, int>(
+          selector: (_, state) => state.tabIndex,
+          shouldRebuild: (int pre, int next) {
+            return pre != next;
+          },
+          builder: (BuildContext context, index, _) {
+            return CustomTabBar(
+              key: const Key('DetailNarrowedLayout'),
+              activeIndex: index,
+              pageNames: context.read<DetailState>().tabs,
+              onTap: context.read<DetailState>().onTabIndexChange,
+            );
+          }),
+    );
+  }
+
+  Flexible _buildTabContent() {
+    return Flexible(
+      child: Selector<DetailState, int>(
+          selector: (_, state) => state.tabIndex,
+          shouldRebuild: (int pre, int next) {
+            return pre != next;
+          },
+          builder: (BuildContext context, index, __) {
+            switch (index) {
+              case 0:
+                return const ActivityTab();
+              case 1:
+                return const ReportTab();
+              default:
+                return const ActivityTab();
+            }
+          }),
     );
   }
 }

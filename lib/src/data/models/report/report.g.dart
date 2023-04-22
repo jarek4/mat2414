@@ -37,138 +37,128 @@ const ReportSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'eveningWitnessingHours': PropertySchema(
+    r'durationInMinutes': PropertySchema(
       id: 4,
+      name: r'durationInMinutes',
+      type: IsarType.int,
+    ),
+    r'eveningWitnessingHours': PropertySchema(
+      id: 5,
       name: r'eveningWitnessingHours',
       type: IsarType.int,
     ),
     r'eveningWitnessingQuantity': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'eveningWitnessingQuantity',
       type: IsarType.int,
     ),
     r'hashCode': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'hashCode',
       type: IsarType.long,
     ),
-    r'hours': PropertySchema(
-      id: 7,
-      name: r'hours',
-      type: IsarType.int,
-    ),
-    r'hoursLDC': PropertySchema(
-      id: 8,
-      name: r'hoursLDC',
-      type: IsarType.int,
-    ),
     r'informalWitnessingHours': PropertySchema(
-      id: 9,
+      id: 8,
       name: r'informalWitnessingHours',
       type: IsarType.int,
     ),
     r'informalWitnessingQuantity': PropertySchema(
-      id: 10,
+      id: 9,
       name: r'informalWitnessingQuantity',
       type: IsarType.int,
     ),
     r'isClosed': PropertySchema(
-      id: 11,
+      id: 10,
       name: r'isClosed',
       type: IsarType.bool,
     ),
     r'lastModified': PropertySchema(
-      id: 12,
+      id: 11,
       name: r'lastModified',
       type: IsarType.dateTime,
     ),
-    r'minutes': PropertySchema(
-      id: 13,
-      name: r'minutes',
-      type: IsarType.byte,
-    ),
     r'minutesLDC': PropertySchema(
-      id: 14,
+      id: 12,
       name: r'minutesLDC',
       type: IsarType.int,
     ),
     r'month': PropertySchema(
-      id: 15,
+      id: 13,
       name: r'month',
       type: IsarType.byte,
     ),
     r'placements': PropertySchema(
-      id: 16,
+      id: 14,
       name: r'placements',
       type: IsarType.int,
     ),
     r'publicWitnessingHours': PropertySchema(
-      id: 17,
+      id: 15,
       name: r'publicWitnessingHours',
       type: IsarType.int,
     ),
     r'publicWitnessingQuantity': PropertySchema(
-      id: 18,
+      id: 16,
       name: r'publicWitnessingQuantity',
       type: IsarType.int,
     ),
     r'remarks': PropertySchema(
-      id: 19,
+      id: 17,
       name: r'remarks',
       type: IsarType.string,
     ),
     r'returnVisits': PropertySchema(
-      id: 20,
+      id: 18,
       name: r'returnVisits',
       type: IsarType.int,
     ),
     r'serviceYear': PropertySchema(
-      id: 21,
+      id: 19,
       name: r'serviceYear',
       type: IsarType.string,
     ),
     r'sundayWitnessingHours': PropertySchema(
-      id: 22,
+      id: 20,
       name: r'sundayWitnessingHours',
       type: IsarType.int,
     ),
     r'sundayWitnessingQuantity': PropertySchema(
-      id: 23,
+      id: 21,
       name: r'sundayWitnessingQuantity',
       type: IsarType.int,
     ),
     r'transferredMinutes': PropertySchema(
-      id: 24,
+      id: 22,
       name: r'transferredMinutes',
       type: IsarType.byte,
     ),
     r'transferredMinutesActivityId': PropertySchema(
-      id: 25,
+      id: 23,
       name: r'transferredMinutesActivityId',
       type: IsarType.long,
     ),
     r'uid': PropertySchema(
-      id: 26,
+      id: 24,
       name: r'uid',
       type: IsarType.string,
     ),
     r'videos': PropertySchema(
-      id: 27,
+      id: 25,
       name: r'videos',
       type: IsarType.int,
     ),
     r'withFieldServiceGroupWitnessingHours': PropertySchema(
-      id: 28,
+      id: 26,
       name: r'withFieldServiceGroupWitnessingHours',
       type: IsarType.int,
     ),
     r'withFieldServiceGroupWitnessingQuantity': PropertySchema(
-      id: 29,
+      id: 27,
       name: r'withFieldServiceGroupWitnessingQuantity',
       type: IsarType.int,
     ),
     r'year': PropertySchema(
-      id: 30,
+      id: 28,
       name: r'year',
       type: IsarType.int,
     )
@@ -179,9 +169,9 @@ const ReportSchema = CollectionSchema(
   deserializeProp: _reportDeserializeProp,
   idName: r'id',
   indexes: {
-    r'year_month_isClosed': IndexSchema(
-      id: -7733299405602722509,
-      name: r'year_month_isClosed',
+    r'year_month_serviceYear': IndexSchema(
+      id: 5063331407564209742,
+      name: r'year_month_serviceYear',
       unique: false,
       replace: false,
       properties: [
@@ -196,9 +186,9 @@ const ReportSchema = CollectionSchema(
           caseSensitive: false,
         ),
         IndexPropertySchema(
-          name: r'isClosed',
+          name: r'serviceYear',
           type: IndexType.value,
-          caseSensitive: false,
+          caseSensitive: true,
         )
       ],
     )
@@ -219,12 +209,7 @@ int _reportEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.remarks.length * 3;
   bytesCount += 3 + object.serviceYear.length * 3;
-  {
-    final value = object.uid;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.uid.length * 3;
   return bytesCount;
 }
 
@@ -238,33 +223,31 @@ void _reportSerialize(
   writer.writeInt(offsets[1], object.businessTerritoryWitnessingHours);
   writer.writeInt(offsets[2], object.businessTerritoryWitnessingQuantity);
   writer.writeDateTime(offsets[3], object.createdAt);
-  writer.writeInt(offsets[4], object.eveningWitnessingHours);
-  writer.writeInt(offsets[5], object.eveningWitnessingQuantity);
-  writer.writeLong(offsets[6], object.hashCode);
-  writer.writeInt(offsets[7], object.hours);
-  writer.writeInt(offsets[8], object.hoursLDC);
-  writer.writeInt(offsets[9], object.informalWitnessingHours);
-  writer.writeInt(offsets[10], object.informalWitnessingQuantity);
-  writer.writeBool(offsets[11], object.isClosed);
-  writer.writeDateTime(offsets[12], object.lastModified);
-  writer.writeByte(offsets[13], object.minutes);
-  writer.writeInt(offsets[14], object.minutesLDC);
-  writer.writeByte(offsets[15], object.month);
-  writer.writeInt(offsets[16], object.placements);
-  writer.writeInt(offsets[17], object.publicWitnessingHours);
-  writer.writeInt(offsets[18], object.publicWitnessingQuantity);
-  writer.writeString(offsets[19], object.remarks);
-  writer.writeInt(offsets[20], object.returnVisits);
-  writer.writeString(offsets[21], object.serviceYear);
-  writer.writeInt(offsets[22], object.sundayWitnessingHours);
-  writer.writeInt(offsets[23], object.sundayWitnessingQuantity);
-  writer.writeByte(offsets[24], object.transferredMinutes);
-  writer.writeLong(offsets[25], object.transferredMinutesActivityId);
-  writer.writeString(offsets[26], object.uid);
-  writer.writeInt(offsets[27], object.videos);
-  writer.writeInt(offsets[28], object.withFieldServiceGroupWitnessingHours);
-  writer.writeInt(offsets[29], object.withFieldServiceGroupWitnessingQuantity);
-  writer.writeInt(offsets[30], object.year);
+  writer.writeInt(offsets[4], object.durationInMinutes);
+  writer.writeInt(offsets[5], object.eveningWitnessingHours);
+  writer.writeInt(offsets[6], object.eveningWitnessingQuantity);
+  writer.writeLong(offsets[7], object.hashCode);
+  writer.writeInt(offsets[8], object.informalWitnessingHours);
+  writer.writeInt(offsets[9], object.informalWitnessingQuantity);
+  writer.writeBool(offsets[10], object.isClosed);
+  writer.writeDateTime(offsets[11], object.lastModified);
+  writer.writeInt(offsets[12], object.minutesLDC);
+  writer.writeByte(offsets[13], object.month);
+  writer.writeInt(offsets[14], object.placements);
+  writer.writeInt(offsets[15], object.publicWitnessingHours);
+  writer.writeInt(offsets[16], object.publicWitnessingQuantity);
+  writer.writeString(offsets[17], object.remarks);
+  writer.writeInt(offsets[18], object.returnVisits);
+  writer.writeString(offsets[19], object.serviceYear);
+  writer.writeInt(offsets[20], object.sundayWitnessingHours);
+  writer.writeInt(offsets[21], object.sundayWitnessingQuantity);
+  writer.writeByte(offsets[22], object.transferredMinutes);
+  writer.writeLong(offsets[23], object.transferredMinutesActivityId);
+  writer.writeString(offsets[24], object.uid);
+  writer.writeInt(offsets[25], object.videos);
+  writer.writeInt(offsets[26], object.withFieldServiceGroupWitnessingHours);
+  writer.writeInt(offsets[27], object.withFieldServiceGroupWitnessingQuantity);
+  writer.writeInt(offsets[28], object.year);
 }
 
 Report _reportDeserialize(
@@ -278,35 +261,33 @@ Report _reportDeserialize(
     businessTerritoryWitnessingHours: reader.readIntOrNull(offsets[1]) ?? 0,
     businessTerritoryWitnessingQuantity: reader.readIntOrNull(offsets[2]) ?? 0,
     createdAt: reader.readDateTime(offsets[3]),
-    eveningWitnessingHours: reader.readIntOrNull(offsets[4]) ?? 0,
-    eveningWitnessingQuantity: reader.readIntOrNull(offsets[5]) ?? 0,
-    hours: reader.readIntOrNull(offsets[7]) ?? 0,
-    hoursLDC: reader.readIntOrNull(offsets[8]) ?? 0,
+    durationInMinutes: reader.readIntOrNull(offsets[4]) ?? 0,
+    eveningWitnessingHours: reader.readIntOrNull(offsets[5]) ?? 0,
+    eveningWitnessingQuantity: reader.readIntOrNull(offsets[6]) ?? 0,
     id: id,
-    informalWitnessingHours: reader.readIntOrNull(offsets[9]) ?? 0,
-    informalWitnessingQuantity: reader.readIntOrNull(offsets[10]) ?? 0,
-    isClosed: reader.readBoolOrNull(offsets[11]) ?? false,
-    lastModified: reader.readDateTime(offsets[12]),
-    minutes: reader.readByteOrNull(offsets[13]) ?? 0,
-    minutesLDC: reader.readIntOrNull(offsets[14]) ?? 0,
-    month: reader.readByte(offsets[15]),
-    placements: reader.readIntOrNull(offsets[16]) ?? 0,
-    publicWitnessingHours: reader.readIntOrNull(offsets[17]) ?? 0,
-    publicWitnessingQuantity: reader.readIntOrNull(offsets[18]) ?? 0,
-    remarks: reader.readStringOrNull(offsets[19]) ?? '',
-    returnVisits: reader.readIntOrNull(offsets[20]) ?? 0,
-    serviceYear: reader.readString(offsets[21]),
-    sundayWitnessingHours: reader.readIntOrNull(offsets[22]) ?? 0,
-    sundayWitnessingQuantity: reader.readIntOrNull(offsets[23]) ?? 0,
-    transferredMinutes: reader.readByteOrNull(offsets[24]) ?? 0,
-    transferredMinutesActivityId: reader.readLongOrNull(offsets[25]) ?? -111,
-    uid: reader.readStringOrNull(offsets[26]),
-    videos: reader.readIntOrNull(offsets[27]) ?? 0,
+    informalWitnessingHours: reader.readIntOrNull(offsets[8]) ?? 0,
+    informalWitnessingQuantity: reader.readIntOrNull(offsets[9]) ?? 0,
+    isClosed: reader.readBoolOrNull(offsets[10]) ?? false,
+    lastModified: reader.readDateTime(offsets[11]),
+    minutesLDC: reader.readIntOrNull(offsets[12]) ?? 0,
+    month: reader.readByte(offsets[13]),
+    placements: reader.readIntOrNull(offsets[14]) ?? 0,
+    publicWitnessingHours: reader.readIntOrNull(offsets[15]) ?? 0,
+    publicWitnessingQuantity: reader.readIntOrNull(offsets[16]) ?? 0,
+    remarks: reader.readStringOrNull(offsets[17]) ?? '',
+    returnVisits: reader.readIntOrNull(offsets[18]) ?? 0,
+    serviceYear: reader.readString(offsets[19]),
+    sundayWitnessingHours: reader.readIntOrNull(offsets[20]) ?? 0,
+    sundayWitnessingQuantity: reader.readIntOrNull(offsets[21]) ?? 0,
+    transferredMinutes: reader.readByteOrNull(offsets[22]) ?? 0,
+    transferredMinutesActivityId: reader.readLongOrNull(offsets[23]) ?? -1,
+    uid: reader.readStringOrNull(offsets[24]) ?? '',
+    videos: reader.readIntOrNull(offsets[25]) ?? 0,
     withFieldServiceGroupWitnessingHours:
-        reader.readIntOrNull(offsets[28]) ?? 0,
+        reader.readIntOrNull(offsets[26]) ?? 0,
     withFieldServiceGroupWitnessingQuantity:
-        reader.readIntOrNull(offsets[29]) ?? 0,
-    year: reader.readInt(offsets[30]),
+        reader.readIntOrNull(offsets[27]) ?? 0,
+    year: reader.readInt(offsets[28]),
   );
   return object;
 }
@@ -331,54 +312,50 @@ P _reportDeserializeProp<P>(
     case 5:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 6:
-      return (reader.readLong(offset)) as P;
-    case 7:
       return (reader.readIntOrNull(offset) ?? 0) as P;
+    case 7:
+      return (reader.readLong(offset)) as P;
     case 8:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 9:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 10:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 11:
       return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 12:
+    case 11:
       return (reader.readDateTime(offset)) as P;
+    case 12:
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 13:
-      return (reader.readByteOrNull(offset) ?? 0) as P;
+      return (reader.readByte(offset)) as P;
     case 14:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 15:
-      return (reader.readByte(offset)) as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 16:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 17:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 18:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 19:
-      return (reader.readStringOrNull(offset) ?? '') as P;
+      return (reader.readString(offset)) as P;
     case 20:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 21:
-      return (reader.readString(offset)) as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 22:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 23:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 24:
       return (reader.readByteOrNull(offset) ?? 0) as P;
+    case 23:
+      return (reader.readLongOrNull(offset) ?? -1) as P;
+    case 24:
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 25:
-      return (reader.readLongOrNull(offset) ?? -111) as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 26:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readIntOrNull(offset) ?? 0) as P;
     case 27:
       return (reader.readIntOrNull(offset) ?? 0) as P;
     case 28:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 29:
-      return (reader.readIntOrNull(offset) ?? 0) as P;
-    case 30:
       return (reader.readInt(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -402,10 +379,10 @@ extension ReportQueryWhereSort on QueryBuilder<Report, Report, QWhere> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterWhere> anyYearMonthIsClosed() {
+  QueryBuilder<Report, Report, QAfterWhere> anyYearMonthServiceYear() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'year_month_isClosed'),
+        const IndexWhereClause.any(indexName: r'year_month_serviceYear'),
       );
     });
   }
@@ -477,29 +454,29 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterWhereClause> yearEqualToAnyMonthIsClosed(
-      int year) {
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearEqualToAnyMonthServiceYear(int year) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         value: [year],
       ));
     });
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearNotEqualToAnyMonthIsClosed(int year) {
+      yearNotEqualToAnyMonthServiceYear(int year) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [],
               upper: [year],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year],
               includeLower: false,
               upper: [],
@@ -507,13 +484,13 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [],
               upper: [year],
               includeUpper: false,
@@ -523,13 +500,13 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearGreaterThanAnyMonthIsClosed(
+      yearGreaterThanAnyMonthServiceYear(
     int year, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         lower: [year],
         includeLower: include,
         upper: [],
@@ -537,13 +514,14 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterWhereClause> yearLessThanAnyMonthIsClosed(
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearLessThanAnyMonthServiceYear(
     int year, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         lower: [],
         upper: [year],
         includeUpper: include,
@@ -551,7 +529,8 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterWhereClause> yearBetweenAnyMonthIsClosed(
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearBetweenAnyMonthServiceYear(
     int lowerYear,
     int upperYear, {
     bool includeLower = true,
@@ -559,7 +538,7 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         lower: [lowerYear],
         includeLower: includeLower,
         upper: [upperYear],
@@ -568,29 +547,29 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterWhereClause> yearMonthEqualToAnyIsClosed(
-      int year, int month) {
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToAnyServiceYear(int year, int month) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         value: [year, month],
       ));
     });
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearEqualToMonthNotEqualToAnyIsClosed(int year, int month) {
+      yearEqualToMonthNotEqualToAnyServiceYear(int year, int month) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year],
               upper: [year, month],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year, month],
               includeLower: false,
               upper: [year],
@@ -598,13 +577,13 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year, month],
               includeLower: false,
               upper: [year],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year],
               upper: [year, month],
               includeUpper: false,
@@ -614,14 +593,14 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearEqualToMonthGreaterThanAnyIsClosed(
+      yearEqualToMonthGreaterThanAnyServiceYear(
     int year,
     int month, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         lower: [year, month],
         includeLower: include,
         upper: [year],
@@ -630,14 +609,14 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearEqualToMonthLessThanAnyIsClosed(
+      yearEqualToMonthLessThanAnyServiceYear(
     int year,
     int month, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         lower: [year],
         upper: [year, month],
         includeUpper: include,
@@ -646,7 +625,7 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearEqualToMonthBetweenAnyIsClosed(
+      yearEqualToMonthBetweenAnyServiceYear(
     int year,
     int lowerMonth,
     int upperMonth, {
@@ -655,7 +634,7 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'year_month_isClosed',
+        indexName: r'year_month_serviceYear',
         lower: [year, lowerMonth],
         includeLower: includeLower,
         upper: [year, upperMonth],
@@ -664,46 +643,150 @@ extension ReportQueryWhere on QueryBuilder<Report, Report, QWhereClause> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterWhereClause> yearMonthIsClosedEqualTo(
-      int year, int month, bool isClosed) {
+  QueryBuilder<Report, Report, QAfterWhereClause> yearMonthServiceYearEqualTo(
+      int year, int month, String serviceYear) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'year_month_isClosed',
-        value: [year, month, isClosed],
+        indexName: r'year_month_serviceYear',
+        value: [year, month, serviceYear],
       ));
     });
   }
 
   QueryBuilder<Report, Report, QAfterWhereClause>
-      yearMonthEqualToIsClosedNotEqualTo(int year, int month, bool isClosed) {
+      yearMonthEqualToServiceYearNotEqualTo(
+          int year, int month, String serviceYear) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year, month],
-              upper: [year, month, isClosed],
+              upper: [year, month, serviceYear],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
-              lower: [year, month, isClosed],
+              indexName: r'year_month_serviceYear',
+              lower: [year, month, serviceYear],
               includeLower: false,
               upper: [year, month],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
-              lower: [year, month, isClosed],
+              indexName: r'year_month_serviceYear',
+              lower: [year, month, serviceYear],
               includeLower: false,
               upper: [year, month],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'year_month_isClosed',
+              indexName: r'year_month_serviceYear',
               lower: [year, month],
-              upper: [year, month, isClosed],
+              upper: [year, month, serviceYear],
               includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToServiceYearGreaterThan(
+    int year,
+    int month,
+    String serviceYear, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'year_month_serviceYear',
+        lower: [year, month, serviceYear],
+        includeLower: include,
+        upper: [year, month],
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToServiceYearLessThan(
+    int year,
+    int month,
+    String serviceYear, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'year_month_serviceYear',
+        lower: [year, month],
+        upper: [year, month, serviceYear],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToServiceYearBetween(
+    int year,
+    int month,
+    String lowerServiceYear,
+    String upperServiceYear, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'year_month_serviceYear',
+        lower: [year, month, lowerServiceYear],
+        includeLower: includeLower,
+        upper: [year, month, upperServiceYear],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToServiceYearStartsWith(
+          int year, int month, String ServiceYearPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'year_month_serviceYear',
+        lower: [year, month, ServiceYearPrefix],
+        upper: [year, month, '$ServiceYearPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToServiceYearIsEmpty(int year, int month) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'year_month_serviceYear',
+        value: [year, month, ''],
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterWhereClause>
+      yearMonthEqualToServiceYearIsNotEmpty(int year, int month) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'year_month_serviceYear',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'year_month_serviceYear',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'year_month_serviceYear',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'year_month_serviceYear',
+              upper: [''],
             ));
       }
     });
@@ -929,6 +1012,60 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Report, Report, QAfterFilterCondition> durationInMinutesEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'durationInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition>
+      durationInMinutesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'durationInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition> durationInMinutesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'durationInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterFilterCondition> durationInMinutesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'durationInMinutes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Report, Report, QAfterFilterCondition>
       eveningWitnessingHoursEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -1086,111 +1223,6 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'hashCode',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'hours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'hours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'hours',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'hours',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursLDCEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'hoursLDC',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursLDCGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'hoursLDC',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursLDCLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'hoursLDC',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> hoursLDCBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'hoursLDC',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1418,59 +1450,6 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'lastModified',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> minutesEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'minutes',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> minutesGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'minutes',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> minutesLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'minutes',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> minutesBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'minutes',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -2285,24 +2264,8 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Report, Report, QAfterFilterCondition> uidIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'uid',
-      ));
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterFilterCondition> uidIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'uid',
-      ));
-    });
-  }
-
   QueryBuilder<Report, Report, QAfterFilterCondition> uidEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2315,7 +2278,7 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
   }
 
   QueryBuilder<Report, Report, QAfterFilterCondition> uidGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2330,7 +2293,7 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
   }
 
   QueryBuilder<Report, Report, QAfterFilterCondition> uidLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2345,8 +2308,8 @@ extension ReportQueryFilter on QueryBuilder<Report, Report, QFilterCondition> {
   }
 
   QueryBuilder<Report, Report, QAfterFilterCondition> uidBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2703,6 +2666,18 @@ extension ReportQuerySortBy on QueryBuilder<Report, Report, QSortBy> {
     });
   }
 
+  QueryBuilder<Report, Report, QAfterSortBy> sortByDurationInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy> sortByDurationInMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.desc);
+    });
+  }
+
   QueryBuilder<Report, Report, QAfterSortBy> sortByEveningWitnessingHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'eveningWitnessingHours', Sort.asc);
@@ -2738,30 +2713,6 @@ extension ReportQuerySortBy on QueryBuilder<Report, Report, QSortBy> {
   QueryBuilder<Report, Report, QAfterSortBy> sortByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> sortByHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> sortByHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> sortByHoursLDC() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hoursLDC', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> sortByHoursLDCDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hoursLDC', Sort.desc);
     });
   }
 
@@ -2813,18 +2764,6 @@ extension ReportQuerySortBy on QueryBuilder<Report, Report, QSortBy> {
   QueryBuilder<Report, Report, QAfterSortBy> sortByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> sortByMinutes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> sortByMinutesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.desc);
     });
   }
 
@@ -3097,6 +3036,18 @@ extension ReportQuerySortThenBy on QueryBuilder<Report, Report, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Report, Report, QAfterSortBy> thenByDurationInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Report, Report, QAfterSortBy> thenByDurationInMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'durationInMinutes', Sort.desc);
+    });
+  }
+
   QueryBuilder<Report, Report, QAfterSortBy> thenByEveningWitnessingHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'eveningWitnessingHours', Sort.asc);
@@ -3132,30 +3083,6 @@ extension ReportQuerySortThenBy on QueryBuilder<Report, Report, QSortThenBy> {
   QueryBuilder<Report, Report, QAfterSortBy> thenByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> thenByHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> thenByHoursDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hours', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> thenByHoursLDC() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hoursLDC', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> thenByHoursLDCDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hoursLDC', Sort.desc);
     });
   }
 
@@ -3219,18 +3146,6 @@ extension ReportQuerySortThenBy on QueryBuilder<Report, Report, QSortThenBy> {
   QueryBuilder<Report, Report, QAfterSortBy> thenByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> thenByMinutes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Report, Report, QAfterSortBy> thenByMinutesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minutes', Sort.desc);
     });
   }
 
@@ -3477,6 +3392,12 @@ extension ReportQueryWhereDistinct on QueryBuilder<Report, Report, QDistinct> {
     });
   }
 
+  QueryBuilder<Report, Report, QDistinct> distinctByDurationInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'durationInMinutes');
+    });
+  }
+
   QueryBuilder<Report, Report, QDistinct> distinctByEveningWitnessingHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'eveningWitnessingHours');
@@ -3493,18 +3414,6 @@ extension ReportQueryWhereDistinct on QueryBuilder<Report, Report, QDistinct> {
   QueryBuilder<Report, Report, QDistinct> distinctByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hashCode');
-    });
-  }
-
-  QueryBuilder<Report, Report, QDistinct> distinctByHours() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'hours');
-    });
-  }
-
-  QueryBuilder<Report, Report, QDistinct> distinctByHoursLDC() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'hoursLDC');
     });
   }
 
@@ -3530,12 +3439,6 @@ extension ReportQueryWhereDistinct on QueryBuilder<Report, Report, QDistinct> {
   QueryBuilder<Report, Report, QDistinct> distinctByLastModified() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastModified');
-    });
-  }
-
-  QueryBuilder<Report, Report, QDistinct> distinctByMinutes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'minutes');
     });
   }
 
@@ -3681,6 +3584,12 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Report, int, QQueryOperations> durationInMinutesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'durationInMinutes');
+    });
+  }
+
   QueryBuilder<Report, int, QQueryOperations> eveningWitnessingHoursProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'eveningWitnessingHours');
@@ -3697,18 +3606,6 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
   QueryBuilder<Report, int, QQueryOperations> hashCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hashCode');
-    });
-  }
-
-  QueryBuilder<Report, int, QQueryOperations> hoursProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'hours');
-    });
-  }
-
-  QueryBuilder<Report, int, QQueryOperations> hoursLDCProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'hoursLDC');
     });
   }
 
@@ -3735,12 +3632,6 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
   QueryBuilder<Report, DateTime, QQueryOperations> lastModifiedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastModified');
-    });
-  }
-
-  QueryBuilder<Report, int, QQueryOperations> minutesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'minutes');
     });
   }
 
@@ -3819,7 +3710,7 @@ extension ReportQueryProperty on QueryBuilder<Report, Report, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Report, String?, QQueryOperations> uidProperty() {
+  QueryBuilder<Report, String, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
     });
@@ -3873,22 +3764,20 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       informalWitnessingHours: json['informalWitnessingHours'] as int? ?? 0,
       informalWitnessingQuantity:
           json['informalWitnessingQuantity'] as int? ?? 0,
-      hours: json['hours'] as int? ?? 0,
+      durationInMinutes: json['durationInMinutes'] as int? ?? 0,
       isClosed: json['isClosed'] as bool? ?? false,
-      minutes: json['minutes'] as int? ?? 0,
       placements: json['placements'] as int? ?? 0,
       publicWitnessingHours: json['publicWitnessingHours'] as int? ?? 0,
       publicWitnessingQuantity: json['publicWitnessingQuantity'] as int? ?? 0,
       remarks: json['remarks'] as String? ?? '',
       returnVisits: json['returnVisits'] as int? ?? 0,
-      hoursLDC: json['hoursLDC'] as int? ?? 0,
       minutesLDC: json['minutesLDC'] as int? ?? 0,
       sundayWitnessingHours: json['sundayWitnessingHours'] as int? ?? 0,
       sundayWitnessingQuantity: json['sundayWitnessingQuantity'] as int? ?? 0,
       transferredMinutes: json['transferredMinutes'] as int? ?? 0,
       transferredMinutesActivityId:
-          json['transferredMinutesActivityId'] as int? ?? -111,
-      uid: json['uid'] as String?,
+          json['transferredMinutesActivityId'] as int? ?? -1,
+      uid: json['uid'] as String? ?? '',
       withFieldServiceGroupWitnessingHours:
           json['withFieldServiceGroupWitnessingHours'] as int? ?? 0,
       withFieldServiceGroupWitnessingQuantity:
@@ -3906,12 +3795,11 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.businessTerritoryWitnessingQuantity,
       'eveningWitnessingHours': instance.eveningWitnessingHours,
       'eveningWitnessingQuantity': instance.eveningWitnessingQuantity,
-      'hours': instance.hours,
+      'durationInMinutes': instance.durationInMinutes,
       'informalWitnessingHours': instance.informalWitnessingHours,
       'informalWitnessingQuantity': instance.informalWitnessingQuantity,
       'isClosed': instance.isClosed,
       'lastModified': Report._toJson(instance.lastModified),
-      'minutes': instance.minutes,
       'month': instance.month,
       'placements': instance.placements,
       'publicWitnessingHours': instance.publicWitnessingHours,
@@ -3919,7 +3807,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'remarks': instance.remarks,
       'returnVisits': instance.returnVisits,
       'serviceYear': instance.serviceYear,
-      'hoursLDC': instance.hoursLDC,
       'minutesLDC': instance.minutesLDC,
       'sundayWitnessingHours': instance.sundayWitnessingHours,
       'sundayWitnessingQuantity': instance.sundayWitnessingQuantity,

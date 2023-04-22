@@ -56,9 +56,9 @@ String dateFormatter(DateTime date, [String pattern = 'yyyy-MM-dd', String? loca
 // MINUTE_SECOND                ms
 // SECOND                       s
 
-/// minutesValue=18, output: 00:18
+/*/// minutesValue=18, output: 00:18
 String getTimeString(int minutesValue) {
   final int hour = minutesValue ~/ 60;
   final int minutes = minutesValue % 60;
   return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
-}
+}*/

@@ -20,4 +20,7 @@ abstract class IReportsRepository {
   /// when success returns itemId > 0, -1 on error or if Report does not exist.
   /// May return 0 if associated Activity was not deleted.
   Future<int> delete(int itemId);
+
+  /// returns property serviceYear from all stored Reports
+  Future<List<String>> getStoredServiceYearProperties();
 }
