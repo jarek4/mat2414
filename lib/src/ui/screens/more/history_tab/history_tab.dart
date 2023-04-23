@@ -64,7 +64,7 @@ class HistoryTab extends StatelessWidget {
       child: DropdownButton<String>(
         underline: const SizedBox.shrink(),
         isExpanded: true,
-        hint: const Text('select'),
+        hint: Text(context.loc.select),
         dropdownColor: context.colors.secondaryContainer.withOpacity(0.94),
         value: context.watch<HistoryTabState>().selectedServiceYear,
         items: items.map((e) => DropdownMenuItem<String>(value: e, child: Text(e))).toList(),
@@ -112,7 +112,8 @@ class HistoryTab extends StatelessWidget {
             ExpansionPanelRadio(
               backgroundColor: context.colors.background,
               value: 'unique ExpansionPanelRadio buildServiceYearReports',
-              headerBuilder: (context, isExpanded) => const ListTile(title: Text('months:')),
+              headerBuilder: (context, isExpanded) =>
+                  ListTile(title: Text('${context.loc.generalMonth(2)}:')),
               body: Selector<HistoryTabState, HistoryTabStatus>(
                   selector: (_, state) => state.status,
                   shouldRebuild: (HistoryTabStatus pre, HistoryTabStatus next) {

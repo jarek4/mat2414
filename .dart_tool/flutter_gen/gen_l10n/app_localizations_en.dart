@@ -7,7 +7,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'mat2414';
+  String get appTitle => 'Matt 24: 14';
 
   @override
   String get addActivityAddRemarksBtn => 'Add remarks';
@@ -19,13 +19,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addActivityBtnSavedNotification => 'Activity was saved';
 
   @override
-  String get addActivityEmptyError => 'The activity is empty. It wont be saved!';
+  String get addActivityEmptyError => 'The activity is empty. It won\'t be saved!';
 
   @override
   String get addActivityNewActivity => 'New activity';
 
   @override
-  String get addActivityNoChangesMadeError => 'No changes was made';
+  String get addActivityNoChangesMadeError => 'No changes were made';
 
   @override
   String get addActivityNotCreatedError => 'Not created. Ups';
@@ -105,10 +105,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generalLDCHours => 'LDC Hours';
 
   @override
-  String get generalMinute => 'Minute';
+  String generalMinute(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compactLong(
+      locale: localeName,
+      
+    );
+    final String countString = countNumberFormat.format(count);
 
-  @override
-  String get generalMonth => 'Month';
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      one: 'Minute',
+      two: 'Minutes',
+      other: 'Minutes',
+    );
+  }
 
   @override
   String get generalNo => 'No';
@@ -156,7 +167,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generalYes => 'Yes';
 
   @override
-  String get helpBibleStudies => 'The the total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.';
+  String get helpBibleStudies => 'The total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.';
 
   @override
   String get helpClosingReport => 'It means to prepare a monthly report and record this value. This action cannot be undone! You can only delete the report. After deletion, it can be created again and saved again. To do this, just set the selected month in the calendar and press the Close report button. Earlier you can edit notes and amount of bible studies. Only the value of a closed report can be copied. Only closed reports are visible in the history.';
@@ -185,7 +196,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeYorLastActivities => 'Your last activities:';
 
   @override
-  String get ldcHoursToolTip => 'Mark if this is not the time spent in the field service. This hours will be saved in remarks';
+  String get ldcHoursToolTip => 'Mark if this is not the time spent in the field service. These hours will be saved in remarks';
 
   @override
   String get onBoardingCanAddNameLater => 'You can add your name later';
@@ -237,11 +248,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportIncreaseBibleStudiesBtnToolTip => 'Increase bible studies quantity';
-
-  @override
-  String reportTransferredMinutesTxt(int number) {
-    return 'Transferred minutes $number';
-  }
 
   @override
   String get reportReportWasCopied => 'Report was copied';
@@ -337,8 +343,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabStatistics => 'Statistics';
 
   @override
-  String get historyClosedMonthsVisible => 'Only completed months are visible';
+  String get historyClosedMonthsVisible => 'Only closed months are visible';
 
   @override
   String get reportCopyToClipboard => 'Copy the text of the report to the clipboard';
+
+  @override
+  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted => 'This report has transferred {number} minutes to the next month as an activity. This activity will be deleted!';
+
+  @override
+  String get dialogCreateReportTransferredMinutes => '{number} minutes where transferred to the next month';
+
+  @override
+  String get dialogCreateReportTransferredMinutesWarning => 'When closed, this report will transfer {number} minutes to the next month. You will need to remove this activity manually if necessary';
+
+  @override
+  String reportTransferredMinutesTxt(int number) {
+    return 'Transferred minutes $number';
+  }
+
+  @override
+  String get helpTransferMinutes => 'If the value in the Hours column in the monthly service report is greater than 1 hour (e.g. 1 hour and 15 minutes), then the minutes will automatically roll over (transfer) to the next month when you close the report. Note: If you delete such a report, you may need to manually delete the activity containing the transferred minutes!';
+
+  @override
+  String get generalTransferredMinutes => 'Transferred minutes';
+
+  @override
+  String get settingsNoRemarksFromActivitiesInReport => 'Do not add remarks from activities when closing the report';
+
+  @override
+  String get generalSave => 'Save';
+
+  @override
+  String get select => 'select';
+
+  @override
+  String generalMonth(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compactLong(
+      locale: localeName,
+      
+    );
+    final String countString = countNumberFormat.format(count);
+
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      one: 'Month',
+      two: 'Months',
+      other: 'Months',
+    );
+  }
 }

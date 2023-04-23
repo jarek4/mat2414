@@ -1,0 +1,391 @@
+{
+  "@@locale": "el",
+  "appTitle": "Ματθαίος 24:14",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "addActivityAddRemarksBtn": "Προσθέστε σημειώσεις",
+  "@addActivityAddRemarksBtn": {},
+  "addActivityBtnNotSavedNotification": "Μη αποθηκευμένο",
+  "@addActivityBtnNotSavedNotification": {
+    "description": ""
+  },
+  "addActivityBtnSavedNotification": "Η δραστηριότητα αποθηκεύτηκε",
+  "@addActivityBtnSavedNotification": {},
+  "addActivityEmptyError": "Η δραστηριότητα είναι άδεια. Δεν θα αποθηκευτεί!",
+  "@addActivityEmptyError": {
+    "description": "state error message"
+  },
+  "addActivityNewActivity": "Νέα δραστηριότητα",
+  "@addActivityNewActivity": {
+    "description": "Add new activity title"
+  },
+  "addActivityNoChangesMadeError": "Δεν έγινε καμία αλλαγή",
+  "@addActivityNoChangesMadeError": {},
+  "addActivityNotCreatedError": "Δεν δημιουργήθηκε. Ups",
+  "@addActivityNotCreatedError": {},
+  "addNewActivityBtn": "Προσθέστε νέα δραστηριότητα",
+  "@addNewActivityBtn": {
+    "description": "button text"
+  },
+  "databaseNoPermission": "Δεν έχετε άδεια πρόσβασης στον τοπικό χώρο αποθήκευσης",
+  "@databaseNoPermission": {
+    "description": "Error message, access"
+  },
+  "databaseNotOpened": "Η βάση δεδομένων δεν έχει ανοίξει",
+  "@databaseNotOpened": {
+    "description": "Error message, not opened"
+  },
+  "dialogMakeChanges": "Θέλετε να αλλάξετε κάτι;",
+  "@dialogMakeChanges": {
+    "description": ""
+  },
+  "dialogWantToDelete": "Είστε βέβαιοι ότι θέλετε να το διαγράψετε;",
+  "@dialogWantToDelete": {},
+  "dialogWantToSave": "Θέλετε να αποθηκεύσετε τις αλλαγές;",
+  "@dialogWantToSave": {
+    "description": ""
+  },
+  "generalBibleStudies": "Γραφικές μελέτες",
+  "@generalBibleStudies": {
+    "description": ""
+  },
+  "generalBusinessTerritoryWitnessing": "Μαρτυρία σε εμπορικό τομέα",
+  "@generalBusinessTerritoryWitnessing": {
+    "description": ""
+  },
+  "generalCancel": "Ακύρωση",
+  "@generalCancel": {},
+  "generalDate": "Ημερομηνία",
+  "@generalDate": {},
+  "generalDay": "Ημέρα",
+  "@generalDay": {
+    "description": ""
+  },
+  "generalDelete": "Διαγραφή",
+  "@generalDelete": {},
+  "generalEdit": "Επεξεργασία",
+  "@generalEdit": {},
+  "generalError": "Σφάλμα",
+  "@generalError": {
+    "description": ""
+  },
+  "generalEveningWitnessing": "Μαρτυρία νωρίς το βράδυ",
+  "@generalEveningWitnessing": {
+    "description": ""
+  },
+  "generalForMoreInfoSeeHelp": "Για περισσότερες πληροφορίες ανατρέξτε στην ενότητα Περισσότερα/Ρυθμίσεις/Βοήθεια",
+  "@generalForMoreInfoSeeHelp": {
+    "description": ""
+  },
+  "generalGroupWitnessing": "Ομαδική μαρτυρία",
+  "@generalGroupWitnessing": {},
+  "generalHour": "{count, plural, =1{Ώρα} =2{Ώρες} other{Ώρες}",
+  "@generalHour": {
+    "description": "Hour for single, hours for plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
+    }
+  },
+  "generalInformalWitnessing": "Ανεπίσημη μαρτυρία",
+  "@generalInformalWitnessing": {
+    "description": ""
+  },
+  "generalLDCHours": "Ώρες για το Περιφερειακό Τμήμα Σχεδιασμού/Οικοδόμησης",
+  "@generalLDCHours": {
+    "description": "Local Design/​Construction Department"
+  },
+  "generalMinute": "{count, plural, =1{Λεπτό} =2{Λεπτό} other{Λεπτό}",
+  "@generalMinute": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
+    }
+  },
+  "generalNo": "Όχι",
+  "@generalNo": {
+    "description": ""
+  },
+  "generalOnlyInEnglish": "Συγνώμη, αυτή η ενότητα είναι μόνο στα αγγλικά.",
+  "@generalOnlyInEnglish": {
+    "description": "when no translation is available"
+  },
+  "generalPlacements": "Έντυπα",
+  "@generalPlacements": {
+    "description": ""
+  },
+  "generalPublicWitnessing": "Δημόσια μαρτυρία",
+  "@generalPublicWitnessing": {},
+  "generalRemarks": "Σημειώσεις",
+  "@generalRemarks": {
+    "description": ""
+  },
+  "generalReturnVisits": "Επανεπισκέψεις",
+  "@generalReturnVisits": {
+    "description": ""
+  },
+  "generalServiceYear": "Υπηρεσιακός έτος",
+  "@generalServiceYear": {
+    "description": "2022/23"
+  },
+  "generalSkip": "Παράλειψη",
+  "@generalSkip": {
+    "description": ""
+  },
+  "generalStart": "Έναρξη",
+  "@generalStart": {},
+  "generalSundayWitnessing": "Μαρτυρία την Κυριακή",
+  "@generalSundayWitnessing": {
+    "description": ""
+  },
+  "generalTime": "Χρόνος",
+  "@generalTime": {},
+  "generalUsername": "Όνομα",
+  "@generalUsername": {},
+  "generalVideoShowings": "Προβολές Βίντεο",
+  "@generalVideoShowings": {
+    "description": ""
+  },
+  "generalYear": "Έτος",
+  "@generalYear": {
+    "description": ""
+  },
+  "generalYes": "Ναι",
+  "@generalYes": {
+    "description": ""
+  },
+  "helpBibleStudies": "Ο συνολικός αριθμός των διαφορετικών γραφικών μελετών που διεξάγουν κατά τη διάρκεια του μήνα καθορίζεται στην προετοιμασία της μηνιαίας έκθεσης. Αυτός ο αριθμός θα αποθηκευτεί και θα εμφανιστεί ως προεπιλεγμένος αριθμός τον επόμενο μήνα. Μπορείτε να το αλλάξετε.",
+  "@helpBibleStudies": {
+    "description": ""
+  },
+  "helpClosingReport": "Σημαίνει να ετοιμάσεις μια μηνιαία έκθεση. Αυτή η πράξη δε μπορεί να αναιρεθεί! Μπορείτε να διαγράψετε μόνο την έκθεση. Μετά τη διαγραφή, η έκθεση μπορεί να δημιουργηθεί ξανά και να αποθηκευτεί ξανά. Για να το κάνετε αυτό, απλώς ορίστε τον επιλεγμένο μήνα στο ημερολόγιο και πατήστε το κουμπί Κλείσιμο έκθεσης. Νωρίτερα, μπορείτε να επεξεργαστείτε σημειώσεις και τον αριθμό των Γραφικών μελετών. Μόνο μια κλειστή έκθεση μπορεί να αντιγραφεί. Μόνο οι κλειστές εκθέσεις είναι ορατές στο ιστορικό.",
+  "@helpClosingReport": {
+    "description": ""
+  },
+  "helpLdcHours": "Χρόνος συνεισφοράς σε εργοτάξιο ή άλλο θεοκρατικό έργο. Αυτός δεν είναι ο χρόνος που δαπανάται στην υπηρεσία αγρού και δεν υπολογίζεται στη στήλη Ώρες. Ο αριθμός για ολόκληρο τον μήνα δίνεται στις σημειώσεις. Εάν δεν χρειάζεστε αυτήν την επιλογή, μπορείτε να την απενεργοποιήσετε (είναι απενεργοποιημένη από προεπιλογή).",
+  "@helpLdcHours": {
+    "description": ""
+  },
+  "helpLdcHoursDescription": "Μπορεί να θέλετε να περιγράψετε ή να ονομάσετε τις δραστηριότητές σας ως εθελοντή με περισσότερες λεπτομέρειες. Αυτή η περιγραφή θα αντικαταστήσει την προεπιλεγμένη τιμή.",
+  "@helpLdcHoursDescription": {
+    "description": ""
+  },
+  "helpServiceTimePrecision": "Αποφασίστε πόσο ακριβώς θα καταγραφεί ο χρόνος. Για παράδειγμα, μπορείτε να επιλέξετε κάθε 5 λεπτά ή κάθε μισή ώρα. Η προεπιλεγμένη τιμή ορίζεται στα 5 λεπτά.",
+  "@helpServiceTimePrecision": {
+    "description": ""
+  },
+  "homeHello": "Γεια σου {name}!",
+  "@homeHello": {
+    "description": "greeting. Hello Mark!",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Mark"
+      }
+    }
+  },
+  "homeNoActivities": "Καμία δραστηριότητα",
+  "@homeNoActivities": {
+    "description": "list is empty"
+  },
+  "homeTodayIs": "Σήμερα είναι",
+  "@homeTodayIs": {},
+  "homeYorLastActivities": "Οι τελευταίες σας δραστηριότητες:",
+  "@homeYorLastActivities": {},
+  "ldcHoursToolTip": "Σημειώστε αν αυτός δεν είναι χρόνος που δαπανάται στην υπηρεσία αγρού. Αυτή η ώρα θα αποθηκευτεί στις σημειώσεις",
+  "@ldcHoursToolTip": {},
+  "onBoardingCanAddNameLater": "Μπορείτε να προσθέσετε το όνομά σας αργότερα",
+  "@onBoardingCanAddNameLater": {
+    "description": ""
+  },
+  "onBoardingContinueWithoutName": "Θέλετε να προχωρήσετε χωρίς όνομα;",
+  "@onBoardingContinueWithoutName": {
+    "description": ""
+  },
+  "onBoardingInfo": "Καταγράψτε κάθε υπηρεσία σας. Στο τέλος του μήνα, δημιουργήστε μια προσωπική έκθεση   υπηρεσίας αγρού. Μπορείτε να προσθέσετε σημειώσεις. Μπορείτε να βρείτε την επιλογή ώρες για το περιφερειακό τμήμα σχεδιασμού/οικοδομής   χρήσιμη ",
+  "@onBoardingInfo": {
+    "description": ""
+  },
+  "onBoardingRateApp": "Αξιολογήστε την εφαρμογή και πείτε στους φίλους σας!",
+  "@onBoardingRateApp": {
+    "description": ""
+  },
+  "onBoardingVisitHelp": "Σας ενθαρρύνουμε να εξοικειωθείτε με την ενότητα Βοήθεια στην εφαρμογή.",
+  "@onBoardingVisitHelp": {
+    "description": "visit Help section"
+  },
+  "onBoardingYourName": "Το όνομά σας",
+  "@onBoardingYourName": {
+    "description": "name form"
+  },
+  "rateAppBtnLater": "Υπενθυμίστε το μου αργότερα",
+  "@rateAppBtnLater": {
+    "description": ""
+  },
+  "rateAppBtnNow": "Αξιολογήστε το τώρα",
+  "@rateAppBtnNow": {
+    "description": ""
+  },
+  "rateAppContent": "Αν σας αρέσει να χρησιμοποιείτε αυτή η εφαρμογή, παρακαλώ κάντε μια στιγμή για να την αξιολογήσετε. Ευχαριστούμε για την υποστήριξή σας!",
+  "@rateAppContent": {
+    "description": ""
+  },
+  "rateAppTitle": "Πώς τα πάμε;",
+  "@rateAppTitle": {
+    "description": "or do you enjoy using the app?"
+  },
+  "reportBibleStudiesToolTipWidgetText": "Χρησιμοποιήστε τα βέλη για να αυξήσετε ή να μειώσετε την ποσότητα των Γραφικών μελετών. Ο αριθμός που έχετε ορίσει θα εμφανιστεί τον επόμενο μήνα",
+  "@reportBibleStudiesToolTipWidgetText": {},
+  "reportCloseReportBtn": "Κλείσιμο Έκθεσης",
+  "@reportCloseReportBtn": {},
+  "reportCopyReportBtn": "Αντιγραφή Έκθεσης",
+  "@reportCopyReportBtn": {},
+  "reportCopyReportToolTipWidgetText": "Δεν μπορείτε να αναιρέσετε το κλείσιμο του μήνα! Δεν θα μπορείτε επίσης να κάνετε αλλαγές",
+  "@reportCopyReportToolTipWidgetText": {
+    "description": ""
+  },
+  "reportDecreaseBibleStudiesBtnToolTip": "Μειώστε την ποσότητα των Γραφικών μελετών",
+  "@reportDecreaseBibleStudiesBtnToolTip": {
+    "description": ""
+  },
+  "reportErrorRefreshBtn": "Σφάλμα. Πατήστε εδώ για ανανέωση",
+  "@reportErrorRefreshBtn": {
+    "description": "Button text. On error state"
+  },
+  "reportIncreaseBibleStudiesBtnToolTip": "Αυξήστε την ποσότητα των Γραφικών μελετών",
+  "@reportIncreaseBibleStudiesBtnToolTip": {},
+  "reportReportWasCopied": "Η έκθεση αντιγράφηκε",
+  "@reportReportWasCopied": {},
+  "screenDetail": "Λεπτομέρειες",
+  "@screenDetail": {
+    "description": "screen name"
+  },
+  "screenHome": "Αρχική σελίδα",
+  "@screenHome": {
+    "description": "screen name"
+  },
+  "screenMore": "Περισσότερα",
+  "@screenMore": {
+    "description": "screen name"
+  },
+  "settingsAuto": "Αυτόματο",
+  "@settingsAuto": {
+    "description": ""
+  },
+  "settingsContactDev": "Επικοινωνήστε με τον προγραμματιστή",
+  "@settingsContactDev": {},
+  "settingsHelp": "Βοήθεια",
+  "@settingsHelp": {},
+  "settingsLanguage": "Γλώσσα",
+  "@settingsLanguage": {
+    "description": ""
+  },
+  "settingsMinutesPrecision": "Ακρίβεια χρόνου υπηρεσίας σε λεπτά",
+  "@settingsMinutesPrecision": {},
+  "settingsMinutesPrecisionExample": "π.χ. 0:05 ή 0:30",
+  "@settingsMinutesPrecisionExample": {
+    "description": "The service time precision example"
+  },
+  "settingsRateApp": "Αξιολογήστε την εφαρμογή",
+  "@settingsRateApp": {},
+  "settingsSelectStatistics": "Επιλέξτε στατιστικά που θέλετε να δείτε",
+  "@settingsSelectStatistics": {
+    "description": "Select statistics you want to see. Field description"
+  },
+  "settingsSetAnnualHourGoal": "Καθορισμός στόχου ετήσιων όρων",
+  "@settingsSetAnnualHourGoal": {},
+  "settingsSetAvatar": "Το avatar σας",
+  "@settingsSetAvatar": {
+    "description": ""
+  },
+  "settingsSetLdcDescription": "Ορίστε προσαρμοσμένη περιγραφή για τις ώρες για το περιφερειακό τμήμα σχεδιασμού/οικοδόμησης  στις σημειώσεις της έκθεσης",
+  "@settingsSetLdcDescription": {
+    "description": "Set persistent description for LDC hours in month report .Field description"
+  },
+  "settingsSetMonthlyHourGoal": "Καθορισμός στόχου μηνιαίων όρων",
+  "@settingsSetMonthlyHourGoal": {
+    "description": "Set monthly goal  (service time).Field description"
+  },
+  "settingsSettings": "Ρυθμίσεις",
+  "@settingsSettings": {
+    "description": "settings word"
+  },
+  "settingsShowLDCHours": "Εμφάνιση κουμπιού LDC ωρών",
+  "@settingsShowLDCHours": {
+    "description": ""
+  },
+  "settingsShowTips": "Εμφάνιση συμβουλών",
+  "@settingsShowTips": {
+    "description": ""
+  },
+  "settingsSystem": "Σύστημα",
+  "@settingsSystem": {},
+  "settingsThemeDarkTheme": "Σκοτεινή λειτουργία",
+  "@settingsThemeDarkTheme": {},
+  "settingsThemeLightTheme": "Φωτεινή λειτουργία",
+  "@settingsThemeLightTheme": {},
+  "settingsThemeMode": "Λειτουργία θέματος",
+  "@settingsThemeMode": {},
+  "settingsThemeSystemTheme": "Θέμα συστήματος",
+  "@settingsThemeSystemTheme": {},
+  "settingsUpdateUsername": "Όνομα χρήστη",
+  "@settingsUpdateUsername": {},
+  "statisticsHowManyTimes": "φορές",
+  "@statisticsHowManyTimes": {
+    "description": "how many times. 4 times"
+  },
+  "tabActivity": "Δραστηριότητα",
+  "@tabActivity": {
+    "description": "tab name"
+  },
+  "tabHistory": "Ιστορία",
+  "@tabHistory": {
+    "description": "tab name"
+  },
+  "tabReport": "Έκθεση",
+  "@tabReport": {
+    "description": "tab name"
+  },
+  "tabSettings": "Ρυθμίσεις",
+  "@tabSettings": {
+    "description": "tab name"
+  },
+  "tabStatistics": "Στατιστικά",
+  "@tabStatistics": {
+    "description": "tab name"
+  },
+  "historyClosedMonthsVisible": "Μόνο κλειστοί μήνες είναι ορατοί",
+  "@historyClosedMonthsVisible": {},
+  "reportCopyToClipboard": "Αντιγραφή του κειμένου της αναφοράς στο πρόχειρο",
+  "@reportCopyToClipboard": {},
+  "dialogDeleteReportTransferredMinutesActivityWillBeDeleted": "Αυτή η αναφορά έχει μεταφέρει {number} λεπτά στον επόμενο μήνα ως δραστηριότητα. Αυτή η δραστηριότητα θα διαγραφεί!",
+  "dialogCreateReportTransferredMinutes": "{number} λεπτά όπου μεταφέρθηκαν στον επόμενο μήνα",
+  "@dialogCreateReportTransferredMinutes": {
+    "description": "do not translate {number}"
+  },
+  "dialogCreateReportTransferredMinutesWarning": "Όταν κλείσει, αυτή η αναφορά θα μεταφέρει {number} λεπτά στον επόμενο μήνα. Θα χρειαστεί να αφαιρέσετε αυτή τη δραστηριότητα χειροκίνητα αν είναι απαραίτητο",
+  "@dialogCreateReportTransferredMinutesWarning": {
+    "description": "do not translate {number}"
+  },
+  "reportTransferredMinutesTxt": "Μεταφερόμενα λεπτά {number}",
+  "helpTransferMinutes": "Εάν η τιμή στη στήλη ωρών στη μηνιαία αναφορά υπηρεσίας είναι μεγαλύτερη από 1 ώρα (π.χ. 1 ώρα και 15 λεπτά), τότε τα λεπτά θα μεταφερθούν  αυτόματα στον επόμενο μήνα όταν κλείσετε την εκθεση. Σημείωση: Αν διαγράψετε μια έκθεση , ίσως χρειαστεί να διαγράψετε χειροκίνητα τη δραστηριότητα που περιέχει τα μεταφερόμενα λεπτά!",
+  "generalTransferredMinutes": "Μεταφερόμενα λεπτά",
+  "settingsNoRemarksFromActivitiesInReport": "Μην προσθέτετε σημειώσεις από δραστηριότητες κατά το κλείσιμο της έκθεσης",
+  "generalSave": "Αποθήκευση",
+  "select": "επιλέξτε",
+  "generalMonth": "{count, plural, =1{Ώρα} =2{Ώρες} other{Ώρες}",
+  "@generalMonth": {
+    "description": "=1 singular, =2 plural [month, months]",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
+    }
+  }
+}

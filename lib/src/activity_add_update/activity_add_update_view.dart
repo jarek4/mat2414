@@ -115,8 +115,8 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
               builder: (BuildContext context, areLDCHours, __) {
                 return LDCHoursOption(
                   isSelected: areLDCHours,
-                  handle: () =>
-                      context.read<AddUpdateState>().onLDCHoursChange(/*context.loc.generalLDCHours*/),
+                  handle: () => context.read<AddUpdateState>().onLDCHoursChange(
+                      /*context.loc.generalLDCHours*/),
                 );
               }),
         ),
@@ -200,10 +200,12 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
         ),
         builder: (BuildContext context, showRemarksInput, addRemarksButton) {
           final Function(String) onChange = context.read<AddUpdateState>().remarksOnChange;
+          final initRemarks = context.read<AddUpdateState>().remarks;
           if (showRemarksInput) {
             return TextFormField(
                 decoration: InputDecoration(labelText: context.loc.generalRemarks, hintText: '...'),
                 keyboardType: TextInputType.multiline,
+                initialValue: initRemarks.isEmpty ? null : initRemarks,
                 minLines: 1,
                 maxLines: 3,
                 autofocus: true,
@@ -242,9 +244,7 @@ class _ActivityAddUpdateViewState extends State<ActivityAddUpdateView> {
           shouldRebuild: (AddUpdateStateStatus pre, AddUpdateStateStatus next) {
             return pre != next;
           },
-
-          /// TODO: add localization, no key
-          child: const Text('Save'),
+          child: Text(context.loc.generalSave),
           builder: (BuildContext context, status, text) {
             final bool isDisabled =
                 status == AddUpdateStateStatus.loading || status == AddUpdateStateStatus.error;

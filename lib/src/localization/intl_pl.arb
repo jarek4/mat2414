@@ -1,0 +1,400 @@
+{
+  "@@locale": "pl",
+  "appTitle": "Mt 24: 14",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "addActivityAddRemarksBtn": "Dodaj uwagi",
+  "@addActivityAddRemarksBtn": {},
+  "addActivityBtnNotSavedNotification": "Nie zachowane",
+  "@addActivityBtnNotSavedNotification": {
+    "description": ""
+  },
+  "addActivityBtnSavedNotification": "Aktywność zapisana",
+  "@addActivityBtnSavedNotification": {},
+  "addActivityEmptyError": "Pusta aktywność. Nie została zapisana!",
+  "@addActivityEmptyError": {
+    "description": "state error message"
+  },
+  "addActivityNewActivity": "Nowa aktywność",
+  "@addActivityNewActivity": {
+    "description": "Add new activity title"
+  },
+  "addActivityNoChangesMadeError": "Nie wprowadzono zmian",
+  "@addActivityNoChangesMadeError": {},
+  "addActivityNotCreatedError": "Nie zostało utworzone. Ups...",
+  "@addActivityNotCreatedError": {},
+  "addNewActivityBtn": "Dodaj aktywność",
+  "@addNewActivityBtn": {
+    "description": "button text"
+  },
+  "databaseNoPermission": "Brak pozwolenia na dostęp do pamięci lokalnej",
+  "@databaseNoPermission": {
+    "description": "Error message, access"
+  },
+  "databaseNotOpened": "Nie można otworzyć bazy danych",
+  "@databaseNotOpened": {
+    "description": "Error message, not opened"
+  },
+  "dialogMakeChanges": "Czy chcesz coś zmienić?",
+  "@dialogMakeChanges": {
+    "description": ""
+  },
+  "dialogWantToDelete": "Na pewno chcesz usunąć ten element?",
+  "@dialogWantToDelete": {},
+  "dialogWantToSave": "Czy chcesz zapisać zmiany?",
+  "@dialogWantToSave": {
+    "description": ""
+  },
+  "generalBibleStudies": "Studia biblijne",
+  "@generalBibleStudies": {
+    "description": ""
+  },
+  "generalBusinessTerritoryWitnessing": "Teren handlowy",
+  "@generalBusinessTerritoryWitnessing": {
+    "description": ""
+  },
+  "generalCancel": "Anuluj",
+  "@generalCancel": {},
+  "generalDate": "Data",
+  "@generalDate": {},
+  "generalDay": "Dzień",
+  "@generalDay": {
+    "description": ""
+  },
+  "generalDelete": "Usuń",
+  "@generalDelete": {},
+  "generalEdit": "Edytuj",
+  "@generalEdit": {},
+  "generalError": "Błąd",
+  "@generalError": {
+    "description": ""
+  },
+  "generalEveningWitnessing": "Głoszenie wieczorem",
+  "@generalEveningWitnessing": {
+    "description": ""
+  },
+  "generalForMoreInfoSeeHelp": "Aby dowidzieć się więcej zobacz Więcej/Ustawienia/Pomoc",
+  "@generalForMoreInfoSeeHelp": {
+    "description": ""
+  },
+  "generalGroupWitnessing": "Głoszenie grupowe",
+  "@generalGroupWitnessing": {},
+  "generalHour": "{count, plural, =1{Godzina} =2{Godziny} other{Godzin}",
+  "@generalHour": {
+    "description": "Hour for single, hours for plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
+    }
+  },
+  "generalInformalWitnessing": "Głoszenie nieoficjalne",
+  "@generalInformalWitnessing": {
+    "description": ""
+  },
+  "generalLDCHours": "Czas LDPB",
+  "@generalLDCHours": {
+    "description": "Local Design/​Construction Department"
+  },
+  "generalMinute": "{count, plural, =1{Minuta} =2{Minuty} other{Minut}",
+  "@generalMinute": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
+    }
+  },
+  "generalNo": "Nie",
+  "@generalNo": {
+    "description": ""
+  },
+  "generalOnlyInEnglish": "Przykro mam, ta sekcja jest tylko w języku angielskim.",
+  "@generalOnlyInEnglish": {
+    "description": "when no translation is available"
+  },
+  "generalPlacements": "Publikacje",
+  "@generalPlacements": {
+    "description": ""
+  },
+  "generalPublicWitnessing": "Świadczenie publiczne",
+  "@generalPublicWitnessing": {},
+  "generalRemarks": "Uwagi",
+  "@generalRemarks": {
+    "description": ""
+  },
+  "generalReturnVisits": "Odwiedziny ponowne",
+  "@generalReturnVisits": {
+    "description": ""
+  },
+  "generalServiceYear": "Rok służbowy",
+  "@generalServiceYear": {
+    "description": "2022/23"
+  },
+  "generalSkip": "Pomiń",
+  "@generalSkip": {
+    "description": ""
+  },
+  "generalStart": "Start",
+  "@generalStart": {},
+  "generalSundayWitnessing": "Głoszenie w niedzielę",
+  "@generalSundayWitnessing": {
+    "description": ""
+  },
+  "generalTime": "Czas",
+  "@generalTime": {},
+  "generalUsername": "Imię",
+  "@generalUsername": {},
+  "generalVideoShowings": "Wyświetlone filmy",
+  "@generalVideoShowings": {
+    "description": ""
+  },
+  "generalYear": "Rok",
+  "@generalYear": {
+    "description": ""
+  },
+  "generalYes": "Tak",
+  "@generalYes": {
+    "description": ""
+  },
+  "helpBibleStudies": "Ogólna liczba różnych studiów biblijnych przeprowadzonych w ciągu miesiąca jest wprowadzana podczas przygotowywania sprawozdania miesięcznego. Ta wartość zostanie zapisana i pojawi się jako wartość domyślna w następnym miesiącu. Tę wartość możesz zmieniać.",
+  "@helpBibleStudies": {
+    "description": ""
+  },
+  "helpClosingReport": "Oznacza to przygotowanie sprawozdania miesięcznego i zapisanie jego wartości. Tej czynności nie można cofnąć! Możesz jednak usunąć sprawozdanie. Po usunięciu można go ponownie utworzyć i ponownie zapisać (zamknąć). W tym celu wystarczy ustawić wybrany miesiąc w kalendarzu i nacisnąć przycisk Zamknij. Wcześniej możesz edytować notatki i ilość studiów biblijnych. Można skopiować tylko wartość zamkniętego sprawozdania. W historii widoczne są tylko zamknięte sprawozdania.",
+  "@helpClosingReport": {
+    "description": ""
+  },
+  "helpLdcHours": "Czas poświęcany na budowę lub inny projekt teokratyczny. To nie jest czas spędzony w służbie polowej i nie jest liczony w kolumnie Godziny. W uwagach podana jest wartość za cały miesiąc. Jeśli nie potrzebujesz tej opcji, możesz ją wyłączyć (domyślnie jest wyłączona).",
+  "@helpLdcHours": {
+    "description": ""
+  },
+  "helpLdcHoursDescription": "Możesz bardziej szczegółowo opisać lub nazwać swoją działalność jako ochotnik. Ten opis zastąpi wartość domyślną.",
+  "@helpLdcHoursDescription": {
+    "description": ""
+  },
+  "helpServiceTimePrecision": "Zdecyduj, jak dokładnie będzie rejestrowany czas. Na przykład możesz wybrać co 5 minut lub co pół godziny. Domyślnie ustawiony na 5 minut.",
+  "@helpServiceTimePrecision": {
+    "description": ""
+  },
+  "homeHello": "Witaj {name}!",
+  "@homeHello": {
+    "description": "greeting. Hello Mark!",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Mark"
+      }
+    }
+  },
+  "homeNoActivities": "Brak aktywności",
+  "@homeNoActivities": {
+    "description": "list is empty"
+  },
+  "homeTodayIs": "Dziś jest",
+  "@homeTodayIs": {},
+  "homeYorLastActivities": "Twoja ostatnia aktywność:",
+  "@homeYorLastActivities": {},
+  "ldcHoursToolTip": "Zaznacz, jeśli to nie jest czas spędzony w służbie polowej. Te godziny zostaną zapisane w uwagach",
+  "@ldcHoursToolTip": {},
+  "onBoardingCanAddNameLater": "Możesz również podać imię później",
+  "@onBoardingCanAddNameLater": {
+    "description": ""
+  },
+  "onBoardingContinueWithoutName": "Chcesz kontynuować bez podawania imienia?",
+  "@onBoardingContinueWithoutName": {
+    "description": ""
+  },
+  "onBoardingInfo": "Zapisuj każde wyruszenie do służby. Pod koniec miesiąca przygotuj osobiste sprawozdanie ze służby. Możesz również dodać uwagi. Przydatna może być opcja godzin LDPB.",
+  "@onBoardingInfo": {
+    "description": ""
+  },
+  "onBoardingRateApp": "Oceń aplikację i poleć znajomym!",
+  "@onBoardingRateApp": {
+    "description": ""
+  },
+  "onBoardingVisitHelp": "Zachęcamy do zapoznania się z sekcją Pomoc w aplikacji.",
+  "@onBoardingVisitHelp": {
+    "description": "visit Help section"
+  },
+  "onBoardingYourName": "Twoje imię",
+  "@onBoardingYourName": {
+    "description": "name form"
+  },
+  "rateAppBtnLater": "Przypomnij mi później",
+  "@rateAppBtnLater": {
+    "description": ""
+  },
+  "rateAppBtnNow": "Ocenię teraz",
+  "@rateAppBtnNow": {
+    "description": ""
+  },
+  "rateAppContent": "Jeśli lubisz korzystać z mat2414, czy mógłbyś poświęcić chwilę na ocenę? Dzięki za Twoje wsparcie!",
+  "@rateAppContent": {
+    "description": ""
+  },
+  "rateAppTitle": "Jak Ci się podoba aplikacja?",
+  "@rateAppTitle": {
+    "description": "or do you enjoy using the app?"
+  },
+  "reportBibleStudiesToolTipWidgetText": "Użyj strzałek, aby zwiększyć lub zmniejszyć liczbę studiów biblijnych. Ustawiona liczba zostanie też pokazana jako domyśla w następnym miesiącu",
+  "@reportBibleStudiesToolTipWidgetText": {},
+  "reportCloseReportBtn": "Zamknij sprawozdanie",
+  "@reportCloseReportBtn": {},
+  "reportCopyReportBtn": "Kopiuj sprawozdanie",
+  "@reportCopyReportBtn": {},
+  "reportCopyReportToolTipWidgetText": "Nie można cofnąć zamknięcia miesiąca! Nie będziesz też mógł już nic zmienić",
+  "@reportCopyReportToolTipWidgetText": {
+    "description": ""
+  },
+  "reportDecreaseBibleStudiesBtnToolTip": "Zmniejsz liczbę studiów biblijnych",
+  "@reportDecreaseBibleStudiesBtnToolTip": {
+    "description": ""
+  },
+  "reportErrorRefreshBtn": "Błąd. Naciśnij tu, żeby odświeżyć",
+  "@reportErrorRefreshBtn": {
+    "description": "Button text. On error state"
+  },
+  "reportIncreaseBibleStudiesBtnToolTip": "Zwiększ liczbę studiów biblijnych",
+  "@reportIncreaseBibleStudiesBtnToolTip": {},
+  "reportReportWasCopied": "Sprawozdanie skopiowane",
+  "@reportReportWasCopied": {},
+  "screenDetail": "Szczegóły",
+  "@screenDetail": {
+    "description": "screen name"
+  },
+  "screenHome": "Początek",
+  "@screenHome": {
+    "description": "screen name"
+  },
+  "screenMore": "Więcej",
+  "@screenMore": {
+    "description": "screen name"
+  },
+  "settingsAuto": "Auto",
+  "@settingsAuto": {
+    "description": ""
+  },
+  "settingsContactDev": "Kontakt z deweloperem",
+  "@settingsContactDev": {},
+  "settingsHelp": "Pomoc",
+  "@settingsHelp": {},
+  "settingsLanguage": "Język",
+  "@settingsLanguage": {
+    "description": ""
+  },
+  "settingsMinutesPrecision": "Precyzja czasu służby",
+  "@settingsMinutesPrecision": {},
+  "settingsMinutesPrecisionExample": "np. 0:05 lub 0:30",
+  "@settingsMinutesPrecisionExample": {
+    "description": "The service time precision example"
+  },
+  "settingsRateApp": "Oceń aplikację",
+  "@settingsRateApp": {},
+  "settingsSelectStatistics": "Wybierz widoczne statystyki",
+  "@settingsSelectStatistics": {
+    "description": "Select statistics you want to see. Field description"
+  },
+  "settingsSetAnnualHourGoal": "Ustaw roczny cel godzinowy",
+  "@settingsSetAnnualHourGoal": {},
+  "settingsSetAvatar": "Twój awatar",
+  "@settingsSetAvatar": {
+    "description": ""
+  },
+  "settingsSetLdcDescription": "Ustaw własny opis dla czasu LDPB w sprawozdaniu",
+  "@settingsSetLdcDescription": {
+    "description": "Set persistent description for LDC hours in month report .Field description"
+  },
+  "settingsSetMonthlyHourGoal": "Ustaw miesięczny cel godzinowy",
+  "@settingsSetMonthlyHourGoal": {
+    "description": "Set monthly goal  (service time).Field description"
+  },
+  "settingsSettings": "Ustawienia",
+  "@settingsSettings": {
+    "description": "settings word"
+  },
+  "settingsShowLDCHours": "Pokaż przycisk godziny LDPB",
+  "@settingsShowLDCHours": {
+    "description": ""
+  },
+  "settingsShowTips": "Pokazuj podpowiedzi",
+  "@settingsShowTips": {
+    "description": ""
+  },
+  "settingsSystem": "System",
+  "@settingsSystem": {},
+  "settingsThemeDarkTheme": "Ciemny motyw",
+  "@settingsThemeDarkTheme": {},
+  "settingsThemeLightTheme": "Jasny motyw",
+  "@settingsThemeLightTheme": {},
+  "settingsThemeMode": "Tryb",
+  "@settingsThemeMode": {},
+  "settingsThemeSystemTheme": "Motyw systemu",
+  "@settingsThemeSystemTheme": {},
+  "settingsUpdateUsername": "Nazwa użytkownika",
+  "@settingsUpdateUsername": {},
+  "statisticsHowManyTimes": "razy",
+  "@statisticsHowManyTimes": {
+    "description": "how many times. 4 times"
+  },
+  "tabActivity": "Aktywność",
+  "@tabActivity": {
+    "description": "tab name"
+  },
+  "tabHistory": "Historia",
+  "@tabHistory": {
+    "description": "tab name"
+  },
+  "tabReport": "Sprawozdanie",
+  "@tabReport": {
+    "description": "tab name"
+  },
+  "tabSettings": "Ustawienia",
+  "@tabSettings": {
+    "description": "tab name"
+  },
+  "tabStatistics": "Statystyki",
+  "@tabStatistics": {
+    "description": "tab name"
+  },
+  "historyClosedMonthsVisible": "Widoczne są tylko zamknięte miesiące",
+  "@historyClosedMonthsVisible": {},
+  "reportCopyToClipboard": "Kopiuj sprawozdanie do schowka",
+  "@reportCopyToClipboard": {},
+  "dialogDeleteReportTransferredMinutesActivityWillBeDeleted": "To sprawozdanie przeniosło {number} minut na kolejny miesiąc jako aktywność. Ta aktywność zostanie usunięta!",
+  "dialogCreateReportTransferredMinutes": "{number} minut przeniesione następny miesiąc",
+  "@dialogCreateReportTransferredMinutes": {
+    "description": "do not translate {number}"
+  },
+  "dialogCreateReportTransferredMinutesWarning": "Po zamknięciu to sprawozdanie przeniesie {number} minut na następny miesiąc. W razie potrzeby może być konieczne ręczne usunięcie tej aktywności",
+  "@dialogCreateReportTransferredMinutesWarning": {
+    "description": "do not translate {number}"
+  },
+  "reportTransferredMinutesTxt": "Przeniesione minuty {number}",
+  "@reportTransferredMinutesTxt":  {
+    "description": "Transferred minutes to the next month",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "helpTransferMinutes": "Jeśli wartość w rubryce Godziny w miesięcznym sprawozdaniu ze służby jest większa niż 1 godzina (np. 1 godz. i 15 min.), to minuty zostaną automatycznie przeniesione (przetransferowane) na kolejny miesiąc gdy zamkniesz sprawozdanie. Uwaga: jeśli usuniesz takie sprawozdanie, może być konieczne ręczne usunięcie usunięcie aktywności zawierającej przeniesione minuty!",
+  "generalTransferredMinutes": "Przeniesione minuty",
+  "settingsNoRemarksFromActivitiesInReport": "Nie dodawaj uwag z aktywności przy zamykaniu sprawozdania",
+  "generalSave": "Zapisz",
+  "select": "wybierz",
+  "generalMonth": "{count, plural, =1{Miesiąc} =2{Miesiące} other{Miesięcy}",
+  "@generalMonth": {
+    "description": "=1 singular, =2 plural [month, months]",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compactLong"
+      }
+    }
+  }
+}

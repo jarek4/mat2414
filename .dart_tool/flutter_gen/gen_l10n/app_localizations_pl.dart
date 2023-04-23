@@ -7,19 +7,19 @@ class AppLocalizationsPl extends AppLocalizations {
   AppLocalizationsPl([String locale = 'pl']) : super(locale);
 
   @override
-  String get appTitle => 'mat2414';
+  String get appTitle => 'Mt 24: 14';
 
   @override
   String get addActivityAddRemarksBtn => 'Dodaj uwagi';
 
   @override
-  String get addActivityBtnNotSavedNotification => 'Aktywność nie zapisana';
+  String get addActivityBtnNotSavedNotification => 'Nie zachowane';
 
   @override
   String get addActivityBtnSavedNotification => 'Aktywność zapisana';
 
   @override
-  String get addActivityEmptyError => 'Aktywność jest pusta. Nie została zapisana!';
+  String get addActivityEmptyError => 'Pusta aktywność. Nie została zapisana!';
 
   @override
   String get addActivityNewActivity => 'Nowa aktywność';
@@ -28,31 +28,31 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addActivityNoChangesMadeError => 'Nie wprowadzono zmian';
 
   @override
-  String get addActivityNotCreatedError => 'Not created. Ups';
+  String get addActivityNotCreatedError => 'Nie zostało utworzone. Ups...';
 
   @override
   String get addNewActivityBtn => 'Dodaj aktywność';
 
   @override
-  String get databaseNoPermission => 'No permission to access local storage';
+  String get databaseNoPermission => 'Brak pozwolenia na dostęp do pamięci lokalnej';
 
   @override
-  String get databaseNotOpened => 'Database is not opened';
+  String get databaseNotOpened => 'Nie można otworzyć bazy danych';
 
   @override
   String get dialogMakeChanges => 'Czy chcesz coś zmienić?';
 
   @override
-  String get dialogWantToDelete => 'Czy na pewno chce usunąć element?';
+  String get dialogWantToDelete => 'Na pewno chcesz usunąć ten element?';
 
   @override
-  String get dialogWantToSave => 'Do you want to save changes?';
+  String get dialogWantToSave => 'Czy chcesz zapisać zmiany?';
 
   @override
   String get generalBibleStudies => 'Studia biblijne';
 
   @override
-  String get generalBusinessTerritoryWitnessing => 'Business territory witnessing';
+  String get generalBusinessTerritoryWitnessing => 'Teren handlowy';
 
   @override
   String get generalCancel => 'Anuluj';
@@ -61,7 +61,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get generalDate => 'Data';
 
   @override
-  String get generalDay => 'Day';
+  String get generalDay => 'Dzień';
 
   @override
   String get generalDelete => 'Usuń';
@@ -73,13 +73,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get generalError => 'Błąd';
 
   @override
-  String get generalEveningWitnessing => 'Evening witnessing';
+  String get generalEveningWitnessing => 'Głoszenie wieczorem';
 
   @override
-  String get generalForMoreInfoSeeHelp => 'For more information see More/Settings/Help';
+  String get generalForMoreInfoSeeHelp => 'Aby dowidzieć się więcej zobacz Więcej/Ustawienia/Pomoc';
 
   @override
-  String get generalGroupWitnessing => 'Group witnessing';
+  String get generalGroupWitnessing => 'Głoszenie grupowe';
 
   @override
   String generalHour(num count) {
@@ -99,28 +99,39 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get generalInformalWitnessing => 'Informal witnessing';
+  String get generalInformalWitnessing => 'Głoszenie nieoficjalne';
 
   @override
   String get generalLDCHours => 'Czas LDPB';
 
   @override
-  String get generalMinute => 'Minuta';
+  String generalMinute(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compactLong(
+      locale: localeName,
+      
+    );
+    final String countString = countNumberFormat.format(count);
 
-  @override
-  String get generalMonth => 'Miesiąc';
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      one: 'Minuta',
+      two: 'Minuty',
+      other: 'Minut',
+    );
+  }
 
   @override
   String get generalNo => 'Nie';
 
   @override
-  String get generalOnlyInEnglish => 'Przykro nam. Ta sekcja jest tylko po angielsku';
+  String get generalOnlyInEnglish => 'Przykro mam, ta sekcja jest tylko w języku angielskim.';
 
   @override
   String get generalPlacements => 'Publikacje';
 
   @override
-  String get generalPublicWitnessing => 'Public witnessing';
+  String get generalPublicWitnessing => 'Świadczenie publiczne';
 
   @override
   String get generalRemarks => 'Uwagi';
@@ -138,7 +149,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get generalStart => 'Start';
 
   @override
-  String get generalSundayWitnessing => 'Sunday witnessing';
+  String get generalSundayWitnessing => 'Głoszenie w niedzielę';
 
   @override
   String get generalTime => 'Czas';
@@ -156,19 +167,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get generalYes => 'Tak';
 
   @override
-  String get helpBibleStudies => 'The the total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.';
+  String get helpBibleStudies => 'Ogólna liczba różnych studiów biblijnych przeprowadzonych w ciągu miesiąca jest wprowadzana podczas przygotowywania sprawozdania miesięcznego. Ta wartość zostanie zapisana i pojawi się jako wartość domyślna w następnym miesiącu. Tę wartość możesz zmieniać.';
 
   @override
-  String get helpClosingReport => 'It means to prepare a monthly report and record this value. This action cannot be undone! You can only delete the report. After deletion, it can be created again and saved again. To do this, just set the selected month in the calendar and press the Close report button. Earlier you can edit notes and amount of bible studies. Only the value of a closed report can be copied. Only closed reports are visible in the history.';
+  String get helpClosingReport => 'Oznacza to przygotowanie sprawozdania miesięcznego i zapisanie jego wartości. Tej czynności nie można cofnąć! Możesz jednak usunąć sprawozdanie. Po usunięciu można go ponownie utworzyć i ponownie zapisać (zamknąć). W tym celu wystarczy ustawić wybrany miesiąc w kalendarzu i nacisnąć przycisk Zamknij. Wcześniej możesz edytować notatki i ilość studiów biblijnych. Można skopiować tylko wartość zamkniętego sprawozdania. W historii widoczne są tylko zamknięte sprawozdania.';
 
   @override
-  String get helpLdcHours => 'Time contributed at a construction site or other theocratic project. This is not time spent in field service and is not counted in the Hours column. The value for the whole month is given in the remarks. If you don\'t need this option, you can turn it off (it\'s off by default).';
+  String get helpLdcHours => 'Czas poświęcany na budowę lub inny projekt teokratyczny. To nie jest czas spędzony w służbie polowej i nie jest liczony w kolumnie Godziny. W uwagach podana jest wartość za cały miesiąc. Jeśli nie potrzebujesz tej opcji, możesz ją wyłączyć (domyślnie jest wyłączona).';
 
   @override
-  String get helpLdcHoursDescription => 'You may want to describe or name your activities as a volunteer in more detail. This description will override the default value.';
+  String get helpLdcHoursDescription => 'Możesz bardziej szczegółowo opisać lub nazwać swoją działalność jako ochotnik. Ten opis zastąpi wartość domyślną.';
 
   @override
-  String get helpServiceTimePrecision => 'Decide how accurately the time will be recorded. For example, you can select every 5 minutes or every half hour. Default set to 5 minutes.';
+  String get helpServiceTimePrecision => 'Zdecyduj, jak dokładnie będzie rejestrowany czas. Na przykład możesz wybrać co 5 minut lub co pół godziny. Domyślnie ustawiony na 5 minut.';
 
   @override
   String homeHello(String name) {
@@ -185,22 +196,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get homeYorLastActivities => 'Twoja ostatnia aktywność:';
 
   @override
-  String get ldcHoursToolTip => 'Mark if this is not the time spent in the field service. This hours will be saved in remarks';
+  String get ldcHoursToolTip => 'Zaznacz, jeśli to nie jest czas spędzony w służbie polowej. Te godziny zostaną zapisane w uwagach';
 
   @override
-  String get onBoardingCanAddNameLater => 'You can add your name later';
+  String get onBoardingCanAddNameLater => 'Możesz również podać imię później';
 
   @override
-  String get onBoardingContinueWithoutName => 'Do you want to proceed without a name?';
+  String get onBoardingContinueWithoutName => 'Chcesz kontynuować bez podawania imienia?';
 
   @override
-  String get onBoardingInfo => 'Record your each service. At the end of the month, create a personal service report. You can add remarks. You may find the LDC hours option useful.';
+  String get onBoardingInfo => 'Zapisuj każde wyruszenie do służby. Pod koniec miesiąca przygotuj osobiste sprawozdanie ze służby. Możesz również dodać uwagi. Przydatna może być opcja godzin LDPB.';
 
   @override
-  String get onBoardingRateApp => 'Oceń aplikację i poleć znajomym';
+  String get onBoardingRateApp => 'Oceń aplikację i poleć znajomym!';
 
   @override
-  String get onBoardingVisitHelp => 'We encourage you to familiarize yourself with the Help section in the application.';
+  String get onBoardingVisitHelp => 'Zachęcamy do zapoznania się z sekcją Pomoc w aplikacji.';
 
   @override
   String get onBoardingYourName => 'Twoje imię';
@@ -215,10 +226,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get rateAppContent => 'Jeśli lubisz korzystać z mat2414, czy mógłbyś poświęcić chwilę na ocenę? Dzięki za Twoje wsparcie!';
 
   @override
-  String get rateAppTitle => 'Jak Ci się podoba aplikacja';
+  String get rateAppTitle => 'Jak Ci się podoba aplikacja?';
 
   @override
-  String get reportBibleStudiesToolTipWidgetText => 'Use arrows to increase or decrease bible studies quantity. The number you set will be shown next month';
+  String get reportBibleStudiesToolTipWidgetText => 'Użyj strzałek, aby zwiększyć lub zmniejszyć liczbę studiów biblijnych. Ustawiona liczba zostanie też pokazana jako domyśla w następnym miesiącu';
 
   @override
   String get reportCloseReportBtn => 'Zamknij sprawozdanie';
@@ -227,21 +238,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get reportCopyReportBtn => 'Kopiuj sprawozdanie';
 
   @override
-  String get reportCopyReportToolTipWidgetText => 'You cannot undo closing the month! You will also not be able to make changes';
+  String get reportCopyReportToolTipWidgetText => 'Nie można cofnąć zamknięcia miesiąca! Nie będziesz też mógł już nic zmienić';
 
   @override
-  String get reportDecreaseBibleStudiesBtnToolTip => 'Decrease bible studies quantity';
+  String get reportDecreaseBibleStudiesBtnToolTip => 'Zmniejsz liczbę studiów biblijnych';
 
   @override
-  String get reportErrorRefreshBtn => 'Błąd. Naciśnij tu, aby odświerzyć';
+  String get reportErrorRefreshBtn => 'Błąd. Naciśnij tu, żeby odświeżyć';
 
   @override
-  String get reportIncreaseBibleStudiesBtnToolTip => 'Increase bible studies quantity';
-
-  @override
-  String reportTransferredMinutesTxt(int number) {
-    return 'Przeniesione minuty $number';
-  }
+  String get reportIncreaseBibleStudiesBtnToolTip => 'Zwiększ liczbę studiów biblijnych';
 
   @override
   String get reportReportWasCopied => 'Sprawozdanie skopiowane';
@@ -259,7 +265,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsAuto => 'Auto';
 
   @override
-  String get settingsContactDev => 'Kontakt z developerwm';
+  String get settingsContactDev => 'Kontakt z deweloperem';
 
   @override
   String get settingsHelp => 'Pomoc';
@@ -268,28 +274,28 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsLanguage => 'Język';
 
   @override
-  String get settingsMinutesPrecision => 'Dokładność czasu służby';
+  String get settingsMinutesPrecision => 'Precyzja czasu służby';
 
   @override
-  String get settingsMinutesPrecisionExample => 'np. 0:01 lub 0:30';
+  String get settingsMinutesPrecisionExample => 'np. 0:05 lub 0:30';
 
   @override
   String get settingsRateApp => 'Oceń aplikację';
 
   @override
-  String get settingsSelectStatistics => 'Select statistics you want to see';
+  String get settingsSelectStatistics => 'Wybierz widoczne statystyki';
 
   @override
-  String get settingsSetAnnualHourGoal => 'Set annual hour goal';
+  String get settingsSetAnnualHourGoal => 'Ustaw roczny cel godzinowy';
 
   @override
   String get settingsSetAvatar => 'Twój awatar';
 
   @override
-  String get settingsSetLdcDescription => 'Set custom description for LDC hours in month report remarks';
+  String get settingsSetLdcDescription => 'Ustaw własny opis dla czasu LDPB w sprawozdaniu';
 
   @override
-  String get settingsSetMonthlyHourGoal => 'Set monthly hour goal';
+  String get settingsSetMonthlyHourGoal => 'Ustaw miesięczny cel godzinowy';
 
   @override
   String get settingsSettings => 'Ustawienia';
@@ -337,8 +343,54 @@ class AppLocalizationsPl extends AppLocalizations {
   String get tabStatistics => 'Statystyki';
 
   @override
-  String get historyClosedMonthsVisible => 'Widoczne są tylko zamknięte sprawozdania';
+  String get historyClosedMonthsVisible => 'Widoczne są tylko zamknięte miesiące';
 
   @override
   String get reportCopyToClipboard => 'Kopiuj sprawozdanie do schowka';
+
+  @override
+  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted => 'To sprawozdanie przeniosło {number} minut na kolejny miesiąc jako aktywność. Ta aktywność zostanie usunięta!';
+
+  @override
+  String get dialogCreateReportTransferredMinutes => '{number} minut przeniesione następny miesiąc';
+
+  @override
+  String get dialogCreateReportTransferredMinutesWarning => 'Po zamknięciu to sprawozdanie przeniesie {number} minut na następny miesiąc. W razie potrzeby może być konieczne ręczne usunięcie tej aktywności';
+
+  @override
+  String reportTransferredMinutesTxt(int number) {
+    return 'Przeniesione minuty $number';
+  }
+
+  @override
+  String get helpTransferMinutes => 'Jeśli wartość w rubryce Godziny w miesięcznym sprawozdaniu ze służby jest większa niż 1 godzina (np. 1 godz. i 15 min.), to minuty zostaną automatycznie przeniesione (przetransferowane) na kolejny miesiąc gdy zamkniesz sprawozdanie. Uwaga: jeśli usuniesz takie sprawozdanie, może być konieczne ręczne usunięcie usunięcie aktywności zawierającej przeniesione minuty!';
+
+  @override
+  String get generalTransferredMinutes => 'Przeniesione minuty';
+
+  @override
+  String get settingsNoRemarksFromActivitiesInReport => 'Nie dodawaj uwag z aktywności przy zamykaniu sprawozdania';
+
+  @override
+  String get generalSave => 'Zapisz';
+
+  @override
+  String get select => 'wybierz';
+
+  @override
+  String generalMonth(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compactLong(
+      locale: localeName,
+      
+    );
+    final String countString = countNumberFormat.format(count);
+
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      one: 'Miesiąc',
+      two: 'Miesiące',
+      other: 'Miesięcy',
+    );
+  }
 }

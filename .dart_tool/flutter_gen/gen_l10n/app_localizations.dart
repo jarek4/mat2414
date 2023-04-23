@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_bg.dart';
+import 'app_localizations_el.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_pl.dart';
 
@@ -89,6 +91,8 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('bg'),
+    Locale('el'),
     Locale('en'),
     Locale('pl')
   ];
@@ -96,7 +100,7 @@ abstract class AppLocalizations {
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'mat2414'**
+  /// **'Matt 24: 14'**
   String get appTitle;
 
   /// No description provided for @addActivityAddRemarksBtn.
@@ -120,7 +124,7 @@ abstract class AppLocalizations {
   /// state error message
   ///
   /// In en, this message translates to:
-  /// **'The activity is empty. It wont be saved!'**
+  /// **'The activity is empty. It won\'t be saved!'**
   String get addActivityEmptyError;
 
   /// Add new activity title
@@ -132,7 +136,7 @@ abstract class AppLocalizations {
   /// No description provided for @addActivityNoChangesMadeError.
   ///
   /// In en, this message translates to:
-  /// **'No changes was made'**
+  /// **'No changes were made'**
   String get addActivityNoChangesMadeError;
 
   /// No description provided for @addActivityNotCreatedError.
@@ -255,7 +259,7 @@ abstract class AppLocalizations {
   /// **'Informal witnessing'**
   String get generalInformalWitnessing;
 
-  /// No description provided for @generalLDCHours.
+  /// Local Design/​Construction Department
   ///
   /// In en, this message translates to:
   /// **'LDC Hours'**
@@ -264,14 +268,8 @@ abstract class AppLocalizations {
   /// No description provided for @generalMinute.
   ///
   /// In en, this message translates to:
-  /// **'Minute'**
-  String get generalMinute;
-
-  /// No description provided for @generalMonth.
-  ///
-  /// In en, this message translates to:
-  /// **'Month'**
-  String get generalMonth;
+  /// **'{count, plural, =1{Minute} =2{Minutes} other{Minutes}'**
+  String generalMinute(num count);
 
   ///
   ///
@@ -366,7 +364,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'The the total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.'**
+  /// **'The total number of different Bible studies conducted during the month is determined in the preparation of the monthly report. This value will be saved and will appear as the default value the next month. You can change it.'**
   String get helpBibleStudies;
 
   ///
@@ -393,7 +391,7 @@ abstract class AppLocalizations {
   /// **'Decide how accurately the time will be recorded. For example, you can select every 5 minutes or every half hour. Default set to 5 minutes.'**
   String get helpServiceTimePrecision;
 
-  /// greeting
+  /// greeting. Hello Mark!
   ///
   /// In en, this message translates to:
   /// **'Hello {name}!'**
@@ -420,7 +418,7 @@ abstract class AppLocalizations {
   /// No description provided for @ldcHoursToolTip.
   ///
   /// In en, this message translates to:
-  /// **'Mark if this is not the time spent in the field service. This hours will be saved in remarks'**
+  /// **'Mark if this is not the time spent in the field service. These hours will be saved in remarks'**
   String get ldcHoursToolTip;
 
   ///
@@ -477,7 +475,7 @@ abstract class AppLocalizations {
   /// **'If you enjoy using mat2414, would you mind taking a moment to rate it? Thanks for your support!'**
   String get rateAppContent;
 
-  ///
+  /// or do you enjoy using the app?
   ///
   /// In en, this message translates to:
   /// **'How are we doing?'**
@@ -524,12 +522,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increase bible studies quantity'**
   String get reportIncreaseBibleStudiesBtnToolTip;
-
-  /// Transferred minutes to the next month
-  ///
-  /// In en, this message translates to:
-  /// **'Transferred minutes {number}'**
-  String reportTransferredMinutesTxt(int number);
 
   /// No description provided for @reportReportWasCopied.
   ///
@@ -720,7 +712,7 @@ abstract class AppLocalizations {
   /// No description provided for @historyClosedMonthsVisible.
   ///
   /// In en, this message translates to:
-  /// **'Only completed months are visible'**
+  /// **'Only closed months are visible'**
   String get historyClosedMonthsVisible;
 
   /// No description provided for @reportCopyToClipboard.
@@ -728,6 +720,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy the text of the report to the clipboard'**
   String get reportCopyToClipboard;
+
+  /// No description provided for @dialogDeleteReportTransferredMinutesActivityWillBeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This report has transferred {number} minutes to the next month as an activity. This activity will be deleted!'**
+  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted;
+
+  /// do not translate {number}
+  ///
+  /// In en, this message translates to:
+  /// **'{number} minutes where transferred to the next month'**
+  String get dialogCreateReportTransferredMinutes;
+
+  /// do not translate {number}
+  ///
+  /// In en, this message translates to:
+  /// **'When closed, this report will transfer {number} minutes to the next month. You will need to remove this activity manually if necessary'**
+  String get dialogCreateReportTransferredMinutesWarning;
+
+  /// Transferred minutes to the next month
+  ///
+  /// In en, this message translates to:
+  /// **'Transferred minutes {number}'**
+  String reportTransferredMinutesTxt(int number);
+
+  /// No description provided for @helpTransferMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'If the value in the Hours column in the monthly service report is greater than 1 hour (e.g. 1 hour and 15 minutes), then the minutes will automatically roll over (transfer) to the next month when you close the report. Note: If you delete such a report, you may need to manually delete the activity containing the transferred minutes!'**
+  String get helpTransferMinutes;
+
+  /// No description provided for @generalTransferredMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Transferred minutes'**
+  String get generalTransferredMinutes;
+
+  /// No description provided for @settingsNoRemarksFromActivitiesInReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not add remarks from activities when closing the report'**
+  String get settingsNoRemarksFromActivitiesInReport;
+
+  /// No description provided for @generalSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get generalSave;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'select'**
+  String get select;
+
+  /// =1 singular, =2 plural [month, months]
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Month} =2{Months} other{Months}'**
+  String generalMonth(num count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -739,7 +791,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'pl'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['bg', 'el', 'en', 'pl'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -750,6 +802,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'bg': return AppLocalizationsBg();
+    case 'el': return AppLocalizationsEl();
     case 'en': return AppLocalizationsEn();
     case 'pl': return AppLocalizationsPl();
   }

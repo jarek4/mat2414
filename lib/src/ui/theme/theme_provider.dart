@@ -5,6 +5,7 @@ import 'package:material_color_utilities/blend/blend.dart';
 
 import 'custom_screen_tab_style.dart';
 import 'theme.dart';
+import 'theme_const.dart';
 
 class ThemeSettingChange extends Notification {
   ThemeSettingChange({required this.settings});
@@ -12,6 +13,8 @@ class ThemeSettingChange extends Notification {
   // ThemeSettings(Color sourceColor, ThemeMode themeMode)
   final ThemeSettings settings;
 }
+
+const _fff = ThemeConst.fontFamilyFallback;
 
 class ThemeProvider extends InheritedWidget {
   const ThemeProvider(
@@ -87,7 +90,7 @@ class ThemeProvider extends InheritedWidget {
       elevation: 0,
       backgroundColor: colors.surface,
       foregroundColor: colors.onSurface,
-      titleTextStyle: const TextStyle().copyWith(fontFamily: 'Montserrat'),
+      titleTextStyle: const TextStyle().copyWith(fontFamilyFallback: _fff),
     );
   }
 
@@ -102,16 +105,16 @@ class ThemeProvider extends InheritedWidget {
   DialogTheme dialogTheme(ColorScheme colors) {
     Color fontColor = colors.onSurface;
     final TextStyle content =
-        TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat', color: fontColor);
+        TextStyle(fontWeight: FontWeight.w500, fontFamilyFallback: _fff, color: fontColor);
     final TextStyle title =
-        TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat', color: fontColor);
+        TextStyle(fontWeight: FontWeight.bold, fontFamilyFallback: _fff, color: fontColor);
     return const DialogTheme().copyWith(contentTextStyle: content, titleTextStyle: title);
   }
 
   OutlinedButtonThemeData outlinedButtonThemeData(ColorScheme colors) {
     final ButtonStyle style = const ButtonStyle().copyWith(
       textStyle: MaterialStateProperty.all(
-          TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat', color: colors.primary)),
+          TextStyle(fontWeight: FontWeight.bold, fontFamilyFallback: _fff, color: colors.primary)),
     );
     return OutlinedButtonThemeData(style: style);
   }
@@ -119,7 +122,7 @@ class ThemeProvider extends InheritedWidget {
   TextButtonThemeData textButtonThemeData(ColorScheme colors) {
     final ButtonStyle style = const ButtonStyle().copyWith(
       textStyle: MaterialStateProperty.all(
-          TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Montserrat', color: colors.primary)),
+          TextStyle(fontWeight: FontWeight.w500, fontFamilyFallback: _fff, color: colors.primary)),
     );
     return TextButtonThemeData(style: style);
   }
@@ -138,7 +141,7 @@ class ThemeProvider extends InheritedWidget {
       // height: 60.0,
       // indicatorColor: colors.onSurface,
       labelTextStyle: MaterialStateProperty.all(
-          const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Montserrat')),
+          const TextStyle(fontWeight: FontWeight.w500, fontFamilyFallback: _fff)),
     );
   }
 

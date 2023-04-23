@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'theme_const.dart';
 // import 'package:google_fonts/google_fonts.dart';
+
+const _fff = ThemeConst.fontFamilyFallback;
 
 extension TypographyUtils on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -9,64 +13,65 @@ extension TypographyUtils on BuildContext {
 
   // very very big
   TextStyle? get displayLarge => textTheme.displayLarge?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   //  very big
   TextStyle? get displayMedium => textTheme.displayMedium?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   // how to use: style: context.displaySmall
   TextStyle? get displaySmall => textTheme.displaySmall?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get headlineLarge => textTheme.headlineLarge?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get headlineMedium => textTheme.headlineMedium?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     // color: colors.onSurface,
   );
   TextStyle? get headlineSmall => textTheme.headlineSmall?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get titleLarge => textTheme.titleLarge?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get titleMedium => textTheme.titleMedium?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get titleSmall => textTheme.titleSmall?.copyWith(
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get labelLarge => textTheme.labelLarge?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     //color: colors.onSurface,
   );
   TextStyle? get labelMedium => textTheme.labelMedium?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     //color: colors.onSurface,
   );
   TextStyle? get labelSmall => textTheme.labelSmall?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get bodyLarge => textTheme.bodyLarge?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get bodyMedium => textTheme.bodyMedium?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
   TextStyle? get bodySmall => textTheme.bodySmall?.copyWith(
-    fontFamily: 'Montserrat',
+    fontFamilyFallback: _fff,
     color: colors.onSurface,
   );
 }

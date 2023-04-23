@@ -6,6 +6,7 @@ import '../../widgets/custom_screen_tab.dart';
 import 'history_tab/history_tab.dart';
 import 'history_tab/history_tab_state.dart';
 import 'more_screen_state_provider.dart';
+import 'settings_tab/settings_tab.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -94,7 +95,7 @@ class MoreScreen extends StatelessWidget {
             return [
               // const Text('HistoryTab'),
               const HistoryTab(),
-              const Text('SETTINGS'),
+              const SettingsTab(),
             ][index];
           }),
     );
