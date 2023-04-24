@@ -364,13 +364,33 @@
   "reportCopyToClipboard": "Копирайте текста на отчета в клипборда",
   "@reportCopyToClipboard": {},
   "dialogDeleteReportTransferredMinutesActivityWillBeDeleted": "{number} минути от настоящия отчет са прехвърлени към следващия месец като активност. Тази активност ще бъде изтрита!",
+  "@dialogDeleteReportTransferredMinutesActivityWillBeDeleted": {
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
   "dialogCreateReportTransferredMinutes": "{number} минути бяха прехвърлени към следващия месец",
   "@dialogCreateReportTransferredMinutes": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "dialogCreateReportTransferredMinutesWarning": "Когато бъде приключен, този отчет ще прехвърли {number} минути към следващия месец. Ще трябва да премахнете тази активност ръчно, ако е необходимо ",
   "@dialogCreateReportTransferredMinutesWarning": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "reportTransferredMinutesTxt": "Прехвърлени минути {number}",
   "@reportTransferredMinutesTxt":  {

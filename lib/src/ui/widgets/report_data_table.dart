@@ -121,12 +121,15 @@ class _TableDataCellState extends State<_TableDataCell> {
             final bool isWaiting = snapshot.connectionState == ConnectionState.waiting;
             if (snapshot.hasError) return const Center(child: Text('E'));
             final String data = snapshot.data ?? '';
-            return Shimmer(
-              child: ShimmerLoading(
-                isLoading: isWaiting,
-                child: Text(data,
-                    textAlign: TextAlign.center,
-                    style: widget.isMonthlyReport ? monthlyStyle : noMonthlyStyle),
+            return SizedBox(
+              height: 14,
+              child: Shimmer(
+                child: ShimmerLoading(
+                  isLoading: isWaiting,
+                  child: Text(data,
+                      textAlign: TextAlign.center,
+                      style: widget.isMonthlyReport ? monthlyStyle : noMonthlyStyle),
+                ),
               ),
             );
           },

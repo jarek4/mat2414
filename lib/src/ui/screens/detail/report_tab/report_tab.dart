@@ -11,6 +11,7 @@ import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_alert;
 import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bottom_sheet;
 import 'package:mat2414/utils/date_formatter.dart' as utils_time;
 import 'package:mat2414/utils/convert_duration.dart' as utils_cd;
+import 'package:mat2414/utils/snackbar_info.dart' as utils_sb;
 import 'package:provider/provider.dart';
 
 import 'report_tab_state.dart';
@@ -23,8 +24,6 @@ class ReportTab extends StatefulWidget {
 }
 
 class _ReportTabState extends State<ReportTab> {
-  // subscription to the data stream will notify UI that it needs to be refreshed
-  // late StreamSubscription<void> _reportSubscription;
   late Stream<Report> _reportStream;
   Stream<bool>? _isReportClosed;
   Stream<String>? _timeLDC;
@@ -36,17 +35,10 @@ class _ReportTabState extends State<ReportTab> {
   Stream<String>? _visits;
   var _showButtonLDCHours = false;
 
-  /* @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Maybe! It is better to this staff here instead of in initState() when it comes to updating UI
-    _reportStream = Provider.of<DetailState>(context, listen: false).watchReport().asBroadcastStream();
-    _remarks = _reportStream.map((report) => report.remarks).distinct(); ...
-  }*/
-
-  @override
-  void initState() {
-    super.initState();
+    // Maybe! It is better to this staff here instead of in initState() when it comes to updating, refreshing UI
     _reportStream =
         Provider.of<ReportTabState>(context, listen: false).watchReport().asBroadcastStream();
     final isLdc = !context.read<SettingsController>().user.preferences.showButtonLDCHours;
@@ -63,10 +55,10 @@ class _ReportTabState extends State<ReportTab> {
     _isReportClosed = _reportStream.map((report) => report.isClosed); // no distinct()!
   }
 
-/*  @override
+  @override
   void dispose() {
     super.dispose();
-  }*/
+  }
 
   String _formatDate(int y, int m) {
     final currentLocale = Localizations.localeOf(context).toString();
@@ -85,8 +77,6 @@ class _ReportTabState extends State<ReportTab> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-      // height: 190,
-      // width: double.maxFinite,
       child: _buildReportCardWrapperWithPadding(context, [
         _buildHeaderWithDate(),
         const SizedBox(height: 4),
@@ -97,8 +87,10 @@ class _ReportTabState extends State<ReportTab> {
           videoShowings: _videos,
           isMonthly: true,
         ),
+        const SizedBox(height: 4),
         _buildBibleStudiesRow(context),
         if (_showButtonLDCHours) _buildTimeLDC(),
+        const SizedBox(height: 4),
         _buildRemarksBtn(),
         _buildRemarksText(context),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -117,7 +109,6 @@ class _ReportTabState extends State<ReportTab> {
           initialData: '...',
           builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
             final bool isWaiting = snapshot.connectionState == ConnectionState.waiting;
-            // print('_monthAndServiceYear StreamBuilder');
             return Shimmer(
               child: ShimmerLoading(
                   isLoading: isWaiting,
@@ -130,20 +121,23 @@ class _ReportTabState extends State<ReportTab> {
   Widget _buildReportCardWrapperWithPadding(BuildContext context, List<Widget> children) {
     final Color borderColor = context.colors.tertiary;
     final Color backgroundColor = context.colors.background;
-    return Card(
-      key: UniqueKey(),
-      elevation: 5,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(top: BorderSide(width: 2.0, color: borderColor)),
-          color: backgroundColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-          child: Column(
-              // to shrink Card! Without MainAxisSize.min the card is expanded!
-              mainAxisSize: MainAxisSize.min,
-              children: children),
+    return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      child: Card(
+        key: UniqueKey(),
+        elevation: 5,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(width: 2.0, color: borderColor)),
+            color: backgroundColor,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+            child: Column(
+                // to shrink Card! Without MainAxisSize.min the card is expanded!
+                mainAxisSize: MainAxisSize.min,
+                children: children),
+          ),
         ),
       ),
     );
@@ -151,56 +145,73 @@ class _ReportTabState extends State<ReportTab> {
 
   Widget _buildBibleStudiesRow(BuildContext context) {
     var bStudies = AppLocalizations.of(context).generalBibleStudies;
+    final tt = context.loc.reportBibleStudiesToolTipWidgetText;
+    //  'Use arrows to increase or decrease bible studies quantity. The number you set will be shown the next month. \nFor more information see More/Settings/Help';
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const TooltipWidget(
-            info:
-                'Use arrows to increase or decrease bible studies quantity. The number you set will be shown the next month. \nFor more information see More/Settings/Help'),
         Expanded(
-          // flex: 4,
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text(bStudies, style: context.bodyMedium)),
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SizedBox(
-            height: 60,
-            child: FittedBox(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      padding: const EdgeInsets.all(2.0),
-                      tooltip: 'Increase bible studies quantity',
-                      onPressed: () => Provider.of<ReportTabState>(context, listen: false)
-                          .onBibleStudiesChange(1),
-                      icon: const Icon(Icons.keyboard_arrow_up_rounded),
-                    ),
-                    IconButton(
-                        padding: const EdgeInsets.all(2.0),
-                        tooltip: 'Decrease bible studies quantity',
-                        onPressed: () => Provider.of<ReportTabState>(context, listen: false)
-                            .onBibleStudiesChange(-1),
-                        icon: const Icon(Icons.keyboard_arrow_down_rounded))
-                  ]),
+          flex: 3,
+          child: Row(children: [
+            TooltipWidget(info: tt),
+            const SizedBox(width: 8),
+            SizedBox(
+              width: 150,
+              child: Text(bStudies,
+                  style: context.bodySmall,
+                  softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.fade),
             ),
-          ),
-        ]),
-        const SizedBox(width: 18.0),
-        // this FittedBox child must have width: !
-        FittedBox(child: Image.asset(AssetPath.imgTwoPeronAtTable, height: 22, width: 22)),
-        const SizedBox(width: 18.0),
-        Selector<ReportTabState, int>(
-            selector: (_, state) => state.monthlyReport.bibleStudies,
-            shouldRebuild: (int pre, int next) {
-              return pre != next;
-            },
-            builder: (BuildContext context, bibleStudies, __) {
-              return SizedBox(
-                  width: 35, child: Text(bibleStudies.toString(), style: context.bodyLarge));
-            }),
+          ]),
+        ),
+        Expanded(
+          flex: 2,
+          child: Row(children: [
+            // this FittedBox child must have width: !
+            FittedBox(child: Image.asset(AssetPath.imgTwoPeronAtTable, height: 22, width: 22)),
+            const SizedBox(width: 12),
+            Selector<ReportTabState, int>(
+                selector: (_, state) => state.monthlyReport.bibleStudies,
+                shouldRebuild: (int pre, int next) {
+                  return pre != next;
+                },
+                builder: (BuildContext context, bibleStudies, __) {
+                  return Text(bibleStudies.toString(), style: context.bodyLarge);
+                }),
+            const Expanded(child: SizedBox()),
+            Selector<ReportTabState, bool>(
+                selector: (_, state) => state.monthlyReport.isClosed,
+                shouldRebuild: (bool pre, bool next) {
+                  return pre != next;
+                },
+                builder: (BuildContext context, isClosed, _) {
+                  if (isClosed) return const SizedBox.shrink();
+                  return SizedBox(
+                    height: 60,
+                    child: FittedBox(
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                padding: const EdgeInsets.all(2.0),
+                                tooltip: context.loc.reportIncreaseBibleStudiesBtnToolTip,
+                                onPressed: () => Provider.of<ReportTabState>(context, listen: false)
+                                    .onBibleStudiesChange(1),
+                                icon: const Icon(Icons.keyboard_arrow_up_rounded)),
+                            IconButton(
+                                padding: const EdgeInsets.all(2.0),
+                                tooltip: context.loc.reportDecreaseBibleStudiesBtnToolTip,
+                                onPressed: () => Provider.of<ReportTabState>(context, listen: false)
+                                    .onBibleStudiesChange(-1),
+                                icon: const Icon(Icons.keyboard_arrow_down_rounded))
+                          ]),
+                    ),
+                  );
+                }),
+          ]),
+        ),
       ],
     );
   }
@@ -213,32 +224,43 @@ class _ReportTabState extends State<ReportTab> {
           final zeroTime =
               snapshot.data == '0:00' || snapshot.data == null || snapshot.data!.isEmpty;
           if (zeroTime) return const SizedBox.shrink();
-          return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            FittedBox(
-              child: Padding(
-                  padding: const EdgeInsets.only(right: 18),
-                  child: Image.asset(AssetPath.icEngineer305, height: 20, width: 20)),
-            ),
-            Text('${snapshot.data}', style: context.bodyLarge)
+          return Row(children: [
+            const Expanded(flex: 3, child: SizedBox.shrink()),
+            Expanded(
+                flex: 2,
+                child: Row(
+                  children: [
+                    FittedBox(child: Image.asset(AssetPath.icEngineer305, height: 20, width: 20)),
+                    const SizedBox(width: 12),
+                    Text('${snapshot.data}', style: context.bodyLarge),
+                  ],
+                )),
           ]);
         });
   }
 
   Widget _buildRemarksBtn() {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SizedBox(
-        height: 40,
-        child: FittedBox(
-          child: RemarksBtn(() => _handleEditRemarks()),
-        ),
-      ),
-    );
+    return Selector<ReportTabState, bool>(
+        selector: (_, state) => state.monthlyReport.isClosed,
+        shouldRebuild: (bool pre, bool next) {
+          return pre != next;
+        },
+        builder: (BuildContext context, isClosed, _) {
+          if (isClosed) return const SizedBox.shrink();
+          return Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(
+              height: 40,
+              child: FittedBox(
+                child: RemarksBtn(() => _handleEditRemarks()),
+              ),
+            ),
+          );
+        });
   }
 
   Future<void> _handleEditRemarks() {
     String? updatedRemarks;
-    // context.read<DetailState>().monthlyReport.remarks
     return _openEditRemarksBottomSheet(
             context, context.read<ReportTabState>().monthlyReport.remarks)
         .then((userEditedRemarks) {
@@ -277,15 +299,15 @@ class _ReportTabState extends State<ReportTab> {
   }
 
   Row _buildCloseOrCopyReportBtn() {
-    const String tip =
-        'You cannot undo closing the month! You will also not be able to make changes. \nFor more information see More/Settings/Help';
+    final String tip = context.loc.reportCopyReportToolTipWidgetText;
+    //  'You cannot undo closing the month! You will also not be able to make changes. \nFor more information see More/Settings/Help';
     final copy = context.loc.reportCopyReportBtn;
     final close = context.loc.reportCloseReportBtn;
     final copyWidget = Text(copy, key: ValueKey<String>(copy));
     final closeWidget = Text(close, key: ValueKey<String>(close));
     final copyIcon = Icon(Icons.copy, key: ValueKey<String>('$copy-copyIcon'));
     final closeIcon = Icon(Icons.done_outline_rounded, key: ValueKey<String>('$close-closeIcon'));
-    final w = MediaQuery.of(context).size.width * 0.58;
+    // final w = MediaQuery.of(context).size.width * 0.58;
     return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,25 +325,10 @@ class _ReportTabState extends State<ReportTab> {
                     final bool isClosed = snapshot.data ?? false;
                     VoidCallback? handle;
                     if (!isWaiting && isClosed) {
-                      handle = () {
-                        Provider.of<ReportTabState>(context, listen: false)
-                            .copyReportToClipboard()
-                            .then((_) {
-                          /// TODO: handle copied or not
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              behavior: SnackBarBehavior.floating,
-                              margin: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
-                              //margin: EdgeInsets.symmetric(vertical: double.maxFinite),
-                              content: Text(
-                                context.loc.reportReportWasCopied,
-                                textAlign: TextAlign.center,
-                              )));
-                        });
-                      };
+                      handle = () => _handlingCopyReport();
                     }
                     if (!isClosed) {
-                      handle =
-                          () => Provider.of<ReportTabState>(context, listen: false).closeReport();
+                      handle = () => _handlingCloseReport();
                     }
                     if (snapshot.hasError) {
                       return Center(child: Text('${context.loc.generalError}!'));
@@ -339,11 +346,38 @@ class _ReportTabState extends State<ReportTab> {
                   }),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 12.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
             child: TooltipWidget(info: tip),
           ),
         ]);
+  }
+
+  void _handlingCopyReport() {
+    context.read<ReportTabState>().copyReportToClipboard().then((_) {
+      utils_sb.showSnackBarInfo(context, context.loc.reportReportWasCopied);
+    });
+  }
+
+  void _handlingCloseReport() {
+    final time = context.read<ReportTabState>().monthlyReport.durationInMinutes;
+    if (time > 60 && time % 60 != 0) {
+      // the report will transfer minutes to the next month
+      _showConfirmationDialog(
+              context, context.loc.dialogCreateReportTransferredMinutesWarning(time % 60))
+          .then((userConfirmed) {
+        if (userConfirmed) {
+          context.read<ReportTabState>().closeReport().then((id) {
+            if (id > 0) {
+              utils_sb.showSnackBarInfo(
+                  context, context.loc.reportTransferredMinutesTxt(time % 60));
+            }
+          });
+        }
+      });
+    } else {
+      context.read<ReportTabState>().closeReport();
+    }
   }
 
   Widget _buildDeleteReportBtn() {
@@ -355,24 +389,24 @@ class _ReportTabState extends State<ReportTab> {
           final hasError = snapshot.hasError;
           final isClosed = snapshot.data ?? false;
           if (hasError || !isClosed) return const SizedBox.shrink();
-          /*return TextButton(
-                onPressed: () => print('delete'), child: const Icon(Icons.delete_outline));*/
           if (hasError) return FittedBox(child: Text(context.loc.generalError));
           return TextButton(
-            onPressed: isWaiting
-                ? null
-                : () => _showConfirmationDialog(context, context.loc.dialogWantToDelete)
-                        .then((userConfirmed) {
-                      if (userConfirmed) {
-                        // Provider.of<DetailState>(context, listen: false)
-                        //     .onMonthReportRemarksChange(updatedRemarks);
-                        print('confirmed');
-                        context.read<ReportTabState>().deleteReport();
-                      }
-                    }),
+            onPressed: isWaiting ? null : () => _handlingDeleteReport(),
             child: Icon(Icons.delete_outline, color: context.colors.error),
           );
         });
+  }
+
+  void _handlingDeleteReport() {
+    final transferredMin = context.read<ReportTabState>().monthlyReport.transferredMinutes;
+    var question = context.loc.dialogWantToDelete;
+    if (transferredMin > 0) {
+      question = context.loc.dialogDeleteReportTransferredMinutesActivityWillBeDeleted(
+          context.read<ReportTabState>().monthlyReport.transferredMinutes);
+    }
+    _showConfirmationDialog(context, question).then((isAccept) {
+      if (isAccept) context.read<ReportTabState>().deleteReport();
+    });
   }
 
   Future<bool> _showConfirmationDialog(BuildContext context, String question) {
@@ -381,9 +415,9 @@ class _ReportTabState extends State<ReportTab> {
         .then((bool? value) => value ?? false);
   }
 
-  /// if no changes was made (initialValue not updated) returns null.
+  /// if no changes was made (initialValue was not updated) returns null.
   Future<String?> _openEditRemarksBottomSheet(BuildContext context, String? initialValue) async {
-    TextStyle titleStyle =
+    final titleStyle =
         context.bodyMedium ?? TextStyle(color: context.colors.onSurface, fontSize: 20);
     String? changedRemarks;
     await utils_bottom_sheet.showCustomBottomSheet<String>(

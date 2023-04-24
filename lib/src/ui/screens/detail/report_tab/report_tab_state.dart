@@ -54,6 +54,7 @@ class ReportTabState with ChangeNotifier {
 
   /// The value has to be +1 or -1
   void onBibleStudiesChange(int value) {
+    if (_monthlyReport.isClosed) return;
     final int current = _monthlyReport.bibleStudies;
     final int nextValue = current + value;
     // if (nextValue < 0) return;
@@ -72,6 +73,7 @@ class ReportTabState with ChangeNotifier {
   }
 
   void onMonthReportRemarksChange(String? value) {
+    if (_monthlyReport.isClosed) return;
     _monthlyReport = _monthlyReport.copyWith(remarks: value ?? '');
     reportCtrl.sink.add(_monthlyReport);
     notifyListeners();
@@ -88,9 +90,6 @@ class ReportTabState with ChangeNotifier {
   // returned Report is not closed! Until it is not closed it wont be stored into DB.
   Future<void> buildSelectedMonthReport() async {
     final Report? closed = await _getClosedReport();
-
-    final sy = await _reportsRepository.getStoredServiceYearProperties();
-    print('getStoredServiceYearProperties: $sy');
 
     if (closed != null) {
       // selected month already has a closed monthly report. No need to make a new one!
@@ -129,7 +128,7 @@ class ReportTabState with ChangeNotifier {
         month: _selectedDate.month,
         serviceYear: _selectedDate.serviceYear,
         year: _selectedDate.year,
-        remarks: _s.loc.homeNoActivities /*'You have no activities this month.'*/);
+        remarks: _s.loc.homeNoActivities); // 'You have no activities this month.'
     reportCtrl.sink.add(_monthlyReport = empty);
     notifyListeners();
     // return empty;
@@ -184,17 +183,14 @@ class ReportTabState with ChangeNotifier {
       } else {
         noLdcTime += a.durationInMinutes;
       }
-      if (a.remarks.isNotEmpty) remarksTemp = '$remarksTemp${a.remarks}. ';
+      // ActivityType.transferred remarks contains only date.
+      if (a.remarks.isNotEmpty && a.type != ActivityType.transferred) {
+        remarksTemp = '$remarksTemp${a.remarks}. ';
+      }
       placementsTemp += a.placements;
       videosTemp += a.videos;
       returnVisitsTemp += a.returnVisits;
     }
-    final ldc = _s.loc.generalLDCHours;
-    final remarks = _s.loc.generalRemarks;
-
-    final reportRemarks =
-        '$ldc: ${utils_cd.minutesDurationToFormattedString(ldcTime)}.\n$remarks: $remarksTemp';
-
     final Report created = Report(
       createdAt: _currentDate,
       lastModified: _currentDate,
@@ -206,12 +202,24 @@ class ReportTabState with ChangeNotifier {
       placements: placementsTemp,
       videos: videosTemp,
       returnVisits: returnVisitsTemp,
-      remarks: reportRemarks,
+      remarks: _makeRemarks(ldcTime, remarksTemp),
       minutesLDC: ldcTime,
       uid: _userRepository.user.uid,
     );
 
     return created;
+  }
+
+  String _makeRemarks(int durationInMinutes, String remarksFromEachActivity) {
+    final ldc = _s.loc.generalLDCHours;
+    final remarks = _s.loc.generalRemarks;
+    final time = utils_cd.minutesDurationToFormattedString(durationInMinutes);
+    final remarksString = '$ldc: $time.\n$remarks: $remarksFromEachActivity';
+    if (remarksString.length > 650) {
+      remarksFromEachActivity = remarksFromEachActivity.substring(0, 646);
+      remarksFromEachActivity = '$remarksFromEachActivity...';
+    }
+    return remarksString;
   }
 
   // only full hours in the report
@@ -251,13 +259,12 @@ class ReportTabState with ChangeNotifier {
     );
     // save transferred minutes activity
     final id = await _activitiesRepository.create(nextMonthActivity);
-    final transferred = _s.loc.reportTransferredMinutesTxt(subtracted);
     // report with 0 minutes (2:00, or 37:00), and transferred activity id
     return r.copyWith(
-        transferredMinutes: subtracted,
-        transferredMinutesActivityId: id,
-        durationInMinutes: rMinutes - subtracted,
-        remarks: '$transferred.\n${r.remarks}');
+      transferredMinutes: subtracted,
+      transferredMinutesActivityId: id,
+      durationInMinutes: rMinutes - subtracted,
+    );
   }
 
   Future<Report?> _getClosedReport() async {
@@ -270,18 +277,15 @@ class ReportTabState with ChangeNotifier {
   }
 
   Future<int> closeReport() async {
-    // final reportAfterTransferMinutes = await _transferMinutesToTheNextMonth(created);
-    // print('buildSelectedMonthReport buildReportWithLDCActivities: $reportAfterTransferMinutes');
-    // return reportAfterTransferMinutes;
     _monthlyReport = await _transferMinutesToTheNextMonth(_monthlyReport.copyWith(isClosed: true));
-    // final Report closed = _monthlyReport.copyWith(isClosed: true);
-    final int res = await _reportsRepository.update(_monthlyReport);
+    final res = await _reportsRepository.update(_monthlyReport);
+    print('closeReport() res: $res');
     reportCtrl.sink.add(_monthlyReport);
-    notifyListeners();
+    // notifyListeners();
     return res;
   }
 
-  Future<int> copyReportToClipboard() async {
+  Future<void> copyReportToClipboard() async {
     final String username = _userRepository.user.name;
     final bool isUsernameSet = username.isNotEmpty && username != ConstantValues.emptyUser.name;
     // Field Service Report
@@ -298,43 +302,23 @@ class ReportTabState with ChangeNotifier {
         '$titleAndDate\n${isUsernameSet ? '$username\n' : ''}$data\n${_s.loc.generalRemarks}: ${_monthlyReport.remarks}';
     // print('copyReport. Report: $report');
     await Clipboard.setData(ClipboardData(text: report));
-    return 4;
   }
 
   Future<int> deleteReport() async {
     if (!_monthlyReport.isClosed) return -1;
     final res = await _reportsRepository.delete(monthlyReport.id);
-
     if (res > -1) {
-      final transferredMinutes = _monthlyReport.transferredMinutes;
-      /// TODO: add back subtracted minutes
       _monthlyReport = _monthlyReport.copyWith(
+        durationInMinutes: _monthlyReport.durationInMinutes + _monthlyReport.transferredMinutes,
         isClosed: false,
       );
+      // notifyListeners();
+      reportCtrl.sink.add(_monthlyReport);
     }
     return res;
 
-    // _monthlyReport is not closed any more! return the transferred minutes!
   }
 
-  // _monthlyReport is not closed any more! return the transferred minutes!
-  // addTime(14, 59, 59); => 15: 58
-  // addTime(2, 0, 15); => 2: 15
-  void addTime(int h, int min, int transferred) {
-    var tempH = (min + transferred) ~/ 60;
-    print('tempH: $tempH');
-    var time = '';
-    if (tempH <= 0) {
-      time = '$h: ${min + transferred}';
-    } else {
-      time = '${h + tempH}: ';
-
-      min = (min + transferred) % 60;
-
-      time = time + min.toString();
-    }
-    print(time);
-  }
 
   Future<List<Report>> getForServiceYear(String serviceYear) {
     return _reportsRepository.readForAServiceYear(serviceYear);
@@ -352,6 +336,7 @@ class ReportTabState with ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
+    print('ReportTabState dispose');
     _isMounted = false;
     if (!reportCtrl.isClosed) reportCtrl.close();
   }

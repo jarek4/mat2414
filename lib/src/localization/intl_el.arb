@@ -364,13 +364,33 @@
   "reportCopyToClipboard": "Αντιγραφή του κειμένου της αναφοράς στο πρόχειρο",
   "@reportCopyToClipboard": {},
   "dialogDeleteReportTransferredMinutesActivityWillBeDeleted": "Αυτή η αναφορά έχει μεταφέρει {number} λεπτά στον επόμενο μήνα ως δραστηριότητα. Αυτή η δραστηριότητα θα διαγραφεί!",
+  "@dialogDeleteReportTransferredMinutesActivityWillBeDeleted": {
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
   "dialogCreateReportTransferredMinutes": "{number} λεπτά όπου μεταφέρθηκαν στον επόμενο μήνα",
   "@dialogCreateReportTransferredMinutes": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "dialogCreateReportTransferredMinutesWarning": "Όταν κλείσει, αυτή η αναφορά θα μεταφέρει {number} λεπτά στον επόμενο μήνα. Θα χρειαστεί να αφαιρέσετε αυτή τη δραστηριότητα χειροκίνητα αν είναι απαραίτητο",
   "@dialogCreateReportTransferredMinutesWarning": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "reportTransferredMinutesTxt": "Μεταφερόμενα λεπτά {number}",
   "helpTransferMinutes": "Εάν η τιμή στη στήλη ωρών στη μηνιαία αναφορά υπηρεσίας είναι μεγαλύτερη από 1 ώρα (π.χ. 1 ώρα και 15 λεπτά), τότε τα λεπτά θα μεταφερθούν  αυτόματα στον επόμενο μήνα όταν κλείσετε την εκθεση. Σημείωση: Αν διαγράψετε μια έκθεση , ίσως χρειαστεί να διαγράψετε χειροκίνητα τη δραστηριότητα που περιέχει τα μεταφερόμενα λεπτά!",

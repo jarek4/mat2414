@@ -89,15 +89,15 @@ class ReportLocalDbHelper implements IReportDbHelper {
   @override
   Future<List<String>> readAvailableServiceYears() async {
     try {
-      // return await _db.reports.where().serviceYearProperty().findAll();
       return await _db.reports
           .where()
           .serviceYearProperty()
           .findAll()
           .then((value) => value.toSet().toList())
-          .then((resp) => resp
-            ..sort()
-            ..reversed);
+          .then((resp) {
+        resp.sort();
+        return resp.reversed.toList();
+      });
     } catch (e) {
       throw Exception('ReportLocalDbHelper readAvailableServiceYears().\n $e');
     }

@@ -51,7 +51,7 @@ class _RootWidgetState extends State<RootWidget> {
     //  final int selectedTabIndex = Provider.of<BottomNavigationController>(context).selectedIndex;
     if (_platform == TargetPlatform.iOS) {
       return CupertinoTabScaffold(
-        resizeToAvoidBottomInset: false,
+       resizeToAvoidBottomInset: false,
         tabBar: CupertinoTabBar(
           // backgroundColor: Colors.blueGrey,
           // activeColor: Colors.white,
@@ -100,32 +100,3 @@ class _RootWidgetState extends State<RootWidget> {
     }
   }
 }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: [
-        const HomeScreen(),
-        const DetailScreen(),
-        const MoreScreen(),
-      ].elementAt(context.watch<BottomNavigationController>().selectedIndex),
-      bottomNavigationBar: NavigationBarTheme(
-        data: Theme.of(context).navigationBarTheme,
-        child: NavigationBar(
-            selectedIndex: context.read<BottomNavigationController>().selectedIndex,
-            onDestinationSelected: (index) =>
-                context.read<BottomNavigationController>().onSelect(index),
-            animationDuration: const Duration(seconds: 1),
-            destinations: [
-              NavigationDestination(icon: const Icon(Icons.home), label: context.loc.screenHome),
-              NavigationDestination(
-                  icon: const Icon(Icons.calendar_month), label: context.loc.screenDetail),
-              NavigationDestination(
-                  icon: const Icon(Icons.more_horiz), label: context.loc.screenMore),
-            ]),
-      ),
-    );
-  }
- */

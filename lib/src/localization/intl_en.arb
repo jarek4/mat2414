@@ -364,13 +364,33 @@
   "reportCopyToClipboard": "Copy the text of the report to the clipboard",
   "@reportCopyToClipboard": {},
   "dialogDeleteReportTransferredMinutesActivityWillBeDeleted": "This report has transferred {number} minutes to the next month as an activity. This activity will be deleted!",
+  "@dialogDeleteReportTransferredMinutesActivityWillBeDeleted": {
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
   "dialogCreateReportTransferredMinutes": "{number} minutes where transferred to the next month",
   "@dialogCreateReportTransferredMinutes": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "dialogCreateReportTransferredMinutesWarning": "When closed, this report will transfer {number} minutes to the next month. You will need to remove this activity manually if necessary",
   "@dialogCreateReportTransferredMinutesWarning": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "reportTransferredMinutesTxt": "Transferred minutes {number}",
   "@reportTransferredMinutesTxt":  {

@@ -349,13 +349,19 @@ class AppLocalizationsBg extends AppLocalizations {
   String get reportCopyToClipboard => 'Копирайте текста на отчета в клипборда';
 
   @override
-  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted => '{number} минути от настоящия отчет са прехвърлени към следващия месец като активност. Тази активност ще бъде изтрита!';
+  String dialogDeleteReportTransferredMinutesActivityWillBeDeleted(int number) {
+    return '$number минути от настоящия отчет са прехвърлени към следващия месец като активност. Тази активност ще бъде изтрита!';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutes => '{number} минути бяха прехвърлени към следващия месец';
+  String dialogCreateReportTransferredMinutes(int number) {
+    return '$number минути бяха прехвърлени към следващия месец';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutesWarning => 'Когато бъде приключен, този отчет ще прехвърли {number} минути към следващия месец. Ще трябва да премахнете тази активност ръчно, ако е необходимо ';
+  String dialogCreateReportTransferredMinutesWarning(int number) {
+    return 'Когато бъде приключен, този отчет ще прехвърли $number минути към следващия месец. Ще трябва да премахнете тази активност ръчно, ако е необходимо ';
+  }
 
   @override
   String reportTransferredMinutesTxt(int number) {

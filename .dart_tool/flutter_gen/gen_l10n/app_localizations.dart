@@ -725,19 +725,19 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'This report has transferred {number} minutes to the next month as an activity. This activity will be deleted!'**
-  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted;
+  String dialogDeleteReportTransferredMinutesActivityWillBeDeleted(int number);
 
   /// do not translate {number}
   ///
   /// In en, this message translates to:
   /// **'{number} minutes where transferred to the next month'**
-  String get dialogCreateReportTransferredMinutes;
+  String dialogCreateReportTransferredMinutes(int number);
 
   /// do not translate {number}
   ///
   /// In en, this message translates to:
   /// **'When closed, this report will transfer {number} minutes to the next month. You will need to remove this activity manually if necessary'**
-  String get dialogCreateReportTransferredMinutesWarning;
+  String dialogCreateReportTransferredMinutesWarning(int number);
 
   /// Transferred minutes to the next month
   ///

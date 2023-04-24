@@ -349,13 +349,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportCopyToClipboard => 'Copy the text of the report to the clipboard';
 
   @override
-  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted => 'This report has transferred {number} minutes to the next month as an activity. This activity will be deleted!';
+  String dialogDeleteReportTransferredMinutesActivityWillBeDeleted(int number) {
+    return 'This report has transferred $number minutes to the next month as an activity. This activity will be deleted!';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutes => '{number} minutes where transferred to the next month';
+  String dialogCreateReportTransferredMinutes(int number) {
+    return '$number minutes where transferred to the next month';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutesWarning => 'When closed, this report will transfer {number} minutes to the next month. You will need to remove this activity manually if necessary';
+  String dialogCreateReportTransferredMinutesWarning(int number) {
+    return 'When closed, this report will transfer $number minutes to the next month. You will need to remove this activity manually if necessary';
+  }
 
   @override
   String reportTransferredMinutesTxt(int number) {

@@ -37,7 +37,7 @@ class MoreScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
-                      constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
+                      constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36, minHeight: (constraints.maxHeight * 0.36) - 2),
                       child: Image.asset(AssetPath.imgCalendar, fit: BoxFit.fitHeight)),
                 ),
               Expanded(

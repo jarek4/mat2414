@@ -364,13 +364,33 @@
   "reportCopyToClipboard": "Kopiuj sprawozdanie do schowka",
   "@reportCopyToClipboard": {},
   "dialogDeleteReportTransferredMinutesActivityWillBeDeleted": "To sprawozdanie przeniosło {number} minut na kolejny miesiąc jako aktywność. Ta aktywność zostanie usunięta!",
+  "@dialogDeleteReportTransferredMinutesActivityWillBeDeleted": {
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
   "dialogCreateReportTransferredMinutes": "{number} minut przeniesione następny miesiąc",
   "@dialogCreateReportTransferredMinutes": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "dialogCreateReportTransferredMinutesWarning": "Po zamknięciu to sprawozdanie przeniesie {number} minut na następny miesiąc. W razie potrzeby może być konieczne ręczne usunięcie tej aktywności",
   "@dialogCreateReportTransferredMinutesWarning": {
-    "description": "do not translate {number}"
+    "description": "do not translate {number}",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "reportTransferredMinutesTxt": "Przeniesione minuty {number}",
   "@reportTransferredMinutesTxt":  {

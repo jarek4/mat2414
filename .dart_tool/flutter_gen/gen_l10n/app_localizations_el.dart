@@ -349,13 +349,19 @@ class AppLocalizationsEl extends AppLocalizations {
   String get reportCopyToClipboard => 'Αντιγραφή του κειμένου της αναφοράς στο πρόχειρο';
 
   @override
-  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted => 'Αυτή η αναφορά έχει μεταφέρει {number} λεπτά στον επόμενο μήνα ως δραστηριότητα. Αυτή η δραστηριότητα θα διαγραφεί!';
+  String dialogDeleteReportTransferredMinutesActivityWillBeDeleted(int number) {
+    return 'Αυτή η αναφορά έχει μεταφέρει $number λεπτά στον επόμενο μήνα ως δραστηριότητα. Αυτή η δραστηριότητα θα διαγραφεί!';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutes => '{number} λεπτά όπου μεταφέρθηκαν στον επόμενο μήνα';
+  String dialogCreateReportTransferredMinutes(int number) {
+    return '$number λεπτά όπου μεταφέρθηκαν στον επόμενο μήνα';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutesWarning => 'Όταν κλείσει, αυτή η αναφορά θα μεταφέρει {number} λεπτά στον επόμενο μήνα. Θα χρειαστεί να αφαιρέσετε αυτή τη δραστηριότητα χειροκίνητα αν είναι απαραίτητο';
+  String dialogCreateReportTransferredMinutesWarning(int number) {
+    return 'Όταν κλείσει, αυτή η αναφορά θα μεταφέρει $number λεπτά στον επόμενο μήνα. Θα χρειαστεί να αφαιρέσετε αυτή τη δραστηριότητα χειροκίνητα αν είναι απαραίτητο';
+  }
 
   @override
   String reportTransferredMinutesTxt(int number) {

@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                    localizationsDelegates: AppLocalizations.localizationsDelegates,
                    // supportedLocales: AppLocales.all,
                       supportedLocales: AppLocalizations.supportedLocales,
-                    locale: const Locale('en'),
+                    locale: const Locale('bg'),
                     onGenerateTitle: (BuildContext context) =>
                         AppLocalizations.of(context).appTitle,
                     theme: theme.light(settings.value.sourceColor),

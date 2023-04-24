@@ -236,18 +236,20 @@ class AddUpdateState with ChangeNotifier {
       id: _activity?.id ?? Isar.autoIncrement,
       type: _areLDCHours ? ActivityType.ldc : ActivityType.normal,
       placements: _placements,
-      remarks: _areLDCHours
+      /*remarks: _areLDCHours
           ? '[${_s.loc.generalLDCHours}: ${_makeTimeString(h, min)}${_remarks.isEmpty ? '' : '; $_remarks.'}]'
-          : _remarks,
+          : _remarks,*/
+      remarks: _remarks,
       returnVisits: _returns,
       uid: _userRepository.user.uid,
       videos: _video);
 
-  String _makeTimeString(int h, int min) {
-    var hAndM = utils_cd.minutesDurationToFormattedString(h * 60 + min);
-    if (hAndM.startsWith('0')) return hAndM.substring(1);
+
+/*  String _makeTimeString(int h, int min) {
+    var hAndM = utils_cd.minutesDurationToFormattedString(h * 60 + min, false);
+   //  if (hAndM.startsWith('0')) return hAndM.substring(1);
     return hAndM;
-  }
+  }*/
 
   int _validateTimeNumber(int? value, int max) {
     if (value == null || value < 1) return 0;

@@ -349,13 +349,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get reportCopyToClipboard => 'Kopiuj sprawozdanie do schowka';
 
   @override
-  String get dialogDeleteReportTransferredMinutesActivityWillBeDeleted => 'To sprawozdanie przeniosło {number} minut na kolejny miesiąc jako aktywność. Ta aktywność zostanie usunięta!';
+  String dialogDeleteReportTransferredMinutesActivityWillBeDeleted(int number) {
+    return 'To sprawozdanie przeniosło $number minut na kolejny miesiąc jako aktywność. Ta aktywność zostanie usunięta!';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutes => '{number} minut przeniesione następny miesiąc';
+  String dialogCreateReportTransferredMinutes(int number) {
+    return '$number minut przeniesione następny miesiąc';
+  }
 
   @override
-  String get dialogCreateReportTransferredMinutesWarning => 'Po zamknięciu to sprawozdanie przeniesie {number} minut na następny miesiąc. W razie potrzeby może być konieczne ręczne usunięcie tej aktywności';
+  String dialogCreateReportTransferredMinutesWarning(int number) {
+    return 'Po zamknięciu to sprawozdanie przeniesie $number minut na następny miesiąc. W razie potrzeby może być konieczne ręczne usunięcie tej aktywności';
+  }
 
   @override
   String reportTransferredMinutesTxt(int number) {

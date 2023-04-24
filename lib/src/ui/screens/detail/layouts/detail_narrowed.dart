@@ -40,6 +40,7 @@ class DetailNarrowed extends StatelessWidget {
       constraints: BoxConstraints(
           // maxHeight: maxHeight * 0.36 - 28.0,
           maxHeight: height,
+          // minHeight: height - 2,
           maxWidth: isWide ? width * 0.7 : width * 0.93 // width * 0.90
           ),
       child: const CustomCalendarView(),
