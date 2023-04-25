@@ -12,6 +12,8 @@ class AssetPath {
   static const String _imgTwoPeronAtTable = 'assets/images/two_person_table_t_ic512.png';
   static const String _imgVideoCamera512 = 'assets/images/video_camera_t_ic512.png';
   static const String _imgWomenPreacher = 'assets/images/woman_with_bag_tr.png';
+  static const String _txtTOF = 'assets/text/terms_of_use.txt';
+  static const String _txtPriv = 'assets/text/privacy_statement.txt';
 
   static String get icTimeTransfer => _icTimeTransfer;
 
@@ -33,5 +35,9 @@ class AssetPath {
   static String get imgVideoCamera512 => _imgVideoCamera512;
 
   static String get imgWomenPreacher => _imgWomenPreacher;
+
+  static String get txtPrivacy => _txtPriv;
+
+  static String get txtTermsOfUse => _txtTOF;
 // static const String _imgTwoPersons512 = 'assets/images/two_person_t_ic512.png';
 }

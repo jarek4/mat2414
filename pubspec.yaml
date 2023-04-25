@@ -76,6 +76,8 @@ flutter:
     - assets/images/two_person_table_t_ic512.png
     - assets/images/woman_with_bag_tr.png
     - assets/isar_default_user.json
+    - assets/text/privacy_statement.txt
+    - assets/text/terms_of_use.txt
 
     # To add custom fonts to your application, add a fonts section here,
     # in this "flutter" section. Each entry in this list should have a

@@ -336,7 +336,6 @@ class ReportTabState with ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    print('ReportTabState dispose');
     _isMounted = false;
     if (!reportCtrl.isClosed) reportCtrl.close();
   }

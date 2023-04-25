@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:mat2414/src/ui/navigation/navigation.dart';
+import 'package:mat2414/src/ui/onboarding/onboarding_screen.dart';
 import 'package:mat2414/src/ui/root_widget.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/scaffold_key.dart' as global_key;
@@ -32,8 +33,6 @@ class _MyAppState extends State<MyApp> {
     sourceColor: AppColors.primaryBrandColor,
     themeMode: ThemeMode.system,
   ));
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -67,16 +66,24 @@ class _MyAppState extends State<MyApp> {
                     //   GlobalWidgetsLocalizations.delegate,
                     //   GlobalCupertinoLocalizations.delegate,
                     // ],
-                   localizationsDelegates: AppLocalizations.localizationsDelegates,
-                   // supportedLocales: AppLocales.all,
-                      supportedLocales: AppLocalizations.supportedLocales,
+                    localizationsDelegates: AppLocalizations.localizationsDelegates,
+                    // supportedLocales: AppLocales.all,
+                    supportedLocales: AppLocalizations.supportedLocales,
                     locale: const Locale('bg'),
                     onGenerateTitle: (BuildContext context) =>
                         AppLocalizations.of(context).appTitle,
                     theme: theme.light(settings.value.sourceColor),
                     darkTheme: theme.dark(settings.value.sourceColor),
                     themeMode: theme.themeMode(),
-                    home: const RootWidget(),
+                    home: Selector<SettingsController, bool>(
+                        selector: (_, settings) => settings.user.isOnboardingPassed,
+                        shouldRebuild: (bool pre, bool next) {
+                          return pre != next;
+                        },
+                        builder: (BuildContext context, isOnboarded, __) {
+                          if (isOnboarded) return const RootWidget();
+                          return const OnboardingScreen();
+                        }),
                   );
                 },
               ),
