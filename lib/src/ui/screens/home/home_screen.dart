@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:provider/provider.dart';
+
 // import '../../../rate_request/rate_request.dart';
 import 'add_activity_with_notifications.dart';
 import 'home_screen_state_provider.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? timer;
   var _lastActivity = 'Your last activity:', _today = 'Today is';
   bool _isAppStillNotRated = false;
+
   // late I10n locale;
 
   @override
@@ -32,11 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _lastActivity = AppLocalizations.of(context).homeYorLastActivities;
-    _today = AppLocalizations.of(context).homeTodayIs ;
-   //  final locale = locator<I10n>();
-   //  _lastActivity = locale.homeYorLastActivities;
-   //  _today = locale.homeTodayIs ;
+    _lastActivity = context.loc.homeYorLastActivities;
+    _today = context.loc.homeTodayIs;
+    //  final locale = locator<I10n>();
+    //  _lastActivity = locale.homeYorLastActivities;
+    //  _today = locale.homeTodayIs ;
     _isAppStillNotRated = !context.read<SettingsController>().user.haveRatedTheApp;
   }
 
@@ -55,13 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (_) => HomeScreenStateProvider(),
       child: LayoutBuilder(builder: (context, constraints) {
         final bool showHeader = isPortrait || constraints.maxHeight > 400;
-
+        final avatarPath = context.read<HomeScreenStateProvider>().avatarPath;
         return Container(
           color: context.colors.primaryContainer,
           constraints:
               const BoxConstraints(maxHeight: double.maxFinite, minWidth: double.maxFinite),
           child: Column(children: [
-            _buildImageHeader(showHeader, constraints),
+            _buildImageHeader(avatarPath, showHeader, constraints),
             Expanded(
               child: Container(
                 constraints: const BoxConstraints(minWidth: double.maxFinite),
@@ -83,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: const Align(
                           alignment: Alignment.bottomCenter,
                           child: AddActivityWithNotifications())),
+
                   /// TODO: uncomment RateRequest
                   // if (_isAppStillNotRated) const RateRequest(),
                 ]),
@@ -94,15 +97,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SingleChildRenderObjectWidget _buildImageHeader(bool showHeader, BoxConstraints constraints) {
+  SingleChildRenderObjectWidget _buildImageHeader(
+      String avatarPath, bool showHeader, BoxConstraints constraints) {
     return showHeader
         ? Align(
             alignment: Alignment.topCenter,
             child: Container(
-              constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
-              child: Image.asset(AssetPath.imgPreacher, fit: BoxFit.fitHeight),
-              // child: Image.asset(AssetPath.imgWomenPreacher, fit: BoxFit.fitHeight),
-            ),
+                constraints: BoxConstraints(maxHeight: constraints.maxHeight * 0.36),
+                child: Image.asset(avatarPath, fit: BoxFit.fitHeight)),
           )
         : const SizedBox.shrink();
   }
@@ -115,8 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return pre != next;
           },
           builder: (BuildContext context, name, __) {
-            var hello = AppLocalizations.of(context).homeHello(name);
-            // var hello = locale.homeHello(name);
+            var hello = context.loc.homeHello(name);
             if (name.isEmpty) {
               // locale is 'Hello {name}! Fix: Hello !, to Hello!
               hello = hello.replaceAll(' ', '');

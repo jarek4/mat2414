@@ -199,6 +199,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get generalCancel;
 
+  /// No description provided for @generalCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get generalCopy;
+
   /// No description provided for @generalDate.
   ///
   /// In en, this message translates to:
@@ -336,6 +342,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time'**
   String get generalTime;
+
+  /// No description provided for @generalThx.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank You very much'**
+  String get generalThx;
 
   /// No description provided for @generalUsername.
   ///
@@ -553,6 +565,18 @@ abstract class AppLocalizations {
   /// **'Auto'**
   String get settingsAuto;
 
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Support developer'**
+  String get settingsSupportDev;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'For more options, please email me'**
+  String get settingsSupportDevMoreOptions;
+
   /// No description provided for @settingsContactDev.
   ///
   /// In en, this message translates to:
@@ -642,6 +666,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System'**
   String get settingsSystem;
+
+  /// No description provided for @settingsTermsOfUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get settingsTermsOfUse;
+
+  /// No description provided for @settingsPrivacyStatement.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy statement'**
+  String get settingsPrivacyStatement;
 
   /// No description provided for @settingsThemeDarkTheme.
   ///

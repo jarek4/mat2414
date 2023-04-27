@@ -14,7 +14,7 @@ Future<bool?> showConfirmationDialog(
   refuseText ??= context.loc.generalNo;
 
   if (Theme.of(context).platform == TargetPlatform.iOS) {
-    return showCupertinoDialog(
+    return showCupertinoDialog<bool>(
         barrierDismissible: true,
         barrierLabel: barrierLabel,
         context: context,

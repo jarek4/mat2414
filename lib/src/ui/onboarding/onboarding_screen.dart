@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mat2414/src/localization/locale_extension.dart';
-import 'package:mat2414/src/ui/onboarding/terms_view.dart';
+import 'package:mat2414/src/ui/widgets/terms_view.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/show_confirmation_dialog.dart' as utils_cd;
 import 'package:mat2414/utils/show_custom_bottom_sheet.dart' as utils_bs;
@@ -48,7 +49,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildOnboardingView(BuildContext context) {
-    final isNotLow = MediaQuery.of(context).size.height > 600;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 1),
       child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -158,7 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<void> _showTermsOrPrivacy(BuildContext context, String path) async {
-    return await _openAddBottomSheet<void>(context, TermsView(filePath: path));
+    return await _openBottomSheet<void>(context, TermsView(filePath: path));
   }
 
   Future<void> _handleSetUsernameBth(BuildContext context) async {
@@ -190,9 +190,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: TextFormField(
                 style: titleStyle,
                 decoration: InputDecoration(labelText: '${context.loc.onBoardingYourName}:'),
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.name,
                 autofocus: true,
                 maxLength: 20,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.deny(RegExp(r'[&=!\*\+\.\?\$\(\{\\]')),
+                ],
                 onChanged: (v) => name = v),
           ),
           Expanded(
@@ -221,7 +224,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return name;
   }
 
-  Future<T?> _openAddBottomSheet<T>(BuildContext context, Widget content) async {
+  Future<T?> _openBottomSheet<T>(BuildContext context, Widget content) async {
     return await utils_bs.showCustomBottomSheet<T>(context, content);
   }
 

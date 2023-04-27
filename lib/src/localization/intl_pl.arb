@@ -56,6 +56,8 @@
   },
   "generalCancel": "Anuluj",
   "@generalCancel": {},
+  "generalCopy": "Kopiuj",
+  "@generalCopy": {},
   "generalDate": "Data",
   "@generalDate": {},
   "generalDay": "Dzień",
@@ -145,6 +147,8 @@
   },
   "generalTime": "Czas",
   "@generalTime": {},
+  "generalThx": "Bardzo Ci dziękuję",
+  "@generalThx": {},
   "generalUsername": "Imię",
   "@generalUsername": {},
   "generalVideoShowings": "Wyświetlone filmy",
@@ -277,6 +281,14 @@
   "@settingsAuto": {
     "description": ""
   },
+  "settingsSupportDev": "Wesprzyj dewelopera",
+  "@settingsSupportDev": {
+    "description": ""
+  },
+  "settingsSupportDevMoreOptions": "Wyślij email po więcej opcji ",
+  "@settingsSupportDevMoreOptions": {
+    "description": ""
+  },
   "settingsContactDev": "Kontakt z deweloperem",
   "@settingsContactDev": {},
   "settingsHelp": "Pomoc",
@@ -325,6 +337,10 @@
   },
   "settingsSystem": "System",
   "@settingsSystem": {},
+  "settingsTermsOfUse": "Warunki korzystania",
+  "@settingsTermsOfUse": {},
+  "settingsPrivacyStatement": "Oświadczenie o prywatności",
+  "@settingsPrivacyStatement": {},
   "settingsThemeDarkTheme": "Ciemny motyw",
   "@settingsThemeDarkTheme": {},
   "settingsThemeLightTheme": "Jasny motyw",

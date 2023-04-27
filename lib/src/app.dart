@@ -1,18 +1,13 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:mat2414/src/ui/navigation/navigation.dart';
-import 'package:mat2414/src/ui/onboarding/onboarding_screen.dart';
+
 import 'package:mat2414/src/ui/root_widget.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/scaffold_key.dart' as global_key;
 import 'package:provider/provider.dart';
-
 import 'calendar/calendar_state_provider.dart';
-import 'localization/app_locales.dart';
-
 import 'settings/settings_controller.dart';
 
 /// The Widget that configures your application.
@@ -69,20 +64,23 @@ class _MyAppState extends State<MyApp> {
                     localizationsDelegates: AppLocalizations.localizationsDelegates,
                     // supportedLocales: AppLocales.all,
                     supportedLocales: AppLocalizations.supportedLocales,
-                    locale: const Locale('bg'),
+                    locale: Locale(context.watch<SettingsController>().user.languageCode),
                     onGenerateTitle: (BuildContext context) =>
                         AppLocalizations.of(context).appTitle,
                     theme: theme.light(settings.value.sourceColor),
                     darkTheme: theme.dark(settings.value.sourceColor),
-                    themeMode: theme.themeMode(),
+                    // themeMode: theme.themeMode(), // not working
+                    // themeMode: settings.value.themeMode,  // not working
+                    themeMode: context.watch<SettingsController>().themeMode,
                     home: Selector<SettingsController, bool>(
                         selector: (_, settings) => settings.user.isOnboardingPassed,
                         shouldRebuild: (bool pre, bool next) {
                           return pre != next;
                         },
                         builder: (BuildContext context, isOnboarded, __) {
-                          if (isOnboarded) return const RootWidget();
-                          return const OnboardingScreen();
+                          return const RootWidget();
+                          // if (isOnboarded) return const RootWidget();
+                          // return const OnboardingScreen();
                         }),
                   );
                 },

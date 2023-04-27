@@ -185,6 +185,7 @@ class Preferences {
   /// Show the question mark widget with tooltip in UI
   final bool showTips;
 
+  /// 0 - system, 1 - light, 2 - dark
   final byte themeMode;
 
   Preferences copyWith({
@@ -196,6 +197,8 @@ class Preferences {
     int? monthlyHourGoal,
     List<byte>? selectedStatistics,
     bool? showButtonLDCHours,
+    bool? showTips,
+    int? themeMode,
   }) {
     return Preferences(
       annualHourGoal: annualHourGoal ?? this.annualHourGoal,
@@ -206,6 +209,8 @@ class Preferences {
       monthlyHourGoal: monthlyHourGoal ?? this.monthlyHourGoal,
       selectedStatistics: selectedStatistics ?? this.selectedStatistics,
       showButtonLDCHours: showButtonLDCHours ?? this.showButtonLDCHours,
+      showTips: showTips ?? this.showTips,
+      themeMode: themeMode ?? this.themeMode,
     );
   }
 

@@ -58,6 +58,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get generalCancel => 'Отмени';
 
   @override
+  String get generalCopy => 'Копирай';
+
+  @override
   String get generalDate => 'Дата';
 
   @override
@@ -153,6 +156,9 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get generalTime => 'Време';
+
+  @override
+  String get generalThx => 'Благодаря Ти много';
 
   @override
   String get generalUsername => 'Име';
@@ -265,6 +271,12 @@ class AppLocalizationsBg extends AppLocalizations {
   String get settingsAuto => 'Автоматично';
 
   @override
+  String get settingsSupportDev => 'подкрепете разработчика';
+
+  @override
+  String get settingsSupportDevMoreOptions => 'За повече опции, моля, изпратете ми имейл';
+
+  @override
   String get settingsContactDev => 'Свържете се с разработчик';
 
   @override
@@ -308,6 +320,12 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get settingsSystem => 'Система';
+
+  @override
+  String get settingsTermsOfUse => 'Условия за ползване';
+
+  @override
+  String get settingsPrivacyStatement => 'Изявление за поверителност';
 
   @override
   String get settingsThemeDarkTheme => 'Тъмен фон';

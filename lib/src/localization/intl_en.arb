@@ -54,8 +54,11 @@
   "@generalBusinessTerritoryWitnessing": {
     "description": ""
   },
+
   "generalCancel": "Cancel",
   "@generalCancel": {},
+  "generalCopy": "Copy",
+  "@generalCopy": {},
   "generalDate": "Date",
   "@generalDate": {},
   "generalDay": "Day",
@@ -145,6 +148,8 @@
   },
   "generalTime": "Time",
   "@generalTime": {},
+  "generalThx": "Thank You very much",
+  "@generalThx": {},
   "generalUsername": "Name",
   "@generalUsername": {},
   "generalVideoShowings": "Video showings",
@@ -277,6 +282,14 @@
   "@settingsAuto": {
     "description": ""
   },
+  "settingsSupportDev": "Support developer",
+  "@settingsSupportDev": {
+    "description": ""
+  },
+  "settingsSupportDevMoreOptions": "For more options, please email me",
+  "@settingsSupportDevMoreOptions": {
+    "description": ""
+  },
   "settingsContactDev": "Contact with developer",
   "@settingsContactDev": {},
   "settingsHelp": "Help",
@@ -325,6 +338,10 @@
   },
   "settingsSystem": "System",
   "@settingsSystem": {},
+  "settingsTermsOfUse": "Terms of use",
+  "@settingsTermsOfUse": {},
+  "settingsPrivacyStatement": "Privacy statement",
+  "@settingsPrivacyStatement": {},
   "settingsThemeDarkTheme": "Dark Theme",
   "@settingsThemeDarkTheme": {},
   "settingsThemeLightTheme": "Light Theme",

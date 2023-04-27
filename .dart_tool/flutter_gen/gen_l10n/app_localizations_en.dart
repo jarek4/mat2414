@@ -58,6 +58,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generalCancel => 'Cancel';
 
   @override
+  String get generalCopy => 'Copy';
+
+  @override
   String get generalDate => 'Date';
 
   @override
@@ -153,6 +156,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get generalTime => 'Time';
+
+  @override
+  String get generalThx => 'Thank You very much';
 
   @override
   String get generalUsername => 'Name';
@@ -265,6 +271,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAuto => 'Auto';
 
   @override
+  String get settingsSupportDev => 'Support developer';
+
+  @override
+  String get settingsSupportDevMoreOptions => 'For more options, please email me';
+
+  @override
   String get settingsContactDev => 'Contact with developer';
 
   @override
@@ -308,6 +320,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSystem => 'System';
+
+  @override
+  String get settingsTermsOfUse => 'Terms of use';
+
+  @override
+  String get settingsPrivacyStatement => 'Privacy statement';
 
   @override
   String get settingsThemeDarkTheme => 'Dark Theme';

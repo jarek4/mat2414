@@ -70,6 +70,8 @@ flutter:
     - assets/images/hourglass_t_ic512.png
     - assets/images/engineer_t_ic265.png
     - assets/images/magazine_t_ic512.png
+    - assets/images/paypal_ic122.png
+    - assets/images/revolut_ic512.png
     - assets/images/qm_ic512.png
     - assets/images/video_camera_t_ic512.png
     - assets/images/two_person_t_ic512.png

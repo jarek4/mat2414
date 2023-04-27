@@ -58,6 +58,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get generalCancel => 'Ακύρωση';
 
   @override
+  String get generalCopy => 'αντίγραφο';
+
+  @override
   String get generalDate => 'Ημερομηνία';
 
   @override
@@ -153,6 +156,9 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get generalTime => 'Χρόνος';
+
+  @override
+  String get generalThx => 'Ευχαριστώ πολύ';
 
   @override
   String get generalUsername => 'Όνομα';
@@ -265,6 +271,12 @@ class AppLocalizationsEl extends AppLocalizations {
   String get settingsAuto => 'Αυτόματο';
 
   @override
+  String get settingsSupportDev => 'υποστήριξη του προγραμματιστή';
+
+  @override
+  String get settingsSupportDevMoreOptions => 'Για περισσότερες επιλογές, στείλτε μου email';
+
+  @override
   String get settingsContactDev => 'Επικοινωνήστε με τον προγραμματιστή';
 
   @override
@@ -308,6 +320,12 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get settingsSystem => 'Σύστημα';
+
+  @override
+  String get settingsTermsOfUse => 'Οροι χρήσης';
+
+  @override
+  String get settingsPrivacyStatement => 'Δήλωση απορρήτου';
 
   @override
   String get settingsThemeDarkTheme => 'Σκοτεινή λειτουργία';

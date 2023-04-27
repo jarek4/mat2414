@@ -61,8 +61,10 @@ class HistoryTab extends StatelessWidget {
       decoration: _buildDropdownBoxDecoration(context),
       height: 45,
       width: 150,
-      child: DropdownButton<String>(
-        underline: const SizedBox.shrink(),
+      // child: DropdownButton<String>(
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+        // underline: const SizedBox.shrink(),
         isExpanded: true,
         hint: Text(context.loc.select),
         dropdownColor: context.colors.secondaryContainer.withOpacity(0.94),
@@ -70,6 +72,7 @@ class HistoryTab extends StatelessWidget {
         items: items.map((e) => DropdownMenuItem<String>(value: e, child: Text(e))).toList(),
         onChanged: (v) => context.read<HistoryTabState>().onServiceYearChange(v),
       ),
+    ),
     );
   }
 

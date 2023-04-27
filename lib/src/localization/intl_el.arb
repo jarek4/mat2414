@@ -56,6 +56,8 @@
   },
   "generalCancel": "Ακύρωση",
   "@generalCancel": {},
+  "generalCopy": "αντίγραφο",
+  "@generalCopy": {},
   "generalDate": "Ημερομηνία",
   "@generalDate": {},
   "generalDay": "Ημέρα",
@@ -145,6 +147,8 @@
   },
   "generalTime": "Χρόνος",
   "@generalTime": {},
+  "generalThx": "Ευχαριστώ πολύ",
+  "@generalThx": {},
   "generalUsername": "Όνομα",
   "@generalUsername": {},
   "generalVideoShowings": "Προβολές Βίντεο",
@@ -277,6 +281,14 @@
   "@settingsAuto": {
     "description": ""
   },
+  "settingsSupportDev": "υποστήριξη του προγραμματιστή",
+  "@settingsSupportDev": {
+    "description": ""
+  },
+  "settingsSupportDevMoreOptions": "Για περισσότερες επιλογές, στείλτε μου email",
+  "@settingsSupportDevMoreOptions": {
+    "description": ""
+  },
   "settingsContactDev": "Επικοινωνήστε με τον προγραμματιστή",
   "@settingsContactDev": {},
   "settingsHelp": "Βοήθεια",
@@ -325,6 +337,9 @@
   },
   "settingsSystem": "Σύστημα",
   "@settingsSystem": {},
+  "settingsTermsOfUse": "Οροι χρήσης",
+  "@settingsTermsOfUse": {},
+  "settingsPrivacyStatement": "Δήλωση απορρήτου",
   "settingsThemeDarkTheme": "Σκοτεινή λειτουργία",
   "@settingsThemeDarkTheme": {},
   "settingsThemeLightTheme": "Φωτεινή λειτουργία",

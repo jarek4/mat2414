@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/user/user.dart';
@@ -17,12 +18,26 @@ class SettingsService {
   Future<User> getUser() async => _userRepository.user;
 
   /// Loads the User's preferred ThemeMode from local or remote storage.
-  Future<ThemeMode> themeMode() async => ThemeMode.system;
+  Future<ThemeMode> themeMode()  async {
+    try {
+      // 0 - system, 1 - light, 2 - dark
+      var index = _userRepository.user.preferences.themeMode;
+      return ThemeMode.values[index];
+    } catch (e) {
+      if (kDebugMode) print('SettingsService-themeMode E: $e');
+      return ThemeMode.system;
+    }
+  }
 
   /// Persists the user's preferred ThemeMode to local or remote storage.
-  Future<void> updateThemeMode(ThemeMode theme) async {
-    // Use the shared_preferences package to persist settings locally or the
-    // http package to persist settings over the network.
+  Future<void> updateThemeMode(int theme) async {
+    try {
+      final user = _userRepository.user;
+      final prefs = user.preferences;
+      await _userRepository.update(user.copyWith(preferences: prefs.copyWith(themeMode: theme)));
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
   }
 
   Future<void> updateUser(User user) async {

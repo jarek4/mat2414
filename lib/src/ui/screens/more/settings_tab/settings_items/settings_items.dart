@@ -1,0 +1,10 @@
+export 'avatar_changer.dart';
+export 'contact_developer.dart';
+export 'help_view.dart';
+export 'language_changer.dart';
+export 'privacy_statement_view.dart';
+export 'rate_the_app.dart';
+export 'support_dev_option.dart';
+export 'terms_of_service_view.dart';
+export 'theme_changer.dart';
+export 'username_changer.dart';

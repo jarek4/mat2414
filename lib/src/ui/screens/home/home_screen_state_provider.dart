@@ -6,6 +6,7 @@ import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/data/models/activity/activity.dart';
 import 'package:mat2414/src/domain/repositories/i_activity_repository.dart';
 import 'package:mat2414/src/settings/settings_controller.dart';
+import 'package:mat2414/src/ui/theme/asset_path.dart';
 import 'package:mat2414/utils/date_formatter.dart' as utils;
 
 
@@ -17,7 +18,7 @@ class HomeScreenStateProvider with ChangeNotifier {
   }
 
   final IActivitiesRepository _activities = locator<IActivitiesRepository>();
-  final SettingsController _settings = locator<SettingsController>();
+  static final SettingsController _settings = locator<SettingsController>();
 
   void _onChange(List<Activity> event) {
     _newestActivities = UnmodifiableListView<Activity>(event);
@@ -39,6 +40,10 @@ class HomeScreenStateProvider with ChangeNotifier {
     final now = DateTime.now();
     return utils.dateFormatter(now, 'EEEE, d MMMM', locale);
   }
+
+  final String _avatarPath = AssetPath.availableAvatars[_settings.user.avatarIndex] ?? '';
+
+  String get avatarPath => _avatarPath;
 
   // prevents: PlatformDispatcher ERROR: A AddUpdateState was used after being disposed error!
   bool _isMounted = true;

@@ -56,6 +56,8 @@
   },
   "generalCancel": "Отмени",
   "@generalCancel": {},
+  "generalCopy": "Копирай",
+  "@generalCopy": {},
   "generalDate": "Дата",
   "@generalDate": {},
   "generalDay": "Ден",
@@ -145,6 +147,8 @@
   },
   "generalTime": "Време",
   "@generalTime": {},
+  "generalThx": "Благодаря Ти много",
+  "@generalThx": {},
   "generalUsername": "Име",
   "@generalUsername": {},
   "generalVideoShowings": "Показани видеоклипове",
@@ -277,6 +281,14 @@
   "@settingsAuto": {
     "description": ""
   },
+  "settingsSupportDev": "подкрепете разработчика",
+  "@settingsSupportDev": {
+    "description": ""
+  },
+  "settingsSupportDevMoreOptions": "За повече опции, моля, изпратете ми имейл",
+  "@settingsSupportDevMoreOptions": {
+    "description": ""
+  },
   "settingsContactDev": "Свържете се с разработчик",
   "@settingsContactDev": {},
   "settingsHelp": "Помощ",
@@ -325,6 +337,10 @@
   },
   "settingsSystem": "Система",
   "@settingsSystem": {},
+  "settingsTermsOfUse": "Условия за ползване",
+  "@settingsTermsOfUse": {},
+  "settingsPrivacyStatement": "Изявление за поверителност",
+  "@settingsPrivacyStatement": {},
   "settingsThemeDarkTheme": "Тъмен фон",
   "@settingsThemeDarkTheme": {},
   "settingsThemeLightTheme": "Светъл фон",
