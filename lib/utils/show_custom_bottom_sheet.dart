@@ -11,7 +11,17 @@ Future<T?> showCustomBottomSheet<T>(BuildContext context, Widget content) {
             isSurfacePainted: false,
             child: Material(
               color: context.colors.tertiaryContainer.withOpacity(0.94),
-              child: SafeArea(child: content),
+              child: Builder(
+                  builder: (context) {
+                    // return content;
+                    return AnimatedPadding(
+                      duration: const Duration(milliseconds: 80),
+                      curve: Curves.bounceIn,
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: content,
+                    );
+                  }
+              ),
             ),
           );
         });

@@ -40,7 +40,7 @@ class LanguageChanger extends StatelessWidget {
 
   Future<String?> _showChangeLanguageDialog(BuildContext context) {
     const barrierLabel = 'Do you want to cancel this action?';
-    final title = Text(context.loc.settingsLanguage);
+    final title = Text(context.loc.settingsLanguage, style:  context.titleMedium?.copyWith(fontWeight: FontWeight.bold),);
     final defaultStyle = context.labelMedium;
     final selectedStyle = defaultStyle?.copyWith(fontWeight: FontWeight.bold);
     var supported = context.read<SettingsTabState>().supportedLocales;

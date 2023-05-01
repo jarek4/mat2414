@@ -21,6 +21,12 @@ import Flutter
               guard let args = call.arguments as? [String: String] else {return}
               let link = args["link"]!
               self.openLink(link: link)
+          case"openMailTo":
+              guard let args = call.arguments as? [String: String] else {return}
+              let mailTo = args["mailTo"]!
+              let subject = args["subject"]!
+              let from = args["from"]!
+              self.openMailTo(mailTo: mailTo, subject: subject, from: from)
           default: result(FlutterMethodNotImplemented)
 
           }
@@ -29,6 +35,7 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+  // opens link in default browser
     private func openLink(link: String) {
         /* if let url = URL(string: urlSting.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
@@ -38,4 +45,16 @@ import Flutter
             UIApplication.shared.open(url)
         }
     }
+     // mail to - open default mail client
+     private func openMailTo(mailTo: String, subject: String, from: String) {
+
+       if let url = URL(string:"mailto:\(mailTo)?subject=\(subject)&body=\(from)") {
+         if #available(iOS 10.0, *) {
+           UIApplication.shared.open(url)
+         } else {
+         UIApplication.shared.openURL(url)
+         }
+       }
+
+     }
 }

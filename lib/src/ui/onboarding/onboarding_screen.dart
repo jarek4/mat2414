@@ -211,8 +211,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     if (res != null && res) context.read<OnboardingState>().skipUsername();
                   });
                 } else {
-                  Navigator.pop<bool>(context);
-                  context.read<OnboardingState>().setUsername(name!);
+                  Navigator.pop<String?>(context, name);
+                  // context.read<OnboardingState>().setUsername(name!);
                 }
               },
               child: Text(context.loc.generalSave, style: context.labelMedium),

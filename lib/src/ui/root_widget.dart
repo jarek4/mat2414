@@ -69,7 +69,7 @@ class _RootWidgetState extends State<RootWidget> {
                 // safeArea - Add new activity button is under bottom nav bar!
                 const Material(child: SafeArea(top: false, child: HomeScreen())),
                 const Material(child: DetailScreen()),
-                const Material(child: MoreScreen()),
+                const Material(child: SafeArea(top: false, child: MoreScreen())),
               ][index];
             },
           );

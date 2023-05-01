@@ -12,6 +12,25 @@ class ThemeSettingChange extends Notification {
 
   // ThemeSettings(Color sourceColor, ThemeMode themeMode)
   final ThemeSettings settings;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ThemeSettingChange &&
+            (identical(other.settings.themeMode, settings.themeMode) ||
+                other.settings.themeMode == settings.themeMode) &&
+            (identical(other.settings.localeCode, settings.localeCode) ||
+                other.settings.localeCode == settings.localeCode) &&
+            (identical(other.settings.sourceColor, settings.sourceColor) ||
+                other.settings.sourceColor == settings.sourceColor));
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    runtimeType,
+    settings,
+  ]);
 }
 
 const _fff = ThemeConst.fontFamilyFallback;

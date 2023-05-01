@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/ui/navigation/navigation.dart';
 
 import 'package:mat2414/src/ui/root_widget.dart';
@@ -24,69 +25,76 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final settings = ValueNotifier(ThemeSettings(
-    sourceColor: AppColors.primaryBrandColor,
-    themeMode: ThemeMode.system,
-  ));
+  ValueNotifier<ThemeSettings> settingsNotifier = ValueNotifier(ThemeSettings(
+      sourceColor: AppColors.primaryBrandColor,
+      themeMode: locator<SettingsController>().themeMode,
+      localeCode: locator<SettingsController>().user.languageCode));
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<SettingsController>.value(value: widget.settingsController),
-        ChangeNotifierProvider<BottomNavigationController>(
-            create: (_) => BottomNavigationController()),
-        ChangeNotifierProvider<CalendarStateProvider>(create: (_) => CalendarStateProvider()),
-      ],
-      child: DynamicColorBuilder(
-        builder: (lightDynamic, darkDynamic) => ThemeProvider(
-            lightDynamic: lightDynamic,
-            darkDynamic: darkDynamic,
-            themeSettings: settings,
-            child: NotificationListener<ThemeSettingChange>(
-              onNotification: (notification) {
-                settings.value = notification.settings;
-                return true;
-              },
-              child: ValueListenableBuilder<ThemeSettings>(
-                valueListenable: settings,
-                builder: (context, value, _) {
-                  final theme = ThemeProvider.of(context);
-                  return MaterialApp(
-                    restorationScopeId: 'app',
-                    scaffoldMessengerKey: global_key.scaffoldKey,
-                    // localizationsDelegates: const [
-                    //   AppLocalizations.delegate,
-                    //   GlobalMaterialLocalizations.delegate,
-                    //   GlobalWidgetsLocalizations.delegate,
-                    //   GlobalCupertinoLocalizations.delegate,
-                    // ],
-                    localizationsDelegates: AppLocalizations.localizationsDelegates,
-                    // supportedLocales: AppLocales.all,
-                    supportedLocales: AppLocalizations.supportedLocales,
-                    locale: Locale(context.watch<SettingsController>().user.languageCode),
-                    onGenerateTitle: (BuildContext context) =>
-                        AppLocalizations.of(context).appTitle,
-                    theme: theme.light(settings.value.sourceColor),
-                    darkTheme: theme.dark(settings.value.sourceColor),
-                    // themeMode: theme.themeMode(), // not working
-                    // themeMode: settings.value.themeMode,  // not working
-                    themeMode: context.watch<SettingsController>().themeMode,
-                    home: Selector<SettingsController, bool>(
-                        selector: (_, settings) => settings.user.isOnboardingPassed,
-                        shouldRebuild: (bool pre, bool next) {
-                          return pre != next;
-                        },
-                        builder: (BuildContext context, isOnboarded, __) {
-                          return const RootWidget();
-                          // if (isOnboarded) return const RootWidget();
-                          // return const OnboardingScreen();
-                        }),
-                  );
-                },
-              ),
-            )),
-      ),
-    );
+        providers: [
+          ChangeNotifierProvider<SettingsController>.value(value: widget.settingsController),
+          ChangeNotifierProvider<BottomNavigationController>(
+              create: (_) => BottomNavigationController()),
+          ChangeNotifierProvider<CalendarStateProvider>(create: (_) => CalendarStateProvider()),
+        ],
+        child: Consumer<SettingsController>(builder: (context, settings, _) {
+          settingsNotifier.value = ThemeSettings(
+              sourceColor: AppColors.primaryBrandColor,
+              themeMode: settings.themeMode,
+              localeCode: settings.user.languageCode);
+          return DynamicColorBuilder(
+            builder: (lightDynamic, darkDynamic) => ThemeProvider(
+                lightDynamic: lightDynamic,
+                darkDynamic: darkDynamic,
+                themeSettings: settingsNotifier,
+                child: NotificationListener<ThemeSettingChange>(
+                  onNotification: (notification) {
+                    settingsNotifier.value = notification.settings;
+                    return true;
+                  },
+                  child: ValueListenableBuilder<ThemeSettings>(
+                    valueListenable: settingsNotifier,
+                    builder: (context, value, _) {
+                      final theme = ThemeProvider.of(context);
+                      Locale? loc = settingsNotifier.value.localeCode.isEmpty
+                          ? null
+                          : Locale(settingsNotifier.value.localeCode);
+                      return MaterialApp(
+                        restorationScopeId: 'app',
+                        scaffoldMessengerKey: global_key.scaffoldKey,
+                        // localizationsDelegates: const [
+                        //   AppLocalizations.delegate,
+                        //   GlobalMaterialLocalizations.delegate,
+                        //   GlobalWidgetsLocalizations.delegate,
+                        //   GlobalCupertinoLocalizations.delegate,
+                        // ],
+                        localizationsDelegates: AppLocalizations.localizationsDelegates,
+                        // supportedLocales: AppLocales.all,
+                        supportedLocales: AppLocalizations.supportedLocales,
+                        locale: loc,
+                        onGenerateTitle: (BuildContext context) =>
+                            AppLocalizations.of(context).appTitle,
+                        theme: theme.light(settingsNotifier.value.sourceColor),
+                        darkTheme: theme.dark(settingsNotifier.value.sourceColor),
+                        themeMode: settingsNotifier.value.themeMode,
+
+                        home: Selector<SettingsController, bool>(
+                            selector: (_, settings) => settings.user.isOnboardingPassed,
+                            shouldRebuild: (bool pre, bool next) {
+                              return pre != next;
+                            },
+                            builder: (BuildContext context, isOnboarded, __) {
+                              return const RootWidget();
+                              // if (isOnboarded) return const RootWidget();
+                              // return const OnboardingScreen();
+                            }),
+                      );
+                    },
+                  ),
+                )),
+          );
+        }));
   }
 }

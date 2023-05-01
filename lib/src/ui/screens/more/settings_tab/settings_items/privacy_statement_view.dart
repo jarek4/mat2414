@@ -25,7 +25,6 @@ class _PrivacyStatementViewState extends State<PrivacyStatementView> {
     return ListTile(
       key: const Key('settingsPrivacyStatementView'),
       title: Text(_privacyStatementLocale, style: context.titleSmall),
-      // subtitle: Text('name', style: context.bodySmall),
       onTap: () => _openBottomSheet(),
     );
   }

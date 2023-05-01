@@ -40,17 +40,19 @@ class _ThemeChangerState extends State<ThemeChanger> {
           final subTitle = _convertThemeModeIndex(context, theme);
           return ListTile(
             key: const Key('settingsThemeChanger'),
-            title: Text(_title, style: context.titleSmall),
+            title: title,
             subtitle: Text(subTitle, style: context.bodySmall),
             onTap: () => _onTapHandling(context),
           );
-        });
+        },
+      child:  Text(_title, style: context.titleSmall),
+    );
   }
 
   String _convertThemeModeIndex(BuildContext context, int index) {
     switch (index) {
       case 1:
-        return context.loc.settingsThemeSystemTheme;
+        return context.loc.settingsThemeLightTheme;
       case 2:
         return context.loc.settingsThemeDarkTheme;
       default:

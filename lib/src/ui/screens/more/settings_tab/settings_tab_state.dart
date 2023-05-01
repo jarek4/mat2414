@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:mat2414/locator.dart';
 import 'package:mat2414/src/localization/locale_notifier.dart';
+import 'package:mat2414/src/settings/native_code/n_open_link.dart';
 import 'package:mat2414/src/settings/settings_controller.dart';
 import 'package:mat2414/src/ui/theme/asset_path.dart';
 import 'package:mat2414/utils/constant_values.dart';
@@ -83,6 +84,11 @@ class SettingsTabState with ChangeNotifier {
       await _settings.updateUser(_settings.user.copyWith(name: name));
       notifyListeners();
     }
+  }
+
+  Future<void> mailTo(String title) async {
+    final user = _settings.user.name;
+    await NOpenLink.openMailTo(subject: title, from: user);
   }
 
   void setup() {

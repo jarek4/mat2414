@@ -37,11 +37,12 @@ class _AvatarChangerState extends State<AvatarChanger> {
         builder: (BuildContext context, avatar, title) {
           return ListTile(
             key: const Key('settingsAvatarChanger'),
-            title: Text(_avatarLocale, style: context.titleSmall),
-            // subtitle: Text(_avatarLocale, style: context.bodySmall),
+            title: title,
             onTap: () => _onTapHandling(context),
           );
-        });
+        },
+      child:  Text(_avatarLocale, style: context.titleSmall),
+    );
   }
 
   Future<void> _onTapHandling(BuildContext context) async {
@@ -55,7 +56,7 @@ class _AvatarChangerState extends State<AvatarChanger> {
     final avatars = context.read<SettingsTabState>().avatars;
     final selected = context.read<SettingsTabState>().selectedAvatarIndex;
     const barrierLabel = 'Do you want to cancel this action?';
-    final title = Text(context.loc.settingsSetAvatar);
+    final title = Text(context.loc.settingsSetAvatar, style:  context.titleMedium?.copyWith(fontWeight: FontWeight.bold),);
     final selectedBackground = context.colors.secondaryContainer;
     const background = Colors.white24;
     final selectedBorder = context.colors.tertiary;

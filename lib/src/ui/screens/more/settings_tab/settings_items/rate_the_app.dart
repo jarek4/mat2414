@@ -25,7 +25,6 @@ class _RateTheAppState extends State<RateTheApp> {
     return ListTile(
       key: const Key('settingsRateTheApp'),
       title: Text(_rateAppLocale, style: context.titleSmall),
-      // subtitle: Text('name', style: context.bodySmall),
       onTap: () => _onTapHandling(),
     );
   }
