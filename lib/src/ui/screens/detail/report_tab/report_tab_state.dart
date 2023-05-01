@@ -212,9 +212,8 @@ class ReportTabState with ChangeNotifier {
 
   String _makeRemarks(int durationInMinutes, String remarksFromEachActivity) {
     final ldc = _s.loc.generalLDCHours;
-    final remarks = _s.loc.generalRemarks;
     final time = utils_cd.minutesDurationToFormattedString(durationInMinutes);
-    final remarksString = '$ldc: $time.\n$remarks: $remarksFromEachActivity';
+    final remarksString = '$ldc: $time.\n$remarksFromEachActivity';
     if (remarksString.length > 650) {
       remarksFromEachActivity = remarksFromEachActivity.substring(0, 646);
       remarksFromEachActivity = '$remarksFromEachActivity...';
@@ -277,12 +276,16 @@ class ReportTabState with ChangeNotifier {
   }
 
   Future<int> closeReport() async {
-    _monthlyReport = await _transferMinutesToTheNextMonth(_monthlyReport.copyWith(isClosed: true));
-    final res = await _reportsRepository.update(_monthlyReport);
-    print('closeReport() res: $res');
-    reportCtrl.sink.add(_monthlyReport);
-    // notifyListeners();
-    return res;
+    final tempReport = await _transferMinutesToTheNextMonth(_monthlyReport.copyWith(isClosed: true));
+    // only after closing report are stored into DB! -> _reportsRepository.create
+    final res = await _reportsRepository.create(tempReport);
+    if(res != null) {
+      reportCtrl.sink.add(_monthlyReport = res);
+    } else {
+      reportCtrl.sink.add(ConstantValues.emptyReport.copyWith(remarks: _s.loc.generalError));
+    }
+     notifyListeners();
+    return res?.id ?? -1;
   }
 
   Future<void> copyReportToClipboard() async {
@@ -307,18 +310,18 @@ class ReportTabState with ChangeNotifier {
   Future<int> deleteReport() async {
     if (!_monthlyReport.isClosed) return -1;
     final res = await _reportsRepository.delete(monthlyReport.id);
+    print('deleteReport() res: $res');
     if (res > -1) {
-      _monthlyReport = _monthlyReport.copyWith(
-        durationInMinutes: _monthlyReport.durationInMinutes + _monthlyReport.transferredMinutes,
-        isClosed: false,
-      );
+      // _monthlyReport = _monthlyReport.copyWith(
+      //   durationInMinutes: _monthlyReport.durationInMinutes + _monthlyReport.transferredMinutes,
+      //   isClosed: false,
+      // );
+      await buildSelectedMonthReport();
       // notifyListeners();
-      reportCtrl.sink.add(_monthlyReport);
+     //  reportCtrl.sink.add(_monthlyReport);
     }
     return res;
-
   }
-
 
   Future<List<Report>> getForServiceYear(String serviceYear) {
     return _reportsRepository.readForAServiceYear(serviceYear);

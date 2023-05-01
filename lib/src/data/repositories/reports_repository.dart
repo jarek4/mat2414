@@ -7,11 +7,16 @@ class ReportsRepository implements IReportsRepository {
   final IReportDbHelper _db = locator<IReportDbHelper>();
 
   @override
-  Future<int> create(Report item) async {
-    return await _db
+  Future<Report?> create(Report item) async {
+    final id = await _db
         .add(item)
         .catchError((e) => -1)
         .timeout(const Duration(seconds: 2), onTimeout: () => -1);
+    if (id > 0) {
+      return item.copyWith(id: id);
+    } else {
+      return null;
+    }
   }
 
   @override

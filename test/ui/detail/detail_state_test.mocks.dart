@@ -158,14 +158,14 @@ class MockIActivitiesRepository extends _i1.Mock
 class MockIReportsRepository extends _i1.Mock
     implements _i6.IReportsRepository {
   @override
-  _i4.Future<int> create(_i2.Report? item) => (super.noSuchMethod(
+  _i4.Future<_i2.Report?> create(_i2.Report? item) => (super.noSuchMethod(
         Invocation.method(
           #create,
           [item],
         ),
-        returnValue: _i4.Future<int>.value(0),
-        returnValueForMissingStub: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i4.Future<_i2.Report?>.value(),
+        returnValueForMissingStub: _i4.Future<_i2.Report?>.value(),
+      ) as _i4.Future<_i2.Report?>);
   @override
   _i4.Future<_i2.Report?> readClosedForAMonth(
     int? year,
@@ -230,6 +230,16 @@ class MockIReportsRepository extends _i1.Mock
         returnValue: _i4.Future<int>.value(0),
         returnValueForMissingStub: _i4.Future<int>.value(0),
       ) as _i4.Future<int>);
+  @override
+  _i4.Future<List<String>> getStoredServiceYearProperties() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getStoredServiceYearProperties,
+          [],
+        ),
+        returnValue: _i4.Future<List<String>>.value(<String>[]),
+        returnValueForMissingStub: _i4.Future<List<String>>.value(<String>[]),
+      ) as _i4.Future<List<String>>);
 }
 
 /// A class which mocks [IUserRepository].

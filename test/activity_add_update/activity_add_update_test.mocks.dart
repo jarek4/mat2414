@@ -3,15 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
-import 'dart:ui' as _i8;
+import 'dart:async' as _i5;
+import 'dart:ui' as _i3;
 
-import 'package:mat2414/src/activity_add_update/add_update_state.dart' as _i7;
-import 'package:mat2414/src/data/models/activity/activity.dart' as _i5;
+import 'package:mat2414/src/activity_add_update/add_update_state.dart' as _i8;
+import 'package:mat2414/src/data/models/activity/activity.dart' as _i6;
 import 'package:mat2414/src/data/models/user/user.dart' as _i2;
 import 'package:mat2414/src/data/repositories/activities_repository.dart'
-    as _i3;
-import 'package:mat2414/src/data/repositories/user_repository.dart' as _i6;
+    as _i4;
+import 'package:mat2414/src/data/repositories/user_repository.dart' as _i7;
 import 'package:mat2414/src/localization/locale_notifier.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -46,30 +46,40 @@ class _FakeDateTime_1 extends _i1.SmartFake implements DateTime {
         );
 }
 
+class _FakeLocale_2 extends _i1.SmartFake implements _i3.Locale {
+  _FakeLocale_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ActivitiesRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockActivitiesRepo extends _i1.Mock implements _i3.ActivitiesRepository {
+class MockActivitiesRepo extends _i1.Mock implements _i4.ActivitiesRepository {
   @override
-  _i4.Future<int> create(_i5.Activity? item) => (super.noSuchMethod(
+  _i5.Future<int> create(_i6.Activity? item) => (super.noSuchMethod(
         Invocation.method(
           #create,
           [item],
         ),
-        returnValue: _i4.Future<int>.value(0),
-        returnValueForMissingStub: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i5.Future<int>.value(0),
+        returnValueForMissingStub: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
   @override
-  _i4.Future<int> delete(int? itemId) => (super.noSuchMethod(
+  _i5.Future<int> delete(int? itemId) => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [itemId],
         ),
-        returnValue: _i4.Future<int>.value(0),
-        returnValueForMissingStub: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i5.Future<int>.value(0),
+        returnValueForMissingStub: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
   @override
-  _i4.Future<List<_i5.Activity>> getForADay(
+  _i5.Future<List<_i6.Activity>> getForADay(
     int? year,
     int? month,
     int? day,
@@ -83,12 +93,12 @@ class MockActivitiesRepo extends _i1.Mock implements _i3.ActivitiesRepository {
             day,
           ],
         ),
-        returnValue: _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
+        returnValue: _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
-      ) as _i4.Future<List<_i5.Activity>>);
+            _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
+      ) as _i5.Future<List<_i6.Activity>>);
   @override
-  _i4.Future<List<_i5.Activity>> getForAMonth(
+  _i5.Future<List<_i6.Activity>> getForAMonth(
     int? year,
     int? month,
   ) =>
@@ -100,58 +110,58 @@ class MockActivitiesRepo extends _i1.Mock implements _i3.ActivitiesRepository {
             month,
           ],
         ),
-        returnValue: _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
+        returnValue: _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
-      ) as _i4.Future<List<_i5.Activity>>);
+            _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
+      ) as _i5.Future<List<_i6.Activity>>);
   @override
-  _i4.Future<List<_i5.Activity>> getForAServiceYear(String? serviceYear) =>
+  _i5.Future<List<_i6.Activity>> getForAServiceYear(String? serviceYear) =>
       (super.noSuchMethod(
         Invocation.method(
           #getForAServiceYear,
           [serviceYear],
         ),
-        returnValue: _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
+        returnValue: _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
-      ) as _i4.Future<List<_i5.Activity>>);
+            _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
+      ) as _i5.Future<List<_i6.Activity>>);
   @override
-  _i4.Future<List<_i5.Activity>> readAll() => (super.noSuchMethod(
+  _i5.Future<List<_i6.Activity>> readAll() => (super.noSuchMethod(
         Invocation.method(
           #readAll,
           [],
         ),
-        returnValue: _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
+        returnValue: _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i5.Activity>>.value(<_i5.Activity>[]),
-      ) as _i4.Future<List<_i5.Activity>>);
+            _i5.Future<List<_i6.Activity>>.value(<_i6.Activity>[]),
+      ) as _i5.Future<List<_i6.Activity>>);
   @override
-  _i4.Future<_i5.Activity?> readSingle(int? id) => (super.noSuchMethod(
+  _i5.Future<_i6.Activity?> readSingle(int? id) => (super.noSuchMethod(
         Invocation.method(
           #readSingle,
           [id],
         ),
-        returnValue: _i4.Future<_i5.Activity?>.value(),
-        returnValueForMissingStub: _i4.Future<_i5.Activity?>.value(),
-      ) as _i4.Future<_i5.Activity?>);
+        returnValue: _i5.Future<_i6.Activity?>.value(),
+        returnValueForMissingStub: _i5.Future<_i6.Activity?>.value(),
+      ) as _i5.Future<_i6.Activity?>);
   @override
-  _i4.Future<int> update(_i5.Activity? item) => (super.noSuchMethod(
+  _i5.Future<int> update(_i6.Activity? item) => (super.noSuchMethod(
         Invocation.method(
           #update,
           [item],
         ),
-        returnValue: _i4.Future<int>.value(0),
-        returnValueForMissingStub: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i5.Future<int>.value(0),
+        returnValueForMissingStub: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
   @override
-  _i4.Stream<List<_i5.Activity>> watch3recent() => (super.noSuchMethod(
+  _i5.Stream<List<_i6.Activity>> watch3recent() => (super.noSuchMethod(
         Invocation.method(
           #watch3recent,
           [],
         ),
-        returnValue: _i4.Stream<List<_i5.Activity>>.empty(),
-        returnValueForMissingStub: _i4.Stream<List<_i5.Activity>>.empty(),
-      ) as _i4.Stream<List<_i5.Activity>>);
+        returnValue: _i5.Stream<List<_i6.Activity>>.empty(),
+        returnValueForMissingStub: _i5.Stream<List<_i6.Activity>>.empty(),
+      ) as _i5.Stream<List<_i6.Activity>>);
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -165,7 +175,7 @@ class MockActivitiesRepo extends _i1.Mock implements _i3.ActivitiesRepository {
 /// A class which mocks [UserRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepo extends _i1.Mock implements _i6.UserRepository {
+class MockUserRepo extends _i1.Mock implements _i7.UserRepository {
   @override
   _i2.User get user => (super.noSuchMethod(
         Invocation.getter(#user),
@@ -179,41 +189,41 @@ class MockUserRepo extends _i1.Mock implements _i6.UserRepository {
         ),
       ) as _i2.User);
   @override
-  _i4.Future<void> update(_i2.User? user) => (super.noSuchMethod(
+  _i5.Future<void> update(_i2.User? user) => (super.noSuchMethod(
         Invocation.method(
           #update,
           [user],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i4.Future<void> init() => (super.noSuchMethod(
+  _i5.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [AddUpdateState].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
+class MockAddUpdateState extends _i1.Mock implements _i8.AddUpdateState {
   @override
-  _i7.AddUpdateStateStatus get status => (super.noSuchMethod(
+  _i8.AddUpdateStateStatus get status => (super.noSuchMethod(
         Invocation.getter(#status),
-        returnValue: _i7.AddUpdateStateStatus.error,
-        returnValueForMissingStub: _i7.AddUpdateStateStatus.error,
-      ) as _i7.AddUpdateStateStatus);
+        returnValue: _i8.AddUpdateStateStatus.error,
+        returnValueForMissingStub: _i8.AddUpdateStateStatus.error,
+      ) as _i8.AddUpdateStateStatus);
   @override
-  _i7.AddUpdateErrorCode get errorCode => (super.noSuchMethod(
+  _i8.AddUpdateErrorCode get errorCode => (super.noSuchMethod(
         Invocation.getter(#errorCode),
-        returnValue: _i7.AddUpdateErrorCode.isEmpty,
-        returnValueForMissingStub: _i7.AddUpdateErrorCode.isEmpty,
-      ) as _i7.AddUpdateErrorCode);
+        returnValue: _i8.AddUpdateErrorCode.isEmpty,
+        returnValueForMissingStub: _i8.AddUpdateErrorCode.isEmpty,
+      ) as _i8.AddUpdateErrorCode);
   @override
   int get userMinutesMultiplayer => (super.noSuchMethod(
         Invocation.getter(#userMinutesMultiplayer),
@@ -371,14 +381,14 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         returnValueForMissingStub: null,
       );
   @override
-  _i4.Future<_i5.Activity?> onSaveRequest() => (super.noSuchMethod(
+  _i5.Future<_i6.Activity?> onSaveRequest() => (super.noSuchMethod(
         Invocation.method(
           #onSaveRequest,
           [],
         ),
-        returnValue: _i4.Future<_i5.Activity?>.value(),
-        returnValueForMissingStub: _i4.Future<_i5.Activity?>.value(),
-      ) as _i4.Future<_i5.Activity?>);
+        returnValue: _i5.Future<_i6.Activity?>.value(),
+        returnValueForMissingStub: _i5.Future<_i6.Activity?>.value(),
+      ) as _i5.Future<_i6.Activity?>);
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -388,7 +398,7 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i3.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -396,7 +406,7 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i3.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -418,16 +428,34 @@ class MockAddUpdateState extends _i1.Mock implements _i7.AddUpdateState {
 /// See the documentation for Mockito's code generation for more information.
 class MockILocaleNotifier extends _i1.Mock implements _i9.ILocaleNotifier {
   @override
+  _i3.Locale get currentLocale => (super.noSuchMethod(
+        Invocation.getter(#currentLocale),
+        returnValue: _FakeLocale_2(
+          this,
+          Invocation.getter(#currentLocale),
+        ),
+        returnValueForMissingStub: _FakeLocale_2(
+          this,
+          Invocation.getter(#currentLocale),
+        ),
+      ) as _i3.Locale);
+  @override
+  List<_i3.Locale> get supportedLocales => (super.noSuchMethod(
+        Invocation.getter(#supportedLocales),
+        returnValue: <_i3.Locale>[],
+        returnValueForMissingStub: <_i3.Locale>[],
+      ) as List<_i3.Locale>);
+  @override
   void update(
-    List<_i8.Locale>? supported,
-    _i8.Locale? locales,
+    List<_i3.Locale>? supported,
+    _i3.Locale? locale,
   ) =>
       super.noSuchMethod(
         Invocation.method(
           #update,
           [
             supported,
-            locales,
+            locale,
           ],
         ),
         returnValueForMissingStub: null,

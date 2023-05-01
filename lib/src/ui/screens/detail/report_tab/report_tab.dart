@@ -410,8 +410,9 @@ class _ReportTabState extends State<ReportTab> {
   }
 
   Future<bool> _showConfirmationDialog(BuildContext context, String question) {
+    final cancelLocale = context.loc.generalCancel;
     return utils_alert
-        .showConfirmationDialog(context, question)
+        .showConfirmationDialog(context, question, confirmText: 'OK', refuseText: cancelLocale)
         .then((bool? value) => value ?? false);
   }
 

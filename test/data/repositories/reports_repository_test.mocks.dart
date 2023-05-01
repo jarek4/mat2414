@@ -98,4 +98,13 @@ class MockIReportDbHelper extends _i1.Mock implements _i2.IReportDbHelper {
         returnValue: _i3.Future<int>.value(0),
         returnValueForMissingStub: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
+  @override
+  _i3.Future<List<String>> readAvailableServiceYears() => (super.noSuchMethod(
+        Invocation.method(
+          #readAvailableServiceYears,
+          [],
+        ),
+        returnValue: _i3.Future<List<String>>.value(<String>[]),
+        returnValueForMissingStub: _i3.Future<List<String>>.value(<String>[]),
+      ) as _i3.Future<List<String>>);
 }

@@ -2,8 +2,8 @@ import 'package:mat2414/src/data/models/models.dart';
 
 abstract class IReportsRepository {
 
-  /// Returns created item id. -1 if error,  0 if conflict
-  Future<int> create(Report item);
+  /// Returns item with id from DB or null if error.
+  Future<Report?> create(Report item);
 
   Future<Report?> readClosedForAMonth(int year, int month);
 
