@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:mat2414/src/localization/locale_extension.dart';
 import 'package:mat2414/src/ui/theme/theme.dart';
 import 'package:mat2414/utils/snackbar_info.dart' as utils_sb;
+import 'package:provider/provider.dart';
+
+import '../settings_tab_state.dart';
 
 class SupportDevOption extends StatefulWidget {
   const SupportDevOption({Key? key}) : super(key: key);
@@ -42,7 +45,7 @@ class _SupportDevOptionState extends State<SupportDevOption> {
         children: [
           _buildSupportOption(rev, AssetPath.icRevolut, () => _handleCopy('myRevtag')),
           const SizedBox(height: 12),
-          _buildSupportOption(paypal, AssetPath.icPaypal, () => _handleCopy('papalusernam')),
+          _buildSupportOption(paypal, AssetPath.icPaypal, () => _handleCopy('paypalusernam')),
           const SizedBox(height: 12),
           _buildMoreOptions(context),
         ],
@@ -74,7 +77,7 @@ class _SupportDevOptionState extends State<SupportDevOption> {
       child: SizedBox(
         height: 30,
         child: TextButton.icon(
-          onPressed: () {},
+          onPressed: () => context.read<SettingsTabState>().mailTo('Mat2414_donations'),
           icon: const FittedBox(child: Icon(Icons.alternate_email)),
           label: FittedBox(child: Text(context.loc.settingsSupportDevMoreOptions)),
         ),
@@ -82,32 +85,3 @@ class _SupportDevOptionState extends State<SupportDevOption> {
     );
   }
 }
-
-/*
-  Row _buildRevolutOption(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      SizedBox(
-        height: 30,
-        child: TextButton.icon(
-            onPressed: () {},
-            icon: const FittedBox(child: Icon(Icons.copy)),
-            label: FittedBox(child: Text('${context.loc.generalCopy} Revtag'))),
-      ),
-      SizedBox(width: 40, height: 20, child: Image.asset(AssetPath.icRevolut)),
-    ]);
-  }
-
-  Row _buildPaypalOption(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      SizedBox(
-        height: 30,
-        child: TextButton.icon(
-          onPressed: () {},
-          icon: const FittedBox(child: Icon(Icons.copy)),
-          label: FittedBox(child: Text('${context.loc.generalCopy} PayPal username')),
-        ),
-      ),
-      SizedBox(width: 40, height: 20, child: Image.asset(AssetPath.icPaypal)),
-    ]);
-  }
- */

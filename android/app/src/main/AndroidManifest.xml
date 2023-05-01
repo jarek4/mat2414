@@ -37,11 +37,17 @@
             android:value="2" />
     </application>
     <queries>
+        <!-- open link in browser  -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.BROWSABLE" />
              <data android:scheme="https" />
             <!-- <data android:mimeType="https" />  -->
+        </intent>
+        <!-- open email client  -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="*" />
         </intent>
     </queries>
 </manifest>
